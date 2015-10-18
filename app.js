@@ -28,7 +28,6 @@ app.use('/', extras);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
-/*
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
@@ -48,7 +47,7 @@ if (app.get('env') === 'development') {
     });
   });
 }
-*/
+
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
@@ -59,10 +58,11 @@ app.use(function(err, req, res, next) {
   });
 });
 
-// Catch 404 and show a custum template
+// Catch 404 and show a custom template
+/*
 app.use(function(req, res, next) {
   res.status(404).render('404');
 });
-
+*/
 
 module.exports = app;
