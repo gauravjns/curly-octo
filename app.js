@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var post = require('./routes/post');
+var group = require('./routes/group');
 var extras = require('./routes/extras');
 
 var app = express();
@@ -23,9 +25,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+
+app.use('/',routes)
+//'Extra' routes very fixed pages like about, faq, start
 app.use('/', extras);
-app.use('/users', users);
+app.use('/', post);
+app.use('/', group);
+// this  routes all remaining url to user if not present move to 404 
+app.use('/', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
