@@ -4,6 +4,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');// for session management
+var passport= require('passport');// for login
+var FacebookStrategy= require('passport-facebook').Strategy;// for facebook login
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -12,6 +15,22 @@ var group = require('./routes/group');
 var extras = require('./routes/extras');
 
 var app = express();
+
+// Use the FacebookStrategy within Passport.
+passport.use(new FacebookStrategy({
+    clientID: "560837214029174",
+    clientSecret:"2953eb4f5347eb46f1bf8ea6d2c25d37" ,
+    callbackURL: "http://localhost:3000/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    process.nextTick(function () {
+      //Check whether the User exists or not using profile.id
+      //Further DB code.
+      return done(null, profile);
+    });
+  }
+));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,18 +43,30 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({secret: 'Secret Key will be changed in production', name: 'somename', resave: true, saveUninitialized: true}));//
+app.use(passport.initialize());
+app.use(passport.session());
 
+var sess;
 
-app.use('/',routes)
-//'Extra' routes very fixed pages like about, faq, start
-app.use('/', extras);
+app.use('/',routes);
+app.use('/', extras);//'Extra' routes very fixed pages like about, faq, start
 app.use('/', post);
 app.use('/', group);
-// this  routes all remaining url to user if not present move to 404 
-app.use('/', users);
+app.use('/', users);// this  routes all remaining url to user if not present move to 404 
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.get('/auth/facebook', passport.authenticate('facebook'));
+
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { 
+       successRedirect : '/', 
+       failureRedirect: '/login' 
+  }),
+  function(req, res) {
+    res.redirect('/');
+  });
+
+app.use(function(req, res, next) { // catch 404 and forward to error handler
   var err = new Error('Not Found');
   err.status = 404;
   next(err);

@@ -3,7 +3,8 @@ var router = express.Router();
 
 //NSS page
 router.get('/:name.nss', function (req, res) {
-  res.render('about', { title: req.params.name, template:"nss" });
+  sess= req.session;
+  res.render('about', { title: req.params.name, template:sess.views });
 });
 
 //NGO page
@@ -12,8 +13,8 @@ router.get('/:name.ngo', function (req, res) {
 });
 
 //Startup page
-router.get('/:name.startup', function (req, res) {
-  res.render('about', { title: req.params.name, template:"startup" });
+router.get('/:name.com', function (req, res) {
+  res.render('about', { title: req.params.name, template:"company" });
 });
 
 //group page
@@ -21,7 +22,7 @@ router.get('/:name.club', function (req, res) {
   res.render('about', { title: req.params.name, template:"club" });
 });
 //group page
-router.get('/:name.campaign', function (req, res) {
+router.get('/:name.camp', function (req, res) {
   res.render('about', { title: req.params.name, template:"campaign" });
 });
 
@@ -30,5 +31,9 @@ router.get('/:name.cause', function (req, res) {
   res.render('about', { title: req.params.name, template:"cause" });
 });
 
+//group page
+router.get('/:name.gov', function (req, res) {
+  res.render('about', { title: req.params.name, template:"gov" });
+});
 
 module.exports = router;

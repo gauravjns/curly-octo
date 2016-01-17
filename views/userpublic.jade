@@ -1,0 +1,75 @@
+extends layout
+
+block content
+  header#userProfile
+    .container
+        .intro-text(style='padding-top:300px;')
+          .intro-lead-in(style='text-shadow: 3px 3px 10px black; ')
+            | #{user.name} 
+            a(title='Send Message to #{user.name}', data-toggle='modal', data-target='#loginModal', style='cursor:pointer;')
+              i.fa.fa-envelope(style='color:#dd3333; font-size: 0.5em;')  
+          if sess.userid>0 && follow == 1
+            .intro-lead-in(style='margin-bottom:0px; margin-top:-20px;')
+              span.fa-stack(style='font-size:0.65em;')
+                a(href='./forms/unfollow/user/#{user.id}', title='You are following #{user.name}', onclick='this.disabled=true;')
+                  i.fa.fa-circle.fa-stack-2x.text-primary                         
+                  i.fa.fa-heart-o.fa-stack-1x.fa-inverse
+            div(style='color:rgba(207, 73, 73, 0.8);font-size: 0.9em;font-family: Montserrat,Helvetica,Arial,sans-serif;') FOLLOWING
+          if sess.userid>0 && follow < 1
+            .intro-lead-in(style='margin-bottom:0px; margin-top:-20px;')
+              span.fa-stack(style='font-size:0.65em;')
+                a(href='./forms/follow/user/#{user.id}', title='Follow #{user.name}', onclick='this.disabled=true;')
+                  i.fa.fa-circle.fa-stack-2x.text-primary(style='color:rgba(207, 73, 73, 0.6);')
+                  i.fa.fa-heart-o.fa-stack-1x.fa-inverse                                 
+            div(style='color:rgba(207, 73, 73, 0.8);font-size: 0.9em;font-family: Montserrat,Helvetica,Arial,sans-serif;') FOLLOW
+          if !sess.userid   
+            .intro-lead-in(style='margin-bottom:0px; margin-top:-20px;')
+              span.fa-stack(style='font-size:0.65em;')
+                a(data-toggle='modal', data-target='#loginModal', title='Login to follow #{user.name}', style='cursor:pointer;')
+                  i.fa.fa-circle.fa-stack-2x.text-primary(style='color:rgba(207, 73, 73, 0.6);')
+                  i.fa.fa-heart-o.fa-stack-1x.fa-inverse
+            div(style='color:rgba(207, 73, 73, 0.8);font-size: 0.9em;font-family: Montserrat,Helvetica,Arial,sans-serif;') FOLLOW
+      
+  .text-center
+    img(src='#{user.img}', width='180', height='180', style='padding: 3px; border: 1px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0; margin-top:-390px;')
+  
+  section(style='padding: 25px 0px 15px 0px;')
+    .container(style='margin-top:30px;')
+        .row
+          .col-sm-4.text-justify(style='margin-left:1.6%;')
+            p.large.text-muted
+              ul.list-group(style='margin-top:0px;')
+                li.list-group-item
+                  h5(style='color:#bb3333;') About me
+                  span #{user.about}
+                |                             
+                li.list-group-item
+                  h5(style='color:#bb3333;') Skills
+                |                             
+                li.list-group-item
+                  h5(style='color:#bb3333;') Interested In
+                  |                                 Causes -
+                  p Not following yet.
+                |                             
+                li.list-group-item
+                  h5(style='color:#bb3333;') City 
+                  span #{user.city}
+                   
+          |                 
+          .col-sm-7.col-sm-offset-1.text-justify(style='margin-left:2%; padding-left: 3%; border-left: 1px solid #d9d9d9;')
+            h3(style='color:#bb3333; border-bottom: 1px solid #d9d9d9; padding-bottom:10px; margin-top:0px;') Helpiez Journey
+            |                     
+            |                                         
+            |                         
+            |                     
+            div(style='padding-bottom:10px;')
+              span.fa-stack.fa-2x.col-xs-2
+                i.fa.fa-circle.fa-stack-2x.text-primary(style='color:rgb(74,158,74); margin-right:10px;')
+                |                             
+                i.fa.fa-flag-checkered.fa-stack-1x.fa-inverse
+              |                     
+              .col-xs-10
+                h4(style='color:rgb(46,147,46); text-transform:none; margin-bottom:5px;') Started Using Helpiez
+                |                         
+                p.text-muted(style='text-transform:none;') #{user.name} started using Helpiez on 17/12/15   :)
+         

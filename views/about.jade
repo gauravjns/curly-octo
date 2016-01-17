@@ -4,3 +4,70 @@ block content
   h1= title
   p Welcome to #{title}
   p This is #{template} template
+  ul#notification
+    hr(style='margin-bottom:0px; margin-top:0px;')
+    li
+      a(href='./php/notification.php?notid=25', style='  text-transform: none;font-family: sans-serif;  font-weight: normal;  letter-spacing: normal;  color: black; white-space: normal;  padding: initial;')
+        span
+          .row(style='   margin-left: 0px; margin-top: 2px;  margin-bottom: 2px;  margin-right: 0px;')
+            .col-xs-2
+              img(src='http://helpiez.org/img/usersprofile/144_20150317_111421.jpg', style=' background-color:#949494; height:60px; width:60px; margin-left:-12px;')
+            .col-xs-10(style='  margin-left: -8px;    font-family: Helvetica,Arial,sans-serif;')
+              you registering Bringing underprivileged children teaching projects online  us. We will activate organization page and contact you soon
+
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
+  script.
+   (function() {
+    var POLL_URL = '/notifications/user',
+        POLL_FREQUENCY = 3000;  // fire after every 3 sec
+    var queue =[]
+        inProgress = false;
+
+    // create namespace
+    $.fastPoll = $.fastPoll || {};
+
+    // send arbitrary messages to server side
+    $.fastPoll.sendMessage = function(message) {
+        queue.push(message);
+    };
+
+    // application will replace this with an actual handler
+    $.fastPoll.receiveMessage = function(message) {
+        //console.log(message.notid);
+        queue=[message.notid];
+        $('#notification').append('<li><a href="'+message.link+'" style="text-transform: none;font-family: sans-serif;  font-weight: normal;  letter-spacing: normal;  color: black; white-space: normal;  padding: initial;"><span><div style="   margin-left: 0px; margin-top: 2px;  margin-bottom: 2px;  margin-right: 0px;" class="row"><div class="col-xs-2"><img src="'+message.image+'" style=" background-color:#949494; height:60px; width:60px; margin-left:-12px;"></div><div style="  margin-left: -8px;    font-family: Helvetica,Arial,sans-serif;" class="col-xs-10">Text message ' + message.text+' </div></div></span></a></li>');
+
+    };
+
+    function shortPoller() {
+        if (inProgress) {
+            return;
+        }
+        inProgress = true;
+        var messages = queue;
+
+         $.ajax('/notifications/user', {
+            type: 'GET',
+            dataType: 'json',
+            data: JSON.stringify(messages),
+            contentType: "application/json",
+            timeout: 60000,  // wait till 60 sec for data
+            success: function(data) {
+                // data is an array of messages
+                for (var i=0, len=data.length; i<len; i++) {
+                    $.fastPoll.receiveMessage(data[i]);
+                }
+                inProgress = false;
+            },
+            error: function() {
+                queue=messages;
+                inProgress = false;
+            }
+        });
+    }
+    $(document).ready(function() {
+        setInterval(shortPoller, POLL_FREQUENCY);
+    });
+    }());
+   
+  

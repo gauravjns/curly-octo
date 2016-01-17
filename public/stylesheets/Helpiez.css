@@ -265,7 +265,7 @@ header {
     text-align: center;
     color: #fff;
     background-attachment: scroll;
-    background-image: url(../img/header-bg.jpg);
+    background-image: url(../images/meta/header-bg.jpg);
     background-position: center center;
     background-repeat: none;
     -webkit-background-size: cover;
@@ -915,17 +915,17 @@ body {
 }
 
 #userProfile {
-    background-image: url(../img/user-bg.jpg);
+    background-image: url(../images/meta/user-bg.jpg);
     height: 375px;
 }
 
 #internship {
-    background-image: url(../img/cause/cause1.jpg);
+    background-image: url(../images/meta/cause1.jpg);
     height: 400px;
 }
 
 #ngocause-1 {
-    background-image: url(../img/cause/cause1.jpg);
+    background-image: url(../images/meta/cause1.jpg);
     height: 400px;
 }
 
@@ -947,7 +947,7 @@ input, .form-control, .list-group-item:first-child, .list-group-item:last-child 
 
 @media(max-width:768px) {
     header {
-        background-image: url(../img/header-bg-sm.jpg);
+        background-image: url(../images/meta/header-bg-sm.jpg);
     }
 
     .mainSearchFullSize {
@@ -955,17 +955,17 @@ input, .form-control, .list-group-item:first-child, .list-group-item:last-child 
     }
 
     #userProfile {
-        background-image: url(../img/user-bg-sm.jpg);
+        background-image: url(../images/meta/user-bg-sm.jpg);
         height: 375px;
     }
 
     #ngocause-1 {
-        background-image: url(../img/cause/cause1-sm.jpg);
+        background-image: url(../images/meta/cause1-sm.jpg);
         height: 165px;
     }
 
     #internship {
-        background-image: url(../img/cause/cause1-sm.jpg);
+        background-image: url(../images/meta/cause1-sm.jpg);
         height: 165px;
     }
 }

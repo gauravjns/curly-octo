@@ -1,9 +1,12 @@
 var express = require('express');
 var router = express.Router();
+var http = require('http');
 
 // About page
 router.get('/about', function (req, res) {
-  res.render('about', { title: 'Express' });
+	  sess=req.session;
+	  res.render('about', { title: sess.userid });
 });
+
 
 module.exports = router;
