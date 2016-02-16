@@ -5,9 +5,9 @@ var request = require('request');
 
 //user page
 router.get('/:name', function (req, res) {
-	var sess=req.session;
+	sess=req.session;
 	var apiurl="http://localhost:8080/users/url/"+req.params.name
-	//console.log(apiurl)
+	console.log(apiurl);
 	request.get(apiurl, {json:true}, function (error, response, json) {
 		if (!error && response.statusCode == 200) {
 			if (sess.userid>0){

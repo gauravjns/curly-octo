@@ -11,24 +11,24 @@ block content
           if sess.userid>0 && follow == 1
             .intro-lead-in(style='margin-bottom:0px; margin-top:-20px;')
               span.fa-stack(style='font-size:0.65em;')
-                a(href='./forms/unfollow/user/#{user.id}', title='You are following #{user.name}', onclick='this.disabled=true;')
+                a(href='./forms/unfollow/user/#{user.id}', title='You like #{user.name}', onclick='this.disabled=true;')
                   i.fa.fa-circle.fa-stack-2x.text-primary                         
                   i.fa.fa-heart-o.fa-stack-1x.fa-inverse
-            div(style='color:rgba(207, 73, 73, 0.8);font-size: 0.9em;font-family: Montserrat,Helvetica,Arial,sans-serif;') FOLLOWING
+            div(style='color:rgba(207, 73, 73, 0.8);font-size: 0.9em;font-family: Montserrat,Helvetica,Arial,sans-serif;') LIKED
           if sess.userid>0 && follow < 1
             .intro-lead-in(style='margin-bottom:0px; margin-top:-20px;')
               span.fa-stack(style='font-size:0.65em;')
-                a(href='./forms/follow/user/#{user.id}', title='Follow #{user.name}', onclick='this.disabled=true;')
+                a(href='./forms/follow/user/#{user.id}', title='Like #{user.name}', onclick='this.disabled=true;')
                   i.fa.fa-circle.fa-stack-2x.text-primary(style='color:rgba(207, 73, 73, 0.6);')
                   i.fa.fa-heart-o.fa-stack-1x.fa-inverse                                 
-            div(style='color:rgba(207, 73, 73, 0.8);font-size: 0.9em;font-family: Montserrat,Helvetica,Arial,sans-serif;') FOLLOW
+            div(style='color:rgba(207, 73, 73, 0.8);font-size: 0.9em;font-family: Montserrat,Helvetica,Arial,sans-serif;') LIKE
           if !sess.userid   
             .intro-lead-in(style='margin-bottom:0px; margin-top:-20px;')
               span.fa-stack(style='font-size:0.65em;')
-                a(data-toggle='modal', data-target='#loginModal', title='Login to follow #{user.name}', style='cursor:pointer;')
+                a(data-toggle='modal', data-target='#loginModal', title='Login to Like #{user.name}', style='cursor:pointer;')
                   i.fa.fa-circle.fa-stack-2x.text-primary(style='color:rgba(207, 73, 73, 0.6);')
                   i.fa.fa-heart-o.fa-stack-1x.fa-inverse
-            div(style='color:rgba(207, 73, 73, 0.8);font-size: 0.9em;font-family: Montserrat,Helvetica,Arial,sans-serif;') FOLLOW
+            div(style='color:rgba(207, 73, 73, 0.8);font-size: 0.9em;font-family: Montserrat,Helvetica,Arial,sans-serif;') LIKE
       
   .text-center
     img(src='#{user.img}', width='180', height='180', style='padding: 3px; border: 1px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0; margin-top:-390px;')
@@ -57,11 +57,7 @@ block content
                    
           |                 
           .col-sm-7.col-sm-offset-1.text-justify(style='margin-left:2%; padding-left: 3%; border-left: 1px solid #d9d9d9;')
-            h3(style='color:#bb3333; border-bottom: 1px solid #d9d9d9; padding-bottom:10px; margin-top:0px;') Helpiez Journey
-            |                     
-            |                                         
-            |                         
-            |                     
+            h3(style='color:#bb3333; border-bottom: 1px solid #d9d9d9; padding-bottom:10px; margin-top:0px;') Helpiez Journey                    
             div(style='padding-bottom:10px;')
               span.fa-stack.fa-2x.col-xs-2
                 i.fa.fa-circle.fa-stack-2x.text-primary(style='color:rgb(74,158,74); margin-right:10px;')

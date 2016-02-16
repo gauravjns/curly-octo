@@ -6,16 +6,14 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');// for session management
 var passport= require('passport');// for login
-var FacebookStrategy= require('passport-facebook').Strategy;// for facebook login
-
+var FacebookStrategy= require('passport-facebook').Strategy;// for facebook loginn
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var post = require('./routes/post');
 var group = require('./routes/group');
 var extras = require('./routes/extras');
-
 var app = express();
-
+app.locals.moment = require('moment');
 // Use the FacebookStrategy within Passport.
 passport.use(new FacebookStrategy({
     clientID: "560837214029174",
@@ -37,7 +35,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

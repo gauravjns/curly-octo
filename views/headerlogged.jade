@@ -45,10 +45,9 @@ nav.navbar.navbar-default.navbar-fixed-top.navbar-shrink
             li.hidden
               a(href='#page-top')
             li(style='padding-right:20px;')
-              a(data-toggle='dropdown', style='cursor:pointer; background-color:transparent; text-decoration:none;')
-                i.fa.fa-bell.fa-stack-2x.fa-inverse(style='font-size: 1.6em;')
-                i.fa.fa-stack-1x(style='  margin-left: 12px; margin-top: -10px;  font-size: 0.8em;font-weight: bold; background-color: rgb(239, 77, 88); border-radius: 10px 10px 10px;') 2
-
+              a#not-counter(data-toggle='dropdown', style='cursor:pointer; background-color:transparent; text-decoration:none;')
+                i.fa.fa-bell-o.fa-stack-2x.fa-inverse(style='font-size: 1.6em;')
+                
               ul.dropdown-menu(role='menu', style='width:360px; border-radius:0px; margin-top:15px;max-height: 514px;overflow: auto;' )
                 li.notifications
                   b
@@ -59,10 +58,9 @@ nav.navbar.navbar-default.navbar-fixed-top.navbar-shrink
                   a(style='text-transform: none;  font-weight: normal;  letter-spacing: normal;  color: black; white-space: normal;text-align:center; text-decoration: blank;', href='./notifications') See All
 
             li(style='padding-right:20px;')
-              a(data-toggle='dropdown', style='cursor:pointer; background-color:transparent; text-decoration:none;')
-                i.fa.fa-comments.fa-stack-2x.fa-inverse(style='font-size: 1.6em;')
-                i.fa.fa-stack-1x(style='  margin-left: 12px; margin-top: -10px;  font-size: 0.8em;font-weight: bold; background-color: rgb(239, 77, 88); border-radius: 10px 10px 10px;') 3
-
+              a#msg-counter(data-toggle='dropdown', style='cursor:pointer; background-color:transparent; text-decoration:none;')
+                i.fa.fa-comments-o.fa-stack-2x.fa-inverse(style='font-size: 1.6em;')
+                
               ul.dropdown-menu(role='menu', style='width:360px; border-radius:0px; margin-top:15px;max-height: 514px;overflow: auto;')
                 li.messages
                   b

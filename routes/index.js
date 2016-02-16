@@ -7,6 +7,39 @@ router.get('/', function(req, res, next) {
   res.render('about', { title: 'Express' });
 });
 
+/* GET home page. */
+router.get('/story/:id', function(req, res, next) {
+	var options = {
+			  uri: 'http://localhost:8080/storys/'+req.params.id,
+			  method: 'GET',
+			  json:true
+			};
+	request(options, function (error, response, body) {
+		if (!error && response.statusCode == 200 ) {
+				res.json(body);
+				return;
+		}
+	});
+});
+
+
+// Counter for redirection
+router.get('/counter', function(req, res, next) {
+	console.log(req.query);
+	if (req.query.notid)
+		{
+			request.post('http://localhost:8080/notifications/'+req.query.notid, function (error, response, body) {
+				  if (!error && response.statusCode == 200) {
+					 
+				  }
+					});
+		}
+	res.redirect(req.query.link);
+});
+
+
+
+
 //login
 router.post('/forms/login', function (req, res) {
 	var sess=req.session;
@@ -111,6 +144,113 @@ router.get('/forms/unfollow/:meta/:metaid', function(req, res){
 	
 	});
 
+
+router.post('/form/postmsg/', function(req, res){	  
+	var sess=req.session;
+	backURL=req.header('Referer') || '/';
+	var options = {
+			  uri: 'http://localhost:8080/messages/',
+			  method: 'post',
+			  json: {
+					    "userid": sess.userid,
+					    "message": req.body.message,
+					    "thread": req.body.thread,
+					    "userto": req.body.to
+				
+			  }
+			};
+	
+	request(options, function (error, response, body) {
+			  if (!error && response.statusCode == 200) {
+			    console.log(body);
+			    console.log("msg post");
+			    res.redirect(backURL);
+			  }
+			  else {
+				res.redirect(backURL);
+			  }
+			});
+	
+	});
+
+// Comment post
+router.post('/forms/comment/', function(req, res){	  
+	backURL=req.header('Referer') || '/';
+	var options = {
+			  uri: 'http://localhost:8080/comments/',
+			  method: 'post',
+			  json: {
+				    "userid": req.session.userid,
+				    "commeta": req.body.meta,
+				    "commetaid": req.body.metaid,
+				    "content": req.body.comment,
+				    "extra": "active"
+				    
+				  }
+			};
+	request(options, function (error, response, body) {
+			  if (!error && response.statusCode == 200) {
+			    console.log(body);
+			    console.log("comment post");
+			    res.redirect(backURL);
+			  }
+			  else {
+				res.redirect(backURL);
+			  }
+			});
+	
+	
+	// add email of req.body.email from  user that you got a comment, if mail check box is yes 
+	
+	});
+
+//Activity post
+router.get('/forms/activity/', function(req, res){	  
+	// Put required checks 
+	backURL=req.header('Referer')+'#'+req.query.redirect || '/';
+	var options = {
+			  uri: 'http://localhost:8080/activitys/',
+			  method: 'post',
+			  json: {
+				    "userid": req.session.userid,
+				    "actmeta": req.query.meta,
+				    "actmetaid":req.query.metaid ,
+				    "type": req.query.type,
+				    "status": req.query.status,
+				    "extra":req.query.extra		    
+				  }
+			};
+	
+	console.log(options.json);
+	request(options, function (error, response, body) {
+			  if (!error && response.statusCode == 200) {
+			    console.log(body);
+			    console.log("activity post");
+			    res.redirect(backURL);
+			  }
+			  else {
+				res.redirect(backURL);
+			  }
+			});
+	
+	// add notification
+	
+	});
+
+router.get('/getcomments/:meta/:metaid/:sort', function(req, res){
+	var options = {
+			  uri: 'http://localhost:8080/comments/'+req.params.meta+'/'+req.params.metaid+'/'+req.params.sort,
+			  method: 'GET',
+			  json:true
+			};
+	request(options, function (error, response, body) {
+		if (!error && response.statusCode == 200 && body.length > 0) {
+				res.json(body);
+				return;
+		}
+	});
+});
+
 //Notification poll
 router.get('/notifications/user/', function(req, res){
 	var s=JSON.stringify(req.query);
@@ -118,26 +258,36 @@ router.get('/notifications/user/', function(req, res){
 	var sess=req.session;
 	var i=0;
 	if (s.length>5)
-		msgid= s.substring(2, s.length-5);
+		notid= s.substring(2, s.length-5);
 	var options = {
 			  uri: 'http://localhost:8080/notifications/user/'+sess.userid+'/?max='+notid,
 			  method: 'GET',
 			  json:true
 			};
 
-	var func;
+	console.log(s);
+	console.log(notid);
+	console.log(options.uri);
+	if (!sess.userid)
+		{
+			res.json([]);
+			return;
+		}
 	request(options, function (error, response, body) {
 		if (!error && response.statusCode == 200 && body.length > 0) {
-				//console.log("1st response");
+				console.log("1st response");
 				i = 1;
 				res.json(body);
+				return;
 		}
 	});
 	setTimeout(function() {
 		request(options, function (error, response, body) {
 			if (!error && response.statusCode == 200 && body.length > 0 && i==0) {
+				console.log("2nd response");
 				i = 1;
-				res.json(body)
+				res.json(body);
+				return;
 			}
 		});
 	}, 10000);
@@ -145,8 +295,10 @@ router.get('/notifications/user/', function(req, res){
 	setTimeout(function() {
 		request(options, function (error, response, body) {
 			if (!error && response.statusCode == 200 && body.length > 0 && i==0) {
+				console.log("3rd response");
 				i = 1;
-				res.json(body)
+				res.json(body);
+				return;
 			}
 		});
 	}, 20000);
@@ -155,7 +307,8 @@ router.get('/notifications/user/', function(req, res){
 		request(options, function (error, response, body) {
 			if (!error && response.statusCode == 200 && body.length > 0 && i==0) {
 				i = 1;
-				res.json(body)
+				res.json(body);
+				return;
 			}
 		});
 	}, 30000);
@@ -163,55 +316,77 @@ router.get('/notifications/user/', function(req, res){
 		request(options, function (error, response, body) {
 			if (!error && response.statusCode == 200 && body.length > 0 && i==0) {
 					i = 1;
-					res.json(body)
+					res.json(body);
+					return;
 			}
 		});
 	}, 40000);
+	setTimeout(function() {
+		request(options, function (error, response, body) {
+			if (!error && response.statusCode == 200 && body.length > 0 && i==0) {
+					i = 1;
+					res.json(body);
+					return;
+			}
+		});
+	}, 50000);
 	setTimeout(function() {
 		request(options, function (error, response, body) {
 			if ( i==0) {
 				if (!error && response.statusCode == 200) {
 					if (body.length > 0) {
 						res.json(body);
+						return;
 					}
 					else {
 						res.json([]);
+						return;
 					}
 				} else {
 					res.json([]);
+					return;
 				}
 			}
 		});
-	}, 50000);
+	}, 58000);
 			
 });
 
 router.get('/messages/user/', function(req, res){
 	var s=JSON.stringify(req.query);
-	var msgid=s.substring(2,3);;
+	var msgid=s.substring(2,3);
 	var sess=req.session;
 	var i=0;
 	if (s.length>5)
 		msgid= s.substring(2, s.length-5);
 	var options = {
-		uri: 'http://localhost:8080/messages/user/'+sess.userid+'?max='+msgid,
+		uri: 'http://localhost:8080/messages/user/'+sess.userid+'/?max='+msgid,
 		method: 'GET',
 		json:true
 	};
-	//console.log(msgid);
-	var func;
+	console.log(msgid);
+	console.log(s);
+	console.log(options.uri);
+	if (!sess.userid)
+		{
+			res.json([]);
+			return;
+		}
 	request(options, function (error, response, body) {
 		if (!error && response.statusCode == 200 && body.length > 0) {
-			//console.log("1st response");
-			i = 1;
-			res.json(body);
+				console.log("1st response");
+				i = 1;
+				res.json(body);
+				return;
 		}
 	});
 	setTimeout(function() {
 		request(options, function (error, response, body) {
 			if (!error && response.statusCode == 200 && body.length > 0 && i==0) {
+				console.log("2nd response");
 				i = 1;
-				res.json(body)
+				res.json(body);
+				return;
 			}
 		});
 	}, 10000);
@@ -219,8 +394,10 @@ router.get('/messages/user/', function(req, res){
 	setTimeout(function() {
 		request(options, function (error, response, body) {
 			if (!error && response.statusCode == 200 && body.length > 0 && i==0) {
+				console.log("3rd response");
 				i = 1;
-				res.json(body)
+				res.json(body);
+				return;
 			}
 		});
 	}, 20000);
@@ -229,35 +406,49 @@ router.get('/messages/user/', function(req, res){
 		request(options, function (error, response, body) {
 			if (!error && response.statusCode == 200 && body.length > 0 && i==0) {
 				i = 1;
-				res.json(body)
+				res.json(body);
+				return;
 			}
 		});
 	}, 30000);
 	setTimeout(function() {
 		request(options, function (error, response, body) {
 			if (!error && response.statusCode == 200 && body.length > 0 && i==0) {
-				i = 1;
-				res.json(body)
+					i = 1;
+					res.json(body);
+					return;
 			}
 		});
 	}, 40000);
 	setTimeout(function() {
 		request(options, function (error, response, body) {
-			if(i==0){
-				if (!error && response.statusCode == 200) {
-					if (body.length > 0 ) {
-						res.json(body);
-					}
-					else {
-						res.json([]);
-					}
-				}else{
-					res.json([]);
-				}
+			if (!error && response.statusCode == 200 && body.length > 0 && i==0) {
+					i = 1;
+					res.json(body);
+					return;
 			}
 		});
 	}, 50000);
-
+	setTimeout(function() {
+		request(options, function (error, response, body) {
+			if ( i==0) {
+				if (!error && response.statusCode == 200) {
+					if (body.length > 0) {
+						res.json(body);
+						return;
+					}
+					else {
+						res.json([]);
+						return;
+					}
+				} else {
+					res.json([]);
+					return;
+				}
+			}
+		});
+	}, 58000);
 });
+
 
 module.exports = router;

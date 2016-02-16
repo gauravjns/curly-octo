@@ -1,0 +1,66 @@
+extends layoutonly
+
+block content
+  section#team(style='padding: 100px 0; height:90%;')
+    .container(style='height:100%;')
+        div(style='height:100%;')
+          .col-sm-4(style='padding-right: 0px; height:100%; ')
+            h4 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Messages   
+            hr(style='margin-bottom:-2px;')
+            |    
+            |                         
+            ul.list-group(style='margin-top:0px; height:100%; overflow-y: scroll; ')
+              each val in threadlist
+                a(style='text-decoration:none;', href='./messages?thread=#{val.thread}')
+                  li(style='padding: 4px 10px; background-color: rgba(229, 229, 229, 0.3);')
+                    .row(style=' margin-right: 0px;')
+                      div(style='text-decoration:none;')
+                        .col-sm-3(style='margin-top: -12px;')
+                          img(src=val.userimg, style='border-radius:10% 10% ; background-color:#949494; height:50px; width:50px;')
+                        |                 
+                        .col-sm-9
+                          div(style='margin-top: -12px; margin-left: -25px;')
+                            b #{val.username}
+                          div(style='float:right;  margin-top: -20px; font-size: 80%;  color: rgb(150,150,150);') 4 days ago
+                          div(style='color: #141A14; margin-left: -25px;')
+                            | #{val.message} 
+                hr(style='margin-bottom:0px; margin-top:0px;')          
+          .col-sm-8(style=' border-left: 1px solid #d9d9d9; height: 100%; ')
+            div(style='margin-bottom:8px;')
+              .col-sm-8
+                h4
+                  a(href='./Sumit Garbyal_160u') Sumit Garbyal
+              .col-sm-4
+                a(data-toggle='modal', data-target='#ReportModal', style='cursor:pointer;') Report Messages
+            br
+            hr(style=' margin-bottom: 5px;')
+            #myDiv(style='overflow-y: scroll; padding-bottom:126px; height:90%;')
+              each val1 in msglist
+                .row(style='margin-right: 0px;')
+                  .col-sm-3
+                    a(href=val1.userlink)
+                      img(src=val1.userimg, style='  border-radius: 10% 10%; background-color:#949494; height:60px; width:60px;')
+                  .col-sm-9(style='margin-left: -110px;')
+                    b
+                      a(href=val1.userlink) #{val1.username}
+                    div(style='float:right;   margin-right: -100px;  font-size: 90%; color: rgb(150,150,150);') 7 months ago
+                    div(style='text-align:justify;') #{val1.message}
+                hr(style='margin-top: 5px;  margin-bottom: 5px;')
+                #myRow
+            hr(style='margin-top: 5px;  margin-bottom: 0px;')
+            .row(style='  background-color: #F6F6F6;\
+            margin-right: 0px;')
+              .col-md-2
+                a(href=sess.userurl)
+                  img(src=sess.userimg, style='  border-radius: 10% 10%; background-color:#949494; height:60px; width:60px;')
+              form.form-horizontal(action='/form/postmsg/', style='padding-top:20px;', method='post', onsubmit='submit.disabled = true;')
+                input(type='hidden', name='to', value=12)
+                input(type='hidden', name='thread', value=msglist[0].thread)
+                |  
+                .col-md-10(style='  margin-left: -50px; margin-top: -20px;')
+                  textarea.form-control(name='message', placeholder='Say something ..', style='height:80px;')
+                br
+                br
+                |  
+                .col-sm-offset-2.col-sm-10(style='  margin-left: 82%; margin-top: 5px;')
+                  button.btn.btn-primary(type='submit', name='submit') Send

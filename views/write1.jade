@@ -1,0 +1,199 @@
+extends layout
+
+block content  
+     //script(src='javascripts/ckeditor.js')
+  header#ngocause-1(style=' height: 378px; background-image: url(./images/meta/internbanner.jpg);')
+    .container(style='margin-top:90px;')
+      .row
+        .col-lg-10
+          .col-sm-9.col-sm-offset-3(style='margin-bottom:-15px; color: rgb(114, 131, 115);')
+            h3(style='text-transform:none;') Title of new Article
+            br
+          |                 
+          form.form-horizontal(action='./php/story.php', method='post', onsubmit='submitstory.disabled = true;')
+            .form-group
+              .col-sm-9.col-sm-offset-3
+                input.form-control(required='', name='title', placeholder='Enter title here')
+            |  
+            |                     
+            br
+            |                     
+            .form-group
+              .col-sm-9.col-sm-offset-3
+                span(style='font-weight: 600;color: rgb(114, 131, 115);') Content
+                |                                 
+                textarea#editor1.form-control(required='', name='story', placeholder='Add a comment ..', style='height:350px;')
+                |     
+                |                                
+                script.
+                  CKEDITOR.replace( 'editor1');
+            |                     
+            .form-group
+              .col-sm-9.col-sm-offset-3
+                span(style='font-weight: 600;color: rgb(114, 131, 115);') Excerpt
+                |                                 
+                textarea.form-control(name='excerpt', placeholder='Two line summary', style='height:80px;')
+        |             
+        .col-md-2(style='background-color:#EAF2F4; margin-top:4em')
+          h5.text-center Publish
+          |                     
+          .form-group
+            .col-sm-12(style='  margin-top: -5px;  margin-left: -13px;')
+              span
+                | Status: 
+                span
+            |                             
+            br
+            |                             
+            .col-sm-6
+              button.btn.btn-primary.btn-sm(type='submit', style='text-transform: none; background-color: rgb(47, 207, 85);  border-radius: 4px 4px;  border-color: rgb(47, 207, 85);', name='submitreport') Save
+            |                             
+            .col-sm-6
+              button.btn.btn-primary.btn-sm(type='submit', name='submitreport', style='  text-transform: none; background-color: rgb(47, 207, 85);  border-radius: 4px 4px;  border-color: rgb(47, 207, 85);') Preview
+            |                             
+            |                             
+            .form-group
+              .col-sm-12
+                button.btn.btn-primary(type='submit', name='submitreport', style='  text-transform: none;background-color: rgb(117, 148, 244);border-radius: 4px 4px;border-color: rgb(117, 148, 244);margin-top: 10px;margin-bottom: 10px;margin-left: 2em;') Publish
+        |            
+        |             
+        .col-md-2(style='background-color:#EAF2F4; margin-top:4em')
+          h5.text-center Featured Image
+          |                      
+          form.form-horizontal(action='php/userBackImage.php', style='padding-top:20px;', method='post', enctype='multipart/form-data')
+            .form-group
+              div(style='margin-left: -13px;')
+                input(required='', type='file', name='myfile', accept='image/*', style='margin-left:0px;')
+            |                         
+            .form-group
+              .col-sm-12.text-center
+                button.btn.btn-primary(type='submit', name='submitimg', style='  text-transform: none;background-color:  rgb(47, 207, 85);   border-radius: 4px 4px;border-color: rgb(47, 207, 85);') Upload
+
+                
+                
+                
+                
+                
+               // Comments (Made by Gaurav Jain)
+    script.
+      function getVote(int1, int2) {
+      if (window.XMLHttpRequest) {
+      // code for IE7+, Firefox, Chrome, Opera, Safari
+      xmlhttp = new XMLHttpRequest();
+      } else { // code for IE6, IE5
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+      }
+      }
+      xmlhttp.open("GET", "./php/vote.php?comid=" + int1 + "&vote=" + int2, true);
+      xmlhttp.send();
+      }
+    style.
+      .edit_hover_class a {
+      visibility: hidden;
+      }
+      .edit_hover_class:hover a {
+      visibility: visible;
+      }
+    script.
+      function metaidfill(metaid) {
+      document.getElementById("reportid").value = metaid;
+      }
+      function deleteidfill(metaid, comment) {
+      document.getElementById("deleteid").value = metaid;
+      document.getElementById("commenttodelete").innerHTML = comment;
+      }
+    // ajax script for dynamic upvotes and comments
+    .container
+      .row
+        .col-sm-8(style=' margin-top:30px; margin-left:20px')
+          .row(style=' margin-right: 0px;')
+            .col-sm-2
+              a(href="./#{sess.userurl}")
+                img(src="#{sess.userimg}", style=' border-radius: 10% 10%; background-color:#949494; height:60px; width:60px;')
+            form.form-horizontal(action='./php/comment.php', style='padding-top:20px;', method='post', onsubmit='submitcomment.disabled = true;')
+              input(type='hidden', name='meta', value='post')
+              input(type='hidden', name='metaid', value="#{story.story.id}")
+              input(type='hidden', name='email', value="'.$usrrow[11].'")
+              .col-sm-10(style='margin-left: -50px; margin-top: -20px;')
+                div(style='border: 1px solid #d9d9d9; background-color:rgb(226, 227, 229); border-radius:5px 5px; height:122px')
+                  textarea.form-control(required='', name='comment', placeholder='Add a comment ..', style='height:120px;')
+                  div
+                    label(style='margin-left: 20px;font-weight: normal; color: rgb(141, 140, 142);padding-top:7px; cursor: pointer; cursor: hand;')
+                      input(type='checkbox', name='mail', value='yes')
+                      |  Also email the concern person
+                  button.btn.btn-primary.btn-sm(type='submit', name='submitcomment', style='margin-top: -30px;float:right; margin-right: 30px; text-transform: none; background-color:rgb(47, 207, 85); border-radius:4px 4px; border-color:rgb(47, 207, 85); ') Post
+        br
+        br
+      br
+      .row(style=' margin-right: 0px;')
+        .col-sm-2
+          a(href="./ga")
+            img(src="#{sess.userimg}", style=' border-radius: 10% 10%; background-color:#949494; height:60px; width:60px;')
+        .col-sm-10(style='margin-left: -50px; ')
+          span.edit_hover_class
+            b(style='color:rgb(205, 34, 45);') Ha ha Ha 
+            span(style='font-size: x-small; color: rgb(130, 132, 137);')   •   3 seconds ago 
+            span(style='float:right;  margin-top: 20px; color: rgb(205, 34, 45);')
+              a(data-toggle='modal', data-target='#DeleteModal', onclick="deleteidfill('.$rowcom[0].',\''.$rowcom[4].'\')", title='Delete reveiew')
+                i.fa.fa-trash(style='visibility: visible;')
+            br
+            p(style='margin-bottom:0px; color: rgb(107, 105, 103);') '.$rowcom[4].'
+          span(style='font-size: x-small; color: rgb(164, 175, 176);')
+            a(title='Login to Vote-up', data-toggle='modal', data-target='#loginModal', style='text-decoration: none; color: rgb(164, 175, 176);')
+              | if(count($arr)>1) { echo count($arr)-1; } echo'   
+              i.fa.fa-chevron-up
+            |   
+            a(title='Login to Vote-down', data-toggle='modal', data-target='#loginModal', style='text-decoration: none; color: rgb(164, 175, 176);')
+              i.fa.fa-chevron-down
+          | 
+      br
+      .col-sm-4(style='background-color:#fefefd;')
+    // Message Modal
+    #ReportModal.modal.fade
+      .modal-dialog.modal-md
+        .modal-content(style='border-radius:0px;')
+          .modal-body
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+            h4.modal-title(style='color:#CD222D; text-align:center;') Report Comment
+            br
+            div
+              form.form-horizontal(action='./php/report.php', style='padding-top:20px;', method='post', onsubmit='submitreport.disabled = true;')
+                .form-group
+                  .col-sm-10
+                    label
+                      input(type='radio', name='type', value='spam')
+                      |   Report Comment to have a Disrespectful or Harassing Content
+                    label
+                      input(type='radio', name='type', value='harassment')
+                      |   Report Comment as spam (Link or advertisement for a product.)
+                    label
+                      input(type='radio', name='type', value='other')
+                      |   Other reasons
+                input(type='hidden', name='metatype', value='comment')
+                input#reportid(type='hidden', name='metaid', value='')
+                b Other Details
+                .form-group
+                  .col-sm-12
+                    input.form-control(name='message', placeholder='Optional')
+                .form-group
+                  .col-sm-offset-2.col-sm-10
+                    button.btn.btn-primary(type='submit', name='submitreport') Send
+    #DeleteModal.modal.fade
+      .modal-dialog.modal-sm
+        .modal-content(style='border-radius:0px;')
+          .modal-body
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+            h4.modal-title(style='color:#CD222D; text-align:center;') Delete Comment
+            form.form-horizontal(action='php/deletecomment.php', style='padding-top:20px;', method='post', onsubmit='submitdelete.disabled = true;')
+              .form-group
+                #commenttodelete.text-center
+                input#deleteid(type='hidden', name='deleteid', value='')
+              .form-group
+                .text-center
+                  button.btn.btn-primary(type='submit', name='submitdelete') Delete
+    // End of Comment

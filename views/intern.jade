@@ -1,0 +1,102 @@
+extends layout
+
+block content
+    header#ngocause-1(style=' height: 378px; background-image: url(./images/meta/internbanner.jpg);')
+      .container
+        .intro-text
+          .text-center
+            //a(title='Change Background Image', data-toggle='modal', data-target='#opportunityPicModal', style='cursor:pointer; position:absolute; margin-top:-40px; margin-left:-15px;')
+              //i.fa.fa-camera(style='font-size:2em; color:rgba(171, 171, 171, 1);')
+          .intro-lead-in(style='margin-bottom:25px; text-shadow: 3px 3px 10px black; ') Team Leader
+          
+          if sess.userid>0 && follow == 1
+            .intro-lead-in(style='margin-bottom:0px; margin-top:-20px;')
+              span.fa-stack(style='font-size:0.65em;')
+                a(href='./forms/unfollow/post/#{intern.id}', title='You like #{intern.name}', onclick='this.disabled=true;')
+                  i.fa.fa-circle.fa-stack-2x.text-primary                         
+                  i.fa.fa-heart-o.fa-stack-1x.fa-inverse
+            div(style='color:rgba(207, 73, 73, 0.8);font-size: 0.9em;font-family: Montserrat,Helvetica,Arial,sans-serif;') LIKED
+          if sess.userid>0 && follow < 1
+            .intro-lead-in(style='margin-bottom:0px; margin-top:-20px;')
+              span.fa-stack(style='font-size:0.65em;')
+                a(href='./forms/follow/post/#{intern.id}', title='Like #{intern.name}', onclick='this.disabled=true;')
+                  i.fa.fa-circle.fa-stack-2x.text-primary(style='color:rgba(207, 73, 73, 0.6);')
+                  i.fa.fa-heart-o.fa-stack-1x.fa-inverse                                 
+            div(style='color:rgba(207, 73, 73, 0.8);font-size: 0.9em;font-family: Montserrat,Helvetica,Arial,sans-serif;') LIKE
+          if !sess.userid   
+            .intro-lead-in(style='margin-bottom:0px; margin-top:-20px;')
+              span.fa-stack(style='font-size:0.65em;')
+                a(data-toggle='modal', data-target='#loginModal', title='Login to Like #{intern.name}', style='cursor:pointer;')
+                  i.fa.fa-circle.fa-stack-2x.text-primary(style='color:rgba(207, 73, 73, 0.6);')
+                  i.fa.fa-heart-o.fa-stack-1x.fa-inverse
+            div(style='color:rgba(207, 73, 73, 0.8);font-size: 0.9em;font-family: Montserrat,Helvetica,Arial,sans-serif;') LIKE
+      
+    // Section
+    section(style='padding: 50px 0;')
+      .container(style='margin-top:12px;')
+        .row
+          h2.text-center(style='margin-top:0px;')
+            //a.btn.btn-danger(href='./manage.php?id=95', style='margin-top:15px;')
+              //| Manage  
+              //i.fa.fa-cog(style='color:#fff;')
+        .row.col-sm-offset-1
+          .col-sm-8.text-justify(style='border: 1px solid #d9d9d9; padding:30px 40px; background-color:#fefefd;')
+            p #{intern.description}
+            br
+            .row
+              .col-sm-6(style='padding:0px;')
+                h4(style='color:#bb3333; text-transform:none;') When
+                i.fa.fa-calendar.fa-3x.col-sm-2(style='color:#10AB3B;')
+                p.col-sm-10
+                  |  #{ moment(intern.starttime).format("D MMM YYYY")}
+                  br
+                  | #{intern.duration}
+              .col-sm-6(style='padding:0px;')
+                h4(style='color:#bb3333; text-transform:none;') Where
+                i.fa.fa-map-marker.fa-3x.col-sm-2(style='color:#0C94A1;')
+                p.col-sm-10
+                  | #{intern.location}
+            .row
+              .col-sm-6(style='padding:0px;')
+                h4(style='color:#bb3333; text-transform:none;') Cause Areas
+                p.col-sm-10
+                  | Community Development
+              .col-sm-6(style='padding:0px;')
+                h4(style='color:#bb3333; text-transform:none;') Reimbursement
+                p.col-sm-10
+                  | #{intern.salary}
+            .row
+              .col-sm-6(style='padding:0px;')
+                h4(style='color:#bb3333; text-transform:none;') Qualification
+                p.col-sm-10
+                  | #{intern.qualification}
+              .col-sm-6(style='padding:0px;')
+                h4(style='color:#bb3333; text-transform:none;') Requirements
+                p.col-sm-10
+                  | #{intern.required}
+            .row
+              .col-sm-6(style='padding:0px;')
+                h4(style='color:#bb3333; text-transform:none;') Deadline
+                p.col-sm-10
+                  | #{ moment(intern.deadline).format("D MMM YYYY")}
+              .col-sm-6.mainSearchFullSize(style='padding:0px;')
+                h3
+                  h4 Deadline Passed
+          .container.col-sm-2.text-center(style='margin-left:30px;')
+            h2
+              h4 Deadline Passed
+            p.text-muted
+              a(href='/helpiez-sangthan_367', style='color:#30a5b6;', title='Helpiez Sangathan') Helpiez Sangathan
+            p
+              | Posted By 
+              a(href='./Helpiez-Sangthan_108u', title='Helpiez Sangathan')
+                img(src='http://helpiez.org/img/usersprofile/108.png', width='90', height='90', style='padding: 3px; border: 1px solid #b0b0b0; border-radius:50% 50% 50% 50%;')
+            p
+              | Posted on  #{ moment(intern.timestamp).format("D MMM YY")}
+            .fb-share-button(data-href='http://www.helpiez.org/Team-Leader_95o', data-layout='button_count')
+      .container.text-center(style='margin-top:30px;')
+        h4
+          a(href='/helpiez-sangthan_367', style='margin-top:15px; text-decoration:none; color:#AB8610;')
+            i.fa.fa-plus-circle
+            |   See more opportunities with "Helpiez Sangathan"
+
