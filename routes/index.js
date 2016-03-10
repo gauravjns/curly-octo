@@ -175,7 +175,7 @@ router.post('/form/postmsg/', function(req, res){
 
 // Comment post
 router.post('/forms/comment/', function(req, res){	  
-	backURL=req.header('Referer') || '/';
+	backURL=req.header('Referer')+ '#'+req.body.redirect || '/';
 	var options = {
 			  uri: 'http://localhost:8080/comments/',
 			  method: 'post',
@@ -190,8 +190,6 @@ router.post('/forms/comment/', function(req, res){
 			};
 	request(options, function (error, response, body) {
 			  if (!error && response.statusCode == 200) {
-			    console.log(body);
-			    console.log("comment post");
 			    res.redirect(backURL);
 			  }
 			  else {

@@ -40,6 +40,7 @@ script.
             input(type='hidden', name='meta', value='post')
             input(type='hidden', name='metaid', value="#{story.story.id}")
             input(type='hidden', name='email', value="'.$usrrow[11].'")
+            input(type='hidden', name='redirect', value="commentstage")
             .col-sm-10(style='margin-left: -50px; margin-top: -20px;')
               div(style='border: 1px solid #d9d9d9; background-color:rgb(226, 227, 229); border-radius:5px 5px; height:122px')
                 textarea.form-control(required='', name='comment', placeholder='Add a comment ..', style='height:120px;')

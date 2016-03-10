@@ -23,11 +23,8 @@ block content
               .col-sm-10
                 span(style='font-weight: 600;color: rgb(114, 131, 115);') Content
                 |                                 
-                textarea#editor1.form-control(  ng-model='story.blog.content' required='', name='story', placeholder='Add a comment ..', style='height:350px;')
-                |     
-                |                                
-                script.
-                  CKEDITOR.replace( 'editor1');
+                textarea#editor1.form-control(ck-editor='', name="editor1"  ng-model='story.blog.content' , placeholder='Add a comment ..', style='height:350px;')
+                
             |                     
             .form-group
               .col-sm-10
@@ -56,7 +53,7 @@ block content
             br                             
             .form-group
               .col-sm-12
-                button.btn.btn-primary.btn-sm(type='submit', name='submitreport', style='  text-transform: none;background-color: rgb(117, 148, 244);border-radius: 4px 4px;border-color: rgb(117, 148, 244);margin-top: 15px;margin-bottom: 10px;margin-left: 35px;') Preview             
+                a.btn.btn-primary.btn-sm( target="_blank" href=".{{url}}"  style='  text-transform: none;background-color: rgb(117, 148, 244);border-radius: 4px 4px;border-color: rgb(117, 148, 244);margin-top: 15px;margin-bottom: 10px;margin-left: 35px;') Preview             
         .col-xs-2(style='background-color:#EAF2F4; margin-top:2em; margin-left:-100px')
           h5.text-center Featured Image
           |                      
@@ -71,7 +68,7 @@ block content
         .col-xs-2(style='background-color:#EAF2F4; margin-top:2em; margin-left:-100px')
           h5.text-center Publish
           |                      
-          input( type="checkbox", ng-model="commentstatus" ng-checked="story.commentstatus==1")
+          input( type="checkbox", ng-model="commentstatus" ng-checked="commentstatus" )
           span       Allow comments
           br
           br 

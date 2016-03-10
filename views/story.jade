@@ -2,11 +2,26 @@ extends layout
 
 block content
 
-    header#ngocause-1(style="background-image: url('./images/meta/internbanner.jpg'); height:378px;")
+    //header#ngocause-1(style="background-image: url('./images/meta/internbanner.jpg'); height:600px;")
+    header#ngocause-1(style="box-shadow: 15px 118px 181px 36px black inset; background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGv4r-k1sXk5sCR0tdoYYbOAOguxcx8Y_tcTA5-3csTtIVTH8iysj4ic8'); height:600px;")
     section(style='padding: 0px 0;')
       .container
-        .row(style='margin-left:25px;')
-          .col-md-9(style='background-color: white; border: 1px solid #dadada; padding:50px; ')
+        
+        .row(style='margin-left: 60px; margin-top: -200px;')
+          .col-md-10()
+            div 
+              span 
+                h5(style='text-transform:uppercase;color: rgb(228, 7, 34);  margin-top: -15px;')  Feminism
+            br
+            br
+            div
+              span
+                h1(style='text-transform: none;color: rgb(255, 255, 255);  margin-top: -25px;')  #{ story.story.name} 
+              span 
+                h4(style='text-transform: none;color: #CD222D;  margin-top: 5px;')  Gaurav Jain  
+            br   
+        .row(style='margin-left:10px;')
+          .col-md-8(style='background-color: white; border: 1px solid #dadada; padding:50px; ')
             div
               span
                 h2(style='text-transform: none;color: rgb(52, 52, 68);  margin-top: -15px;')  #{ story.story.name} 
@@ -18,12 +33,14 @@ block content
                 a(style='color: rgb(84, 52, 71);', target='blank', title=" #{ story.author.name}", href='')  #{ story.author.name}                              
                 i.fa.fa-shield
                 |    Women Empowerment
-                a.btn.btn-primary.btn-sm(href="./write-story.php?storyid='.$storyid.'", name='submitreport', style=' float:right; text-transform: none; background-color: rgb(47, 207, 85);  border-radius: 4px 4px;  border-color: rgb(47, 207, 85);') Edit Post
+                if (sess.userid==story.author.id)
+                  a.btn.btn-primary.btn-sm(href="./write?meta=#{story.story.id}", name='submitreport', style=' float:right; text-transform: none; background-color: rgb(47, 207, 85);  border-radius: 4px 4px;  border-color: rgb(47, 207, 85);') Edit Post
               br
               br
               br
-              span(style='color: #2C2B2A;') #{story.story.blog.content}
+              span(style='color: #2C2B2A;')!=story.story.blog.content
               hr
+         
               .row(style='margin-top: 30px; margin-bottom: 30px;')
                 .col-xs-2
                   a(href="./#{story.author.url}")
@@ -33,7 +50,7 @@ block content
                   br
                   p #{story.authordesc}
               hr
-          .col-md-3
+          .col-md-4
             div(style='background-color: white; border: 1px solid #dadada; padding:10px; ')
               br
               h4.text-center(style=' text-transform: none;') Similar Stories
@@ -63,7 +80,7 @@ block content
       var print =0;
       var html= '<div style=" margin-top:30px; margin-left:20px" class="col-sm-8"><div style=" margin-right: 0px;" class="row"><div class="col-sm-2"><a title="'+value.username+'" href="'+value.userurl+'"><img src="'+value.userimage+'" style=" border-radius: 10% 10%; background-color:#949494; height:60px; width:60px;"></a></div><div style="margin-left: -50px; " class="col-sm-10"><span class="edit_hover_class"><b style="color:rgb(205, 34, 45);">'+value.username+'</b><span style="font-size: x-small; color: rgb(130, 132, 137);"> &nbsp;•&nbsp;&nbsp;'+  moment(value.timestamp).fromNow()  +' </span><span style="float:right;  margin-top: 20px; color: rgb(205, 34, 45);">';
       if(userid==value.userid) {
-      	html = html + '<a data-toggle="modal" data-target="#DeleteModal" onclick="deleteidfill()" title="Delete reveiew" style="cursor: pointer;"><i style="visibility: visible;" class="fa fa-trash"></i></a>';
+      	html = html + '<a data-toggle="modal" data-target="#DeleteModal" onclick="deleteidfill('+value.id+',"sdsds")" title="Delete reveiew" style="cursor: pointer;"><i style="visibility: visible;" class="fa fa-trash"></i></a>';
       }
       else {
       if (userid>0){html = html +'<a data-toggle="modal" data-target="#ReportModal" onclick="metaidfill('+value.id+')" title="Report reveiew" style="cursor: pointer;"><i class="fa fa-flag"></i></a>';}      
@@ -83,22 +100,6 @@ block content
       
       });
       }); 
-      
-    script.
-      function getVote(int1, int2) {
-      if (window.XMLHttpRequest) {
-      // code for IE7+, Firefox, Chrome, Opera, Safari
-      xmlhttp = new XMLHttpRequest();
-      } else { // code for IE6, IE5
-      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-      }
-      xmlhttp.onreadystatechange = function() {
-      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      }
-      }
-      xmlhttp.open("GET", "./php/vote.php?comid=" + int1 + "&vote=" + int2, true);
-      xmlhttp.send();
-      }
     style.
       .edit_hover_class a {
       visibility: hidden;
@@ -110,11 +111,14 @@ block content
       function metaidfill(metaid) {
       document.getElementById("reportid").value = metaid;
       }
+    script.  
       function deleteidfill(metaid, comment) {
       document.getElementById("deleteid").value = metaid;
       document.getElementById("commenttodelete").innerHTML = comment;
+      alert(metaid);
+      console.log(comment);
       }
-    // ajax script for dynamic upvotes and comments
+    // Comment Form
     .container(style='  margin-left:100px')
       .col-sm-8(style=' margin-top:30px; margin-left:20px')
         .row(style=' margin-right: 0px;')
@@ -129,6 +133,7 @@ block content
             input(type='hidden', name='meta', value='post')
             input(type='hidden', name='metaid', value="#{story.story.id}")
             input(type='hidden', name='email', value="#{story.author.email}")
+            input(type='hidden', name='redirect', value="commentstage")
             .col-sm-10(style='margin-left: -50px; margin-top: -20px;')
               div(style='border: 1px solid #d9d9d9; background-color:rgb(226, 227, 229); border-radius:5px 5px; height:122px')
                 textarea.form-control(required='', name='comment', placeholder='Add a comment ..', style='height:120px;')
@@ -139,7 +144,7 @@ block content
                 if sess.userid>0
                   button.btn.btn-primary.btn-sm(type='submit', name='submitcomment', style='margin-top: -30px;float:right; margin-right: 30px; text-transform: none; background-color:rgb(47, 207, 85); border-radius:4px 4px; border-color:rgb(47, 207, 85); ') Post
                 else
-                  button.btn.btn-primary.btn-sm(data-target="#loginModal",data-toggle="modal", name='submitcomment', style='margin-top: -30px;float:right; margin-right: 30px; text-transform: none; background-color:rgb(47, 207, 85); border-radius:4px 4px; border-color:rgb(47, 207, 85); ') Post  
+                  a.btn.btn-primary.btn-sm(data-target="#loginModal",data-toggle="modal", name='submitcomment', style='margin-top: -30px;float:right; margin-right: 30px; text-transform: none; background-color:rgb(47, 207, 85); border-radius:4px 4px; border-color:rgb(47, 207, 85); ') Post  
         br
         br
       br
@@ -148,7 +153,7 @@ block content
       
     br
     br
-    // Message Modal
+    // Report Modal
     #ReportModal.modal.fade
       .modal-dialog.modal-md
         .modal-content(style='border-radius:0px;')

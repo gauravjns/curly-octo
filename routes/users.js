@@ -15,13 +15,13 @@ router.get('/:name', function (req, res) {
 				//console.log(apiurl);
 				request.get(apiurl, function (error, response, body) {
 		  			if (!error && response.statusCode == 200) {
-		  				res.render('userpublic', { sess: sess, title: "tada", follow: body,user:json, template:"user"  });
+		  				res.render('userpublic', { sess: sess, title: json.name , follow: body,user:json, template:"user"  });
 		  			  }
 		  		})
 			}
 			else {
 			console.log('user not set');
-		    res.render('userpublic', { sess: sess, title: "tada", user:json, template:"user"  });
+		    res.render('userpublic', { sess: sess, title: json.name, user:json, template:"user"  });
 			}
 		}
 		else{ 

@@ -14,7 +14,7 @@ router.get('/:name.story', function (req, res) {
 		if (!error && response.statusCode == 200) {
 
 			console.log(body.story.name);
-		  	res.render('story', {sess: req.session,  title: body.story.name + " | Blog ", story:body });
+		  	res.render('story', {sess: req.session,  title: body.story.name + " | Blog ", story:body , follow:1});
 		}
 	});	
 });
