@@ -22,7 +22,7 @@ html(style='height:100%;')
     link(rel='stylesheet', href='/stylesheets/Helpiez.css')
     link(rel='stylesheet', href='/stylesheets/bootstrap-social.css')
     //- google api scipt
-  body#page-top.index(style="background-color: #F2F2F2;height:100%;")
+  body#page-top.index(style="background-color: white;height:100%;")
     if sess.userid>0  
       include headerlogged.jade
     else
@@ -37,7 +37,8 @@ html(style='height:100%;')
     // Plugin JavaScript
     script(src='javascripts/jquery.easing.min.js')
     script(src='javascripts/classie.js')
-    //script(src='javascripts/helpiez.js')
+    script(src='javascripts/helpiez.js')
     
     // uncomment only notification poller
-    script(src='javascripts/header.js')
+    if sess.userid>0
+      script(src='javascripts/header.js')

@@ -887,6 +887,11 @@ body {
     color: #fff;
 }
 
+.hpanel:hover{
+    background-color: #BCECD0;
+    
+}
+
 /*For Customised Select*/
 .navbar-form .input-group .form-control {
     width: inherit;

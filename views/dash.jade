@@ -1,25 +1,112 @@
 extends layoutonly
 
 block content
-  section#team
+    br
+    br
+    br
+    br
+    section(style='padding: 25px 0px 15px 0px;')
       .container
-        .row(style= " margin-top: -30px;")
-          .col-md-3(style ="position:fixed")
-            .list-group
-              a.list-group-item.active(href='#')  
-                i.fa.fa-tachometer &nbsp;&nbsp;  DashBoard
-              a.list-group-item(href='') Dapibus ac facilisis 
-              a.list-group-item(href='#') Morbi leo risus
-              a.list-group-item(href='#') Porta ac consectetur ac
-              a.list-group-item(href='#') Vestibulum at eros
-            .list-group
-              a.list-group-item.active(href='#')  
-                i.fa.fa-tachometer &nbsp;&nbsp;  DashBoard
-              a.list-group-item(href='') Dapibus ac facilisis 
-              a.list-group-item(href='#') Morbi leo risus
-              a.list-group-item(href='#') Porta ac consectetur ac
-              a.list-group-item(href='#') Vestibulum at eros
-          .col-sm-9(style= "margin-left:30%")
-            .span skjk s lkjs ks
+        .row
+          .col-sm-3.text-justify(style='margin-left:1.6%;')
+            .text-center
+              img(src='http://helpiez.org/img/usersprofile/108.png', style='border-radius:10% 10% ; background-color:#949494; height:160px; width:160px;')
+              a(title='Change Profile Picture', data-toggle='modal', data-target='#profilePicModal', style='cursor:pointer; position:absolute;   margin-top: 135px;margin-left: -90px;')
+                i.fa.fa-camera(style='font-size:2em; color:rgba(12,21,25,0.8);')
+              h3(style='text-transform:none;')
+            hr
+            ul.list-group(role='tablist', style='margin-top:0px;')
+              li.list-group-item.hpanel(style='padding: 4px 15px; border-radius: 5px 5px;')
+                a(href='#home', aria-controls='home', role='tab', data-toggle='tab' style="text-decoration: none;")          
+                    h5(style='text-decoration:none; text-transform:none;')
+                      i.fa.fa-home(style='font-size:1.2em; ')
+                      | &nbsp; Home
+                      span.badge(style='background-color:#59C3C1;text-align:right; float : right; ') 10
+              li.list-group-item.hpanel.active(style='padding: 4px 15px; border-radius: 5px 5px;')
+                a(href='#feed', aria-controls='home', role='tab', data-toggle='tab' style="text-decoration: none;")          
+                  h5(style='text-decoration:none; text-transform:none;')
+                    i.fa.fa-bullhorn(style='font-size:1.2em; ')
+                    | &nbsp; News Feed
+                    span.badge(style='background-color:#59C3C1;text-align:right; float : right; ')
+              li.list-group-item.hpanel(style='padding: 4px 15px; border-radius: 5px 5px;')
+                a(href='#article', aria-controls='home', role='tab', data-toggle='tab' style="text-decoration: none;")          
+                  h5(style='text-decoration:none; text-transform:none;')
+                    i.fa.fa-pencil(style='font-size:1.2em; ')
+                    | &nbsp; Articles
+                    span.badge(style='background-color:#59C3C1;text-align:right; float : right; ')
+              li.list-group-item.hpanel(style='padding: 4px 15px; border-radius: 5px 5px;')
+                a(href='#participate', aria-controls='home', role='tab', data-toggle='tab' style="text-decoration: none;")          
+                  h5(style='text-decoration:none; text-transform:none;')
+                    i.fa.fa-trophy(style='font-size:1.2em; ')
+                    | &nbsp; Participate
+                    span.badge(style='background-color:#59C3C1;text-align:right; float : right; ')
+              li.list-group-item.hpanel(style='padding: 4px 15px; border-radius: 5px 5px;')
+                a(href='#campaign', aria-controls='home', role='tab', data-toggle='tab' style="text-decoration: none;")          
+                  h5(style='text-decoration:none; text-transform:none;')
+                    i.fa.fa-child(style='font-size:1.2em; ')
+                    | &nbsp; Campaign
+                    span.badge(style='background-color:#59C3C1;text-align:right; float : right; ') 10
+              li.list-group-item.hpanel(style='padding: 4px 15px; border-radius: 5px 5px;')
+                a(href='#organization', aria-controls='home', role='tab', data-toggle='tab' style="text-decoration: none;")          
+                  h5(style='text-decoration:none; text-transform:none;')
+                    i.fa.fa-group(style='font-size:1.2em; ')
+                    | &nbsp; Organization
+                    span.badge(style='background-color:#59C3C1;text-align:right; float : right; ') 10
+            
+              br            
+              li.list-group-item.hpanel(style='padding: 4px 15px; border-radius: 5px 5px;')
+                a(href='#notification', aria-controls='home', role='tab', data-toggle='tab' style="text-decoration: none;")          
+                  h5(style='text-decoration:none; text-transform:none;')
+                    i.fa.fa-bell(style='font-size:1.2em; ')
+                    | &nbsp; Notification
+                    span.badge(style='background-color:#59C3C1;text-align:right; float : right; ')
+              li.list-group-item.hpanel(style='padding: 4px 15px; border-radius: 5px 5px;')
+                a(href='/', aria-controls='home', role='tab', data-toggle='tab' style="text-decoration: none;")          
+                  h5(style='text-decoration:none; text-transform:none;')
+                    i.fa.fa-envelope(style='font-size:1.2em; ')
+                    | &nbsp; Message
+                    span.badge(style='background-color:#59C3C1;text-align:right; float : right; ')
+              li.list-group-item.hpanel(style='padding: 4px 15px; border-radius: 5px 5px;')
+                a(href='#setting', aria-controls='home', role='tab', data-toggle='tab' style="text-decoration: none;")          
+                  h5(style='text-decoration:none; text-transform:none;')
+                    i.fa.fa-gears(style='font-size:1.2em; ')
+                    | &nbsp; Setting
+                    span.badge(style='background-color:#59C3C1;text-align:right; float : right; ')
               
-          
+            hr
+            .text-center
+              a.btn.btn-primary.btn(href='#follow', style='text-transform: none; background-color: rgb(255, 255, 255); color:black;  border-radius: 2px 2px;  border-color: rgb(47, 207, 85);', aria-controls='home', role='tab', data-toggle='tab')
+                i.fa.fa-heart-o
+                |    Following
+              br
+              br
+              a.btn.btn-primary.btn-sm(href='#help', style='text-transform: none; background-color: rgb(255, 255, 255); color:black;  border-radius: 2px 2px;  border-color: rgb(47, 207, 85);', aria-controls='home', role='tab', data-toggle='tab') Need Help
+          .col-sm-8.col-sm-offset-1.text-justify(style='margin-left:2%; padding-left: 3%; border-left: 1px solid #d9d9d9;')
+            .tab-content
+              #feed.tab-pane.active(role='tabpanel')
+                h5 News Feed
+                hr
+                include dfeed.jade
+              #home.tab-pane(role='tabpanel')
+                h5 Journey
+                hr
+                include dhome.jade
+              #article.tab-pane(role='tabpanel')
+                h5 Articles
+                hr
+                include darticles.jade
+              #participate.tab-pane(role='tabpanel')
+                h5 Participate
+                hr
+                include dparticipate.jade
+              #campaign.tab-pane(role='tabpanel')
+                h5 campaign
+                hr
+                include dcampaign.jade
+              #organization.tab-pane(role='tabpanel')
+                h5 organization
+                hr
+                include dorganization.jade
+            
+            
+              

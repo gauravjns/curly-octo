@@ -4,7 +4,7 @@ var request = require('request');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('dash', { title: 'Express', sess: req.session,  });
+  res.render('dash1', { title: 'Express', sess: req.session,  });
 });
 
 /* GET home page. */
