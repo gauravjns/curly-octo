@@ -4,7 +4,7 @@ var request = require('request');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('about', { title: 'Express' });
+  res.render('dash', { title: 'Express', sess: req.session,  });
 });
 
 /* GET home page. */
@@ -202,6 +202,54 @@ router.post('/forms/comment/', function(req, res){
 	
 	});
 
+//Comment delete
+router.post('/forms/comment/delete', function(req, res){	  
+	backURL=req.header('Referer')+ '#'+req.body.redirect || '/';
+	var options = {
+			  uri: 'http://localhost:8080/comments/inact/'+req.session.userid+'/'+req.body.deleteid,
+			  method: 'post'
+			};
+	console.log(options.uri);
+	request(options, function (error, response, body) {
+			  if (!error && response.statusCode == 200) {
+			    res.redirect(backURL);
+			  }
+			  else {
+				res.redirect(backURL);
+			  }
+			});
+	});
+//comment flagged
+router.post('/forms/activitys/post', function(req, res){	  
+	backURL=req.header('Referer')+ '#'+req.body.redirect || '/';
+	var options = {
+			  uri: 'http://localhost:8080/activitys/',
+			  method: 'post',
+			  json: {
+				    "userid": req.session.userid,
+				    "actmeta": req.body.metatype,
+				    "actmetaid":req.body.metaid ,
+				    "type": req.body.type,
+				    "status": req.body.status,
+				    "extra":req.body.extra		    
+				  }
+			};
+	
+		request(options, function (error, response, body) {
+			  if (!error && response.statusCode == 200) {
+			    console.log(body);
+			    console.log("activity post");
+			    res.redirect(backURL);
+			  }
+			  else {
+				res.redirect(backURL);
+			  }
+			});
+		
+		// mail if there is some message
+	
+	});
+
 //Activity post
 router.get('/forms/activity/', function(req, res){	  
 	// Put required checks 
@@ -218,8 +266,60 @@ router.get('/forms/activity/', function(req, res){
 				    "extra":req.query.extra		    
 				  }
 			};
+	check=1;
+	if (req.query.remove && req.query.meta=='comment' )
+	{	//console.log('jhdsjdh shd s hd sh djs dj ')
+		var options1 = {
+			  uri: 'http://localhost:8080/activitys/delete/',
+			  method: 'post',
+			  json: {
+				    "userid": req.session.userid,
+				    "actmeta": req.query.meta,
+				    "actmetaid":req.query.metaid ,
+				    "type": req.query.type		    
+				  }
+			};
+		if (req.query.remove==1)
+		{
+			check =0;
+			request(options1, function (error, response, body) {
+				  if (!error && response.statusCode == 200) {
+				    //console.log(body);
+				    //console.log("activity deleted");
+				    res.redirect(backURL);
+				  }
+				  else {
+					  //console.log(options1)
+						
+					res.redirect(backURL);
+				  }
+				});
+			
+		}
+		if (req.query.remove==-1)
+		{
+			if (req.query.type === "upvote" )
+				{ options1.json.type='downvote';}
+			if (req.query.type === "downvote" )
+			{
+				options1.json.type='upvote';
+			}
+			request(options1, function (error, response, body) {
+				  if (!error && response.statusCode == 200) {
+				    //console.log(body);
+				   // console.log("activity deleted");
+				   // res.redirect(backURL);
+				  }
+				  else {
+					res.redirect(backURL);
+				  }
+				});
+		}
+	}
 	
-	console.log(options.json);
+	//console.log(options.json);
+	if (check==1)
+	{
 	request(options, function (error, response, body) {
 			  if (!error && response.statusCode == 200) {
 			    console.log(body);
@@ -230,7 +330,7 @@ router.get('/forms/activity/', function(req, res){
 				res.redirect(backURL);
 			  }
 			});
-	
+	}
 	// add notification
 	
 	});

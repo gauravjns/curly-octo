@@ -59,6 +59,25 @@ router.get('/:name.event', function (req, res) {
   res.render('404', { title: req.params.name, template:"event" });
 });
 
+//Job page
+router.get('/create.:name', function (req, res) {
 
+  if (!req.session.userid>0)
+  {
+    res.render('login', { title: "Create Internship ", sess: req.session, message: "Please Login to Post " +req.params.name });  
+  }
+  else 
+  {
+	  if (req.params.name=="internship")
+	  {
+	    res.render('hire-intern', { title: "Create Internship ", sess: req.session});
+	  }
+	  else
+	  {
+	    res.render('404', { title: "Not Found", template:"event" });
+	  } 
+  }
+	
+});
 
 module.exports = router;

@@ -929,6 +929,12 @@ body {
     height: 400px;
 }
 
+.articlebody p {
+    font-size: 16px;
+    line-height: 1.75;
+    font-family: "Roboto slab",Helvetica,Arial,sans-serif;
+}
+
 .btn {
     border-radius: 0px;
 }
