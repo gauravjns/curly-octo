@@ -1,14 +1,15 @@
 extends layoutonly
 
 block content
-  section#team(style='padding: 100px 0; height:90%;')
+  section#team(style='padding: 100px 0; height:90%;font-family:Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;')
     .container(style='height:100%;')
         div(style='height:100%;')
           .col-sm-4(style='padding-right: 0px; height:100%; ')
-            h4 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Messages   
-            hr(style='margin-bottom:-2px;')
-            |    
-            |                         
+            h4(style="text-transform:none")&nbsp; Messages
+            a.btn.btn-primary.btn-sm(href='/', style='float: right;  margin-top: -30px;  margin-right: 20px;text-transform: none; background-color: rgb(255, 255, 255); color:black;  border-radius: 2px 2px;  border-color: rgb(47, 207, 85);')
+              i.fa.fa-home 
+                b &nbsp;Home   
+            hr(style='margin-bottom:-2px;')               
             ul.list-group(style='margin-top:0px; height:100%; overflow-y: scroll; ')
               each val in threadlist
                 a(style='text-decoration:none;', href='./messages?thread=#{val.thread}')
@@ -31,7 +32,7 @@ block content
                 h4
                   a(href='./Sumit Garbyal_160u') Sumit Garbyal
               .col-sm-4
-                a(data-toggle='modal', data-target='#ReportModal', style='cursor:pointer;') Report Messages
+                button.btn.btn-primary.btn-sm(data-toggle='modal', data-target='#ReportModal', style='cursor:pointer;text-transform: none;margin-left: 100px;  margin-top: 8px;    cursor: pointer;    text-transform: none;    background-color: rgb(220, 1, 60);    border-radius: 4px 4px;    border-color: rgb(220, 1, 60);') Report              
             br
             hr(style=' margin-bottom: 5px;')
             #myDiv(style='overflow-y: scroll; padding-bottom:126px; height:90%;')
@@ -63,4 +64,4 @@ block content
                 br
                 |  
                 .col-sm-offset-2.col-sm-10(style='  margin-left: 82%; margin-top: 5px;')
-                  button.btn.btn-primary(type='submit', name='submit') Send
+                  button.btn.btn-primary.btn-sm(type='submit', name='submit', style='text-transform: none; background-color:rgb(47, 207, 85); border-radius:4px 4px; border-color:rgb(47, 207, 85);') Send

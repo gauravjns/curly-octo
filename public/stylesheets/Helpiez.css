@@ -891,6 +891,9 @@ body {
     background-color: #BCECD0;
     
 }
+.hpanel{
+	color:black;
+}
 
 /*For Customised Select*/
 .navbar-form .input-group .form-control {

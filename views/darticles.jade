@@ -1,0 +1,50 @@
+span
+  table.table.table-striped(style="color:#777")
+    thead
+        tr(style="font-size: smaller;")
+          th #       
+          th Title    
+          th Status
+          th Comments 
+          th Comments Count  
+      tbody
+        tr
+          td 1       
+          td 
+            a(href='/Happy-man-is-title.story' target="blank" style="text-decoration:none") Happy man is title   
+          td 
+            a(href='/write?meta=4' target="blank" style="text-decoration:none")
+              span.label.label-success Online    
+          td
+            a(href='/write?meta=4' target="blank" style="text-decoration:none")
+              span.label.label-success Allowed 
+          td 3
+        tr
+          td 2
+          td Some text goes Here      
+          td 
+            span.label.label-warning Draft    
+          td
+            span.label.label-danger Disabled 
+          td 0
+        tr
+          td 3 
+          td Lar    
+          td the Bird  
+          td @twitter
+          td 4
+  .text-center
+    ul.pagination
+      li.disabled
+          a(href='#', aria-label='Previous')
+            span(aria-hidden='true') &laquo;
+        li.active
+          a(href='#') 1
+        li
+          a(href='#') 2
+        li
+          a(href='#', aria-label='Next')
+            span(aria-hidden='true') &raquo;
+  
+   
+          

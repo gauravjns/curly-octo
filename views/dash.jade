@@ -5,13 +5,13 @@ block content
     br
     br
     br
-    section(style='padding: 25px 0px 15px 0px;')
+    section(style='padding: 25px 0px 15px 0px; font-family: "Open Sans", sans-serif;')
       .container
         .row
           .col-sm-3.text-justify(style='margin-left:1.6%;')
             .text-center
-              img(src='http://helpiez.org/img/usersprofile/108.png', style='border-radius:10% 10% ; background-color:#949494; height:160px; width:160px;')
-              a(title='Change Profile Picture', data-toggle='modal', data-target='#profilePicModal', style='cursor:pointer; position:absolute;   margin-top: 135px;margin-left: -90px;')
+              img(src='http://helpiez.org/img/usersprofile/108.png', style='border-radius:10% 10% ; background-color:#949494; height:140px; width:140px;')
+              a(title='Change Profile Picture', data-toggle='modal', data-target='#profilePicModal', style='cursor:pointer; position:absolute; margin-left: -82px;margin-top: 113px;')
                 i.fa.fa-camera(style='font-size:2em; color:rgba(12,21,25,0.8);')
               h3(style='text-transform:none;')
             hr
@@ -22,13 +22,13 @@ block content
                       i.fa.fa-home(style='font-size:1.2em; ')
                       | &nbsp; Home
                       span.badge(style='background-color:#59C3C1;text-align:right; float : right; ') 10
-              li.list-group-item.hpanel.active(style='padding: 4px 15px; border-radius: 5px 5px;')
+              li.list-group-item.hpanel(style='padding: 4px 15px; border-radius: 5px 5px;')
                 a(href='#feed', aria-controls='home', role='tab', data-toggle='tab' style="text-decoration: none;")          
                   h5(style='text-decoration:none; text-transform:none;')
                     i.fa.fa-bullhorn(style='font-size:1.2em; ')
                     | &nbsp; News Feed
                     span.badge(style='background-color:#59C3C1;text-align:right; float : right; ')
-              li.list-group-item.hpanel(style='padding: 4px 15px; border-radius: 5px 5px;')
+              li.list-group-item.hpanel.active(style='padding: 4px 15px; border-radius: 5px 5px;')
                 a(href='#article', aria-controls='home', role='tab', data-toggle='tab' style="text-decoration: none;")          
                   h5(style='text-decoration:none; text-transform:none;')
                     i.fa.fa-pencil(style='font-size:1.2em; ')
@@ -61,7 +61,13 @@ block content
                     | &nbsp; Notification
                     span.badge(style='background-color:#59C3C1;text-align:right; float : right; ')
               li.list-group-item.hpanel(style='padding: 4px 15px; border-radius: 5px 5px;')
-                a(href='/', aria-controls='home', role='tab', data-toggle='tab' style="text-decoration: none;")          
+                a(href='#connection', aria-controls='home', role='tab', data-toggle='tab' style="text-decoration: none;")          
+                  h5(style='text-decoration:none; text-transform:none;')
+                    i.fa.fa-heart(style='font-size:1.2em; ')
+                    | &nbsp; Connections
+                    span.badge(style='background-color:#59C3C1;text-align:right; float : right; ')
+              li.list-group-item.hpanel(style='padding: 4px 15px; border-radius: 5px 5px;')
+                a(href='/messages?thread=4',  style="text-decoration: none;")          
                   h5(style='text-decoration:none; text-transform:none;')
                     i.fa.fa-envelope(style='font-size:1.2em; ')
                     | &nbsp; Message
@@ -75,15 +81,10 @@ block content
               
             hr
             .text-center
-              a.btn.btn-primary.btn(href='#follow', style='text-transform: none; background-color: rgb(255, 255, 255); color:black;  border-radius: 2px 2px;  border-color: rgb(47, 207, 85);', aria-controls='home', role='tab', data-toggle='tab')
-                i.fa.fa-heart-o
-                |    Following
-              br
-              br
               a.btn.btn-primary.btn-sm(href='#help', style='text-transform: none; background-color: rgb(255, 255, 255); color:black;  border-radius: 2px 2px;  border-color: rgb(47, 207, 85);', aria-controls='home', role='tab', data-toggle='tab') Need Help
           .col-sm-8.col-sm-offset-1.text-justify(style='margin-left:2%; padding-left: 3%; border-left: 1px solid #d9d9d9;')
             .tab-content
-              #feed.tab-pane.active(role='tabpanel')
+              #feed.tab-pane(role='tabpanel')
                 h5 News Feed
                 hr
                 include dfeed.jade
@@ -92,13 +93,16 @@ block content
                 hr
                 include dhome.jade
               #article.tab-pane(role='tabpanel')
-                h5 Articles
+                h5(style="color:#777;") Stories
+                  a.btn.btn-primary.btn-sm(href='/', style=" margin-top:-5px;text-transform: none;background-color: rgb(47, 207, 85);color: white;border-radius: 2px 2px;float: right;border-color: rgb(47, 207, 85);") New Article
                 hr
                 include darticles.jade
               #participate.tab-pane(role='tabpanel')
-                h5 Participate
-                hr
-                include dparticipate.jade
+                .panel.panel-success
+                  .panel-heading Events,Voulunteering and Internships 
+                    a.btn.btn-primary.btn-sm(href='/', style=" margin-top:-5px;text-transform: none;background-color: white;color: black;border-radius: 20px 20px;float: right;border-color: rgb(47, 207, 85);") Apply  
+                  .panel-body 
+                    include dparticipate.jade
               #campaign.tab-pane(role='tabpanel')
                 h5 campaign
                 hr
@@ -107,6 +111,18 @@ block content
                 h5 organization
                 hr
                 include dorganization.jade
-            
-            
+              #notification.tab-pane(role='tabpanel')
+                h5 notification
+                hr
+                include dnotification.jade
+              #setting.tab-pane(role='tabpanel')
+                h5 setting
+                hr
+                include dsetting.jade
+              #connection.tab-pane.active(role='tabpanel')
+                include dfollow.jade
+              #help.tab-pane(role='tabpanel')
+                h5 help
+                hr
+                include dhelp.jade
               
