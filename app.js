@@ -8,6 +8,7 @@ var session = require('express-session');// for session management
 var passport= require('passport');// for login
 var FacebookStrategy= require('passport-facebook').Strategy;// for facebook loginn
 var routes = require('./routes/index');
+var apis = require('./routes/api');
 var users = require('./routes/users');
 var post = require('./routes/post');
 var group = require('./routes/group');
@@ -48,6 +49,7 @@ app.use(passport.session());
 var sess;
 
 app.use('/',routes);
+app.use('/',apis);
 app.use('/', extras);//'Extra' routes very fixed pages like about, faq, start
 app.use('/', post);
 app.use('/', group);

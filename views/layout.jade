@@ -8,24 +8,32 @@ html
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(charset="utf-8")
     meta(name='author', content="gaurav-jain")
-    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
-    
-    
     //- add favicons and icons 
     //- bootstrap core css
     link(href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css", rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous")
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/css/bootstrap-select.min.css')
     link(href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css", rel="stylesheet", integrity="sha256-3dkvEK0WLHRJ7/Csr0BZjAWxERc5WH7bdeUya2aXxdU= sha512-+L4yy6FRcDGbXJ9mPG8MT/3UCDzwR9gPeyFNMCtInsol++5m3bk2bXWKdZjvybmohrAsn3Ua5x8gfLnbE1YkOg==", crossorigin="anonymous")
+    
+    // Fonts to download
     link(href='http://fonts.googleapis.com/css?family=Montserrat:400,700', rel='stylesheet', type='text/css')     
     link(href='http://fonts.googleapis.com/css?family=Kaushan+Script', rel='stylesheet', type='text/css')
     link(href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic', rel='stylesheet', type='text/css')
     link(href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700', rel='stylesheet', type='text/css')
+    
     // css to download
     link(rel='stylesheet', href='/stylesheets/Helpiez.css')
     link(rel='stylesheet', href='/stylesheets/datepicker.css')
     link(rel='stylesheet', href='/stylesheets/bootstrap-social.css')
-    //- google api scipt
+    link(rel='stylesheet', href='/stylesheets/nprogress.css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js') 
+    script(src='javascripts/nprogress.js')   
+    
+   //- google api scipt
   body#page-top.index(style="background-color: #F2F2F2;")
+    
+    script.
+      NProgress.start();
+    
     if sess.userid>0
       include headerlogged.jade 
     else
@@ -34,11 +42,14 @@ html
     include loginModal.jade
     block content
     include footer.jade
+    
+    //script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js')
     // Bootstrap Core JavaScript
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js', integrity='sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS', crossorigin='anonymous')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/js/bootstrap-select.js')
     // Plugin JavaScript
     script(src='javascripts/jquery.easing.min.js')
     script(src='javascripts/classie.js')
     //script(src='javascripts/helpiez.js')
     script(src='javascripts/header.js')
+    script.
+      NProgress.done();

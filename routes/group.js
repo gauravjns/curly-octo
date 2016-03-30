@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var request = require('request');
 
 //NSS page
 router.get('/:name.nss', function (req, res) {
@@ -35,5 +36,11 @@ router.get('/:name.cause', function (req, res) {
 router.get('/:name.gov', function (req, res) {
   res.render('about', { title: req.params.name, template:"gov" });
 });
+
+//group maage page
+router.get('/:name.run', function (req, res) {
+  res.render('org', { title: req.params.name, sess:req.session });
+});
+
 
 module.exports = router;

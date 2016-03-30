@@ -20,8 +20,13 @@ html(style='height:100%;')
     // css to download
     link(rel='stylesheet', href='/stylesheets/Helpiez.css')
     link(rel='stylesheet', href='/stylesheets/bootstrap-social.css')
+    link(rel='stylesheet', href='/stylesheets/nprogress.css')    
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js') 
+    script(src='javascripts/nprogress.js')
     //- google api scipt
   body#page-top.index(style='background-color: white;height:100%;')
+    script.
+      NProgress.start();
     if sess.userid>0  
       include headerlogged.jade
     else
@@ -29,14 +34,17 @@ html(style='height:100%;')
     
     include loginModal.jade
     block content
-    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
+    
+    //script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js') // added in individual layout
     // Bootstrap Core JavaScript
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js', integrity='sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS', crossorigin='anonymous')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/js/bootstrap-select.js')
     // Plugin JavaScript
     script(src='javascripts/jquery.easing.min.js')
     script(src='javascripts/classie.js')
     script(src='javascripts/helpiez.js')
+    script.
+      NProgress.done();
+    
     
     // uncomment only notification poller
     if sess.userid>0

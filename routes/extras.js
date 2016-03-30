@@ -97,10 +97,25 @@ router.get('/messages', function (req, res) {
 					{
 					request(options1, function (error, response, msglist) {
 						if (!error && response.statusCode == 200 && msglist.length > 0) {
-							console.log(msglist)
-							res.render('message', { title:'kuchbhi' , threadlist :threadlist, msglist:msglist, sess:sess });	
-						}
-					});
+							//console.log(msglist)
+							if (msglist[0].userid==sess.userid)
+							{
+							 usertoid=msglist[0].userto	
+							}
+							else 
+							{
+							 usertoid=msglist[0].userid
+							}
+								var apiurl="http://localhost:8080/users/"+usertoid
+								request.get(apiurl, {json:true}, function (error, response, json) {
+									if (!error && response.statusCode == 200) {
+										console.log(json)	
+									res.render('message', { title:'Messages' , threadlist :threadlist, msglist:msglist, sess:sess, userto:json });		
+									}
+								});
+							
+							}
+						});
 					}
 				else
 					{

@@ -1,0 +1,12 @@
+form.form-horizontal(action='./form/postmsg/', style='padding-top:20px;', method='post', onsubmit='submitcomment.disabled = true;')
+            input(type='hidden', name='to', value=108)
+            input(type='hidden', name='thread', value=0)
+            .col-sm-10(style='margin-left: 0px; margin-top: -20px;')
+              div(style='border: 1px solid #d9d9d9; background-color:rgb(226, 227, 229); border-radius:5px 5px; height:122px')
+                textarea.form-control(required='', name='message', placeholder='Add a query, suggestion or feedback  ..', style='height:120px;')
+                div
+                  label(style='margin-left: 20px;font-weight: normal; color: rgb(141, 140, 142);padding-top:7px; cursor: pointer; cursor: hand;')
+                    input(type='checkbox', name='mail', value='yes')
+                    |  Also email the Helpiez Admin
+                button.btn.btn-primary.btn-sm(type='submit', name='submitcomment', style='margin-top: -30px;float:right; margin-right: 30px; text-transform: none; background-color:rgb(47, 207, 85); border-radius:4px 4px; border-color:rgb(47, 207, 85); ') Post
+        br

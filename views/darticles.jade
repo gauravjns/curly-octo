@@ -1,4 +1,4 @@
-span
+span(ng-controller = "articleController", ng-init="init(#{sess.userid})")
   table.table.table-striped(style="color:#777")
     thead
         tr(style="font-size: smaller;")
@@ -6,33 +6,25 @@ span
           th Title    
           th Status
           th Comments 
-          th Comments Count  
+          //th Comments Count
+          //th Views
+          th Date  
       tbody
-        tr
-          td 1       
+        tr(ng-repeat="x in names")
+          td {{$index+1}} 
           td 
-            a(href='/Happy-man-is-title.story' target="blank" style="text-decoration:none") Happy man is title   
+            a(href='/{{ x.story.url}}.story' target="_blank" style="text-decoration:none") {{ x.story.name | limitTo: 60 }}{{x.story.name.length > 60 ? '...' : ''}}
           td 
-            a(href='/write?meta=4' target="blank" style="text-decoration:none")
-              span.label.label-success Online    
+            a(href='/write?meta={{x.story.id}}' target="_blank" style="text-decoration:none")
+              span.label.label-warning(ng-if=" x.story.status==1") Draft
+              span.label.label-success(ng-if=" x.story.status==2") Live 
+              span.label.label-primary(ng-if=" x.story.status==4") Group 
           td
-            a(href='/write?meta=4' target="blank" style="text-decoration:none")
-              span.label.label-success Allowed 
-          td 3
-        tr
-          td 2
-          td Some text goes Here      
-          td 
-            span.label.label-warning Draft    
-          td
-            span.label.label-danger Disabled 
-          td 0
-        tr
-          td 3 
-          td Lar    
-          td the Bird  
-          td @twitter
-          td 4
+            a(href='/write?meta={{x.story.id}}' target="_blank" style="text-decoration:none")
+              span.label.label-success(ng-if=" x.story.commentstatus==1") Allowed 
+              span.label.label-danger(ng-if=" x.story.commentstatus==2") Disabled 
+          td {{x.story.timestamp | date:'dd MMM yy'}}
+//
   .text-center
     ul.pagination
       li.disabled

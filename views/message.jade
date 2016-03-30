@@ -22,7 +22,7 @@ block content
                         .col-sm-9
                           div(style='margin-top: -12px; margin-left: -25px;')
                             b #{val.username}
-                          div(style='float:right;  margin-top: -20px; font-size: 80%;  color: rgb(150,150,150);') 4 days ago
+                          div(style='float:right;  margin-top: -20px; font-size: 80%;  color: rgb(150,150,150);') #{ moment(val.timestamp).fromNow()} 
                           div(style='color: #141A14; margin-left: -25px;')
                             | #{val.message} 
                 hr(style='margin-bottom:0px; margin-top:0px;')          
@@ -30,7 +30,7 @@ block content
             div(style='margin-bottom:8px;')
               .col-sm-8
                 h4
-                  a(href='./Sumit Garbyal_160u') Sumit Garbyal
+                  a(href='./#{userto.url}' ) #{userto.name}
               .col-sm-4
                 button.btn.btn-primary.btn-sm(data-toggle='modal', data-target='#ReportModal', style='cursor:pointer;text-transform: none;margin-left: 100px;  margin-top: 8px;    cursor: pointer;    text-transform: none;    background-color: rgb(220, 1, 60);    border-radius: 4px 4px;    border-color: rgb(220, 1, 60);') Report              
             br
@@ -44,7 +44,7 @@ block content
                   .col-sm-9(style='margin-left: -110px;')
                     b
                       a(href=val1.userlink) #{val1.username}
-                    div(style='float:right;   margin-right: -100px;  font-size: 90%; color: rgb(150,150,150);') 7 months ago
+                    div(style='float:right;   margin-right: -100px;  font-size: 90%; color: rgb(150,150,150);') #{ moment(val1.timestamp).fromNow()} 
                     div(style='text-align:justify;') #{val1.message}
                 hr(style='margin-top: 5px;  margin-bottom: 5px;')
                 #myRow
@@ -55,11 +55,11 @@ block content
                 a(href=sess.userurl)
                   img(src=sess.userimg, style='  border-radius: 10% 10%; background-color:#949494; height:60px; width:60px;')
               form.form-horizontal(action='/form/postmsg/', style='padding-top:20px;', method='post', onsubmit='submit.disabled = true;')
-                input(type='hidden', name='to', value=12)
+                input(type='hidden', name='to', value=userto.id)
                 input(type='hidden', name='thread', value=msglist[0].thread)
                 |  
                 .col-md-10(style='  margin-left: -50px; margin-top: -20px;')
-                  textarea.form-control(name='message', placeholder='Say something ..', style='height:80px;')
+                  textarea.form-control( required='' ,name='message', placeholder='Say something ..', style='height:80px;')
                 br
                 br
                 |  

@@ -1,0 +1,103 @@
+extends layoutonly
+
+block content
+    br
+    br
+    br
+    br
+    section(style='padding: 25px 0px 15px 0px; font-family: "Open Sans", sans-serif;')
+      .container
+        .row
+          .col-md-3.text-justify(style='margin-left:1.6%; border-right: 1px solid #d9d9d9; padding-right:3%')
+            .text-center
+              a(href="/", title="Home")
+                img(src='http://helpiez.org/img/usersprofile/108.png', style='border-radius:10% 10% ; background-color:#949494; height:140px; width:140px;')
+              a(title='Change Profile Picture', data-toggle='modal', data-target='#profilePicModal', style='cursor:pointer; position:absolute; margin-left: -82px;margin-top: 113px;')
+                i.fa.fa-camera(style='font-size:1.5em; color:rgba(12,21,25,0.8);')
+              h4(style='text-transform:none;') Gaurav Jain
+            hr
+            ul.list-group(role='tablist', style='margin-top:0px;')
+              li.list-group-item.hpanel.active(style='padding: 4px 15px; border-radius: 5px 5px;')
+                a(href='#home', aria-controls='home', role='tab', data-toggle='tab' style="text-decoration: none;")          
+                    h5(style='text-decoration:none; text-transform:none;')
+                      i.fa.fa-home(style='font-size:1.2em; ')
+                      | &nbsp; Home
+                      span.badge(style='background-color:#59C3C1;text-align:right; float : right; ') 10
+              li.list-group-item.hpanel(style='padding: 4px 15px; border-radius: 5px 5px;')
+                a(href='#article', aria-controls='home', role='tab', data-toggle='tab' style="text-decoration: none;")          
+                  h5(style='text-decoration:none; text-transform:none;')
+                    i.fa.fa-clone(style='font-size:1.2em; ')
+                    | &nbsp; Stories
+                    span.badge(style='background-color:#59C3C1;text-align:right; float : right; ')
+              li.list-group-item.hpanel(style='padding: 4px 15px; border-radius: 5px 5px;')
+                a(href='#members', aria-controls='home', role='tab', data-toggle='tab' style="text-decoration: none;")          
+                  h5(style='text-decoration:none; text-transform:none;')
+                    i.fa.fa-smile-o(style='font-size:1.2em; ')
+                    | &nbsp; Members
+                    span.badge(style='background-color:#59C3C1;text-align:right; float : right; ')
+              li.list-group-item.hpanel(style='padding: 4px 15px; border-radius: 5px 5px;')
+                a(href='#campaign', aria-controls='home', role='tab', data-toggle='tab' style="text-decoration: none;")          
+                  h5(style='text-decoration:none; text-transform:none;')
+                    i.fa.fa-calendar-check-o(style='font-size:1.2em; ')
+                    | &nbsp; Programs
+                    span.badge(style='background-color:#59C3C1;text-align:right; float : right; ') 10
+              li.list-group-item.hpanel(style='padding: 4px 15px; border-radius: 5px 5px;')
+                a(href='#notification', aria-controls='home', role='tab', data-toggle='tab' style="text-decoration: none;")          
+                  h5(style='text-decoration:none; text-transform:none;')
+                    i.fa.fa-bell-o(style='font-size:1.2em; ')
+                    | &nbsp; Notification
+                    span.badge(style='background-color:#59C3C1;text-align:right; float : right; ')
+              li.list-group-item.hpanel(style='padding: 4px 15px; border-radius: 5px 5px;')
+                a(href='#setting', aria-controls='home', role='tab', data-toggle='tab' style="text-decoration: none;")          
+                  h5(style='text-decoration:none; text-transform:none;')
+                    i.fa.fa-wrench(style='font-size:1.2em; ')
+                    | &nbsp; Administration
+                    span.badge(style='background-color:#59C3C1;text-align:right; float : right; ') 10
+            
+             
+            hr
+            .text-center
+              a.btn.btn-primary.btn-sm(href='#help', style='text-transform: none; background-color: rgb(255, 255, 255); color:black;  border-radius: 2px 2px;  border-color: rgb(47, 207, 85);', aria-controls='home', role='tab', data-toggle='tab') Need Help
+          .col-md-8.col-sm-offset-1.text-justify(style='margin-left:2%; padding-left: 3%; ')
+            .tab-content
+              #home.tab-pane(role='tabpanel')
+                include ohome.jade
+              #article.tab-pane(role='tabpanel')
+                h5(style="color:#777;") Stories
+                  a.btn.btn-primary.btn-sm(href='/', style=" margin-top:-5px;text-transform: none;background-color: rgb(47, 207, 85);color: white;border-radius: 2px 2px;float: right;border-color: rgb(47, 207, 85);") New Article              
+                br
+                include ostories.jade
+              #members.tab-pane(role='tabpanel')
+                include omembers.jade
+              #campaign.tab-pane.active(role='tabpanel')
+                .panel.panel-success
+                  .panel-heading Activities at Helpiez Sanghthan 
+                    .dropdown(style=" float:right;")                   
+                      button.btn.btn-primary.btn-sm.dropdown-toggle(type='button', data-toggle='dropdown',style=' margin-top:-5px;text-transform: none;background-color: rgb(47, 207, 85);color: white;border-radius: 2px 2px;border-color: rgb(47, 207, 85);') Post New
+                            span.caret
+                          ul.dropdown-menu
+                            li
+                              a(href='#') Event
+                            li
+                              a(href='#') Internship 
+                            li
+                              a(href='#') Volunteering  
+                    
+                    //a.btn.btn-primary.btn-sm(href='/', style=" margin-top:-5px;text-transform: none;background-color: white;color: black;border-radius: 20px 20px;float: right;border-color: rgb(47, 207, 85);") Apply  
+                  .panel-body 
+                    include oprogram.jade
+              #notification.tab-pane(role='tabpanel')
+                h5 notification
+                hr
+                include onotification.jade
+              #setting.tab-pane(role='tabpanel')
+                h5 setting
+                hr
+                include oadmin.jade
+              #help.tab-pane(role='tabpanel')
+                h5 help
+                hr
+                include ohelp.jade
+                
+       
+   

@@ -1,0 +1,15 @@
+.row#post
+  form.form-horizontal(action='./php/comment.php', style='padding-top:20px;', method='post', onsubmit='submitcomment.disabled = true;')
+            input(type='hidden', name='meta', value='post')
+            input(type='hidden', name='metaid', value="")
+            input(type='hidden', name='email', value="'.$usrrow[11].'")
+            input(type='hidden', name='redirect', value="commentstage")
+            div(style='border: 1px solid #d9d9d9; background-color:rgb(226, 227, 229); border-radius:5px 5px; height:72px')
+                textarea.form-control(required='', name='comment', style='height:70px;')
+                div
+                  a.btn.btn-small(style="font-size:1.2em;" href='#', data-placement='top', title='Upload a photo')
+                    i.fa.fa-camera
+                  a.btn.btn-small(style="font-size:1.2em;" href='#', data-placement='top', title='Share a link')
+                    i.fa.fa-link
+                button.btn.btn-primary.btn-sm(type='submit', name='submitcomment', style='margin-top: -30px;float:right; margin-right: 30px; text-transform: none; background-color:rgb(52, 61, 130); border-radius:4px 4px; border-color:rgb(52, 61, 130); ') Post
+hr

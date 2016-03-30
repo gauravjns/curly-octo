@@ -19,6 +19,88 @@ form.form-horizontal(action='', method='post')
         .col-sm-9
           textarea#comment.form-control(rows='5', name='about', placeholder='Say something about yourself !!')
              
+      
+      
+      .form-group
+        label.col-sm-3.control-label Skills
+        
+        .col-sm-9
+          select.selectpicker.show-menu-arrow.form-control(name='skills[]', multiple='', style='display: none;')
+            option(value=' Teaching & Training') Teaching &amp; Training                
+            option(value=' Creative content writing') Creative content writing                
+            option(value=' Multimedia & Designing') Multimedia &amp; Designing
+     
+            option(value=' Strategy & Analytics') Strategy &amp; Analytics
+                 
+            option(value=' Community Engagement') Community Engagement
+                 
+            option(value=' Data Entry') Data Entry
+                 
+            option(value=' Accounting & Finance') Accounting &amp; Finance
+                 
+            option(value=' Fundraising') Fundraising
+                 
+            option(value=' Marketing & Publicity') Marketing &amp; Publicity
+                 
+            option(value=' Internet & Web Development') Internet &amp; Web Development
+                 
+            option(value=' Operation & Logistics') Operation &amp; Logistics
+          .btn-group.bootstrap-select.show-tick.show-menu-arrow.form-control
+            button.btn.dropdown-toggle.selectpicker.btn-default(type='button', data-toggle='dropdown', title='Nothing selected')
+              span.filter-option.pull-left Nothing selected
+              | &nbsp;
+              span.caret
+            .dropdown-menu.open
+              ul.dropdown-menu.inner.selectpicker(role='menu')
+                li(data-original-index='0')
+                  a(tabindex='0', data-normalized-text='<span class="text">Teaching &amp; Training</span>')
+                    span.text Teaching &amp; Training
+                    span.glyphicon.glyphicon-ok.check-mark
+                li(data-original-index='1')
+                  a(tabindex='0', data-normalized-text='<span class="text">Creative content writing</span>')
+                    span.text Creative content writing
+                    span.glyphicon.glyphicon-ok.check-mark
+                li(data-original-index='2')
+                  a(tabindex='0', data-normalized-text='<span class="text">Multimedia &amp; Designing</span>')
+                    span.text Multimedia &amp; Designing
+                    span.glyphicon.glyphicon-ok.check-mark
+                li(data-original-index='3')
+                  a(tabindex='0', data-normalized-text='<span class="text">Strategy &amp; Analytics</span>')
+                    span.text Strategy &amp; Analytics
+                    span.glyphicon.glyphicon-ok.check-mark
+                li(data-original-index='4')
+                  a(tabindex='0', data-normalized-text='<span class="text">Community Engagement</span>')
+                    span.text Community Engagement
+                    span.glyphicon.glyphicon-ok.check-mark
+                li(data-original-index='5')
+                  a(tabindex='0', data-normalized-text='<span class="text">Data Entry</span>')
+                    span.text Data Entry
+                    span.glyphicon.glyphicon-ok.check-mark
+                li(data-original-index='6')
+                  a(tabindex='0', data-normalized-text='<span class="text">Accounting &amp; Finance</span>')
+                    span.text Accounting &amp; Finance
+                    span.glyphicon.glyphicon-ok.check-mark
+                li(data-original-index='7')
+                  a(tabindex='0', data-normalized-text='<span class="text">Fundraising</span>')
+                    span.text Fundraising
+                    span.glyphicon.glyphicon-ok.check-mark
+                li(data-original-index='8')
+                  a(tabindex='0', data-normalized-text='<span class="text">Marketing &amp; Publicity</span>')
+                    span.text Marketing &amp; Publicity
+                    span.glyphicon.glyphicon-ok.check-mark
+                li(data-original-index='9')
+                  a(tabindex='0', data-normalized-text='<span class="text">Internet &amp; Web Development</span>')
+                    span.text Internet &amp; Web Development
+                    span.glyphicon.glyphicon-ok.check-mark
+                li(data-original-index='10')
+                  a(tabindex='0', data-normalized-text='<span class="text">Operation &amp; Logistics</span>')
+                    span.text Operation &amp; Logistics
+                    span.glyphicon.glyphicon-ok.check-mark
+      
+      
+      
+      
+      
       .form-group
         label.col-sm-3.control-label Skills
         |         
@@ -96,7 +178,7 @@ form.form-horizontal(action='', method='post')
                   a(tabindex='0', data-normalized-text='<span class="text">Operation &amp; Logistics</span>')
                     span.text Operation &amp; Logistics
                     span.glyphicon.glyphicon-ok.check-mark
-      |       
+           
       .form-group
         label.col-sm-3.control-label Gender
         |         
