@@ -1,18 +1,19 @@
 span(ng-controller = "notController", ng-init="init(#{sess.userid})")
-  span(ng-repeat="x in names")
-    a(href='/counter?notid={{x.notid}}&link={{x.link}}', target="_blank", style='text-transform: none; font-weight: normal;  letter-spacing: normal;  color: black; white-space: normal;  padding: initial;')
-      .row(ng-if=" x.viewed==1", style='background-color:#D2FFD2; border-radius: 2px 2px; border-color: rgb(47, 207, 85); padding:5px;')      
-        .col-sm-2
-          img(src='{{x.image}}', style='  border-radius: 5px 5px; background-color:#949494; height: 70px; width: 70px;margin-left: -14px;')                            
-        .col-sm-10(style='  margin-left: -50px; font-size: 15px') {{x.text}}
-          div(style='float:right;margin-top: 19px; margin-right: -37px; font-size: 80%;  color: rgb(150,150,150);' am-time-ago="x.timestamp ") 
-      .row(ng-if=" x.viewed==2", style='background-color:#F9FAF9; border-radius: 2px 2px; border-color: rgb(47, 207, 85); padding:5px;')
-        .col-sm-2
-          img(src='{{x.image}}', style='  border-radius: 5px 5px; background-color:#949494; height: 70px; width: 70px;margin-left: -14px;')                            
-        .col-sm-10(style='  margin-left: -50px; font-size: 15px') {{x.text}}
-          div(style='float:right;margin-top: 19px; margin-right: -37px; font-size: 80%;  color: rgb(150,150,150);' am-time-ago="x.timestamp ") 
-    p
- 
-  #more28.col-sm-12.morebox(style="font-weight: bold;color: #333333;text-align: center;border: solid 1px #d9d9d9;padding: 8px; margin-top:20px;    margin-bottom: 10px;    -moz-border-radius: 6px;-webkit-border-radius: 6px;")
-    a#28.more(href='#', style='color:#D34E4E;') load more notification
-   
+  div(infinite-scroll='reddit.nextPage()', infinite-scroll-disabled='reddit.busy', infinite-scroll-distance='1')
+    span(ng-repeat="x in reddit.items")
+      a(href='/counter?notid={{x.notid}}&link={{x.link}}', target="_blank", style='text-transform: none; font-weight: normal;  letter-spacing: normal;  color: black; white-space: normal;  padding: initial;')
+        .row(ng-if=" x.viewed==1", style='background-color:#D2FFD2; border-radius: 2px 2px; border-color: rgb(47, 207, 85); padding:5px;')      
+          .col-sm-2
+            img(src='{{x.image}}', style='  border-radius: 5px 5px; background-color:#949494; height: 70px; width: 70px;margin-left: -14px;')                            
+          .col-sm-10(style='  margin-left: -50px; font-size: 15px') {{x.text}}
+            div(style='float:right;margin-top: 19px; margin-right: -37px; font-size: 80%;  color: rgb(150,150,150);' am-time-ago="x.timestamp ") 
+        .row(ng-if=" x.viewed==2", style='background-color:#F9FAF9; border-radius: 2px 2px; border-color: rgb(47, 207, 85); padding:5px;')
+          .col-sm-2
+            img(src='{{x.image}}', style='  border-radius: 5px 5px; background-color:#949494; height: 70px; width: 70px;margin-left: -14px;')                            
+          .col-sm-10(style='  margin-left: -50px; font-size: 15px') {{x.text}}
+            div(style='float:right;margin-top: 19px; margin-right: -37px; font-size: 80%;  color: rgb(150,150,150);' am-time-ago="x.timestamp ") 
+      p
+    div(ng-show='reddit.busy') Loading data...  
+    div(ng-show='reddit.end') 
+      #more28.col-sm-12.morebox(style="font-weight: bold;color: #333333;text-align: center;border: solid 1px #d9d9d9;padding: 8px; margin-top:20px;    margin-bottom: 10px;    -moz-border-radius: 6px;-webkit-border-radius: 6px;")
+        div#28.more( style='color:#D34E4E;') No more notification

@@ -1,5 +1,15 @@
 span(ng-controller = "eventController", ng-init="init(#{sess.userid})")
   table.table.table-striped(style="color:#777")
+    thead
+        tr(style="font-size: smaller;")
+          th #       
+          th Title  
+          th Type  
+          th Status
+          th Org 
+          //th Comments Count
+          //th Views
+          th Deadline 
       tbody
         tr(ng-repeat="x in names")     
           td {{$index+1}} 
@@ -16,7 +26,17 @@ span(ng-controller = "eventController", ng-init="init(#{sess.userid})")
             span.label.label-danger(ng-if=" x.event.status==6") Partial 
           td 
             a(href='/{{ x.group.url}}.{{ x.group.type}}' target="_blank" style="text-decoration:none") {{ x.group.name | limitTo: 40 }}{{x.group.name.length > 40 ? '...' : ''}}  
-          td {{x.event.deadline | date:'dd MMM yy'}}   
+          td {{x.event.deadline | date:'dd MMM yy'}} 
+        tr(ng-if=" names.length==0") 
+          td(colspan="6")  
+            br 
+            img(src="https://maxcdn.icons8.com/iOS7/PNG/50/Very_Basic/news-50.png" title="News" width="50" style="margin-left: 70px;")
+            span &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; You have not written any article or stories. 
+              a(data-toggle='modal', data-target='#newArticle') Start writing now .
+               
+            br
+            br  
+            
   .dropdown
     button.btn.btn-primary.btn-sm.dropdown-toggle(type='button', data-toggle='dropdown',style=' margin-top:-5px;text-transform: none;background-color: rgb(47, 207, 85);color: white;border-radius: 2px 2px;border-color: rgb(47, 207, 85);') Post New
         span.caret

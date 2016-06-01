@@ -9,12 +9,18 @@ router.get('/:name.story', function (req, res) {
 			  method: 'GET',
 			  json:true
 			};
-	console.log(options.uri);
 	request(options, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
-
-			console.log(body.story.name);
-		  	res.render('story', {sess: req.session,  title: body.story.name + " | Blog ", story:body , follow:1});
+			if(body.story.status==2 || ( req.session.userid>0 && body.story.status==1 && body.story.authorid==req.session.userid ) )
+			{ 
+				res.render('story', {sess: req.session,  title: body.story.name + " | Blog ", story:body , follow:1}); 
+			}
+			else {
+				res.render('404', { title: req.params.name });
+			}	
+		}
+		else {
+			res.render('404', { title: req.params.name });
 		}
 	});	
 });

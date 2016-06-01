@@ -9,7 +9,8 @@ block content
           .col-md-10()
             div 
               span 
-                h5(style='text-transform:uppercase;color: rgb(228, 7, 34);  margin-top: -15px;')  Feminism
+                a(style='color: #CD222D; text-decoration:none; margin-top: 5px;', title=" #{ story.group.name}", href='/#{ story.group.url}.#{ story.group.type}')  
+                  h5(style='text-transform:uppercase;color: rgb(228, 7, 34);  margin-top: -15px;') #{ story.group.name}
             br
             br
             div
@@ -27,8 +28,6 @@ block content
                 |    #{ moment(story.story.blog.timestamp).format("D MMM YYYY")}     
                 i.fa.fa-user
                 a(style='color: rgb(84, 52, 71);', title=" #{ story.author.name}", href='/#{ story.author.url}')  #{ story.author.name}                              
-                i.fa.fa-shield
-                |    Women Empowerment
                 if (sess.userid==story.author.id)
                   a.btn.btn-primary.btn-sm(href="./write?meta=#{story.story.id}", name='submitreport', style=' float:right; text-transform: none; background-color: rgb(47, 207, 85);  border-radius: 4px 4px;  border-color: rgb(47, 207, 85);') Edit Post
               br
@@ -36,7 +35,33 @@ block content
               br
               .articlebody(style='color: #444444;')!=story.story.blog.content
               hr
-         
+              .row(style='margin-top: 10px; margin-bottom: 10px;')
+                span(style='font-size:1.2em; color: rgb(112, 113, 113);')
+                  a(ng-if=" votestatus==1", title='Upvoted', ng-click="activitypost(x.feedmetaid , 1, 'upvote');x.votestatus=0;x.upvotes=x.upvotes-1", style='cursor: pointer; text-decoration: none; color: rgb(30, 175, 77);')
+                    | 4   
+                    i.fa.fa-thumbs-o-up(style="font-size:1.2em;") &nbsp;
+                  a(ng-if=" votestatus!=1", title='Vote-up', ng-click="activitypost(x.feedmetaid , x.votestatus, 'upvote');x.downvote=x.downvote+ x.votestatus;x.votestatus=1;x.upvotes=x.upvotes+1 ", style='cursor: pointer; text-decoration: none; color: rgb(112, 113, 113);')
+                    | 4   
+                    i.fa.fa-thumbs-o-up(style="font-size:1.2em;") &nbsp;
+          
+                span(style=' color:rgb(112, 113, 113);')&nbsp;| 
+    
+                  a(ng-if=" x.votestatus!=-1",title='Vote-down - {{x.downvote}}', ng-click="activitypost(x.feedmetaid ,-x.votestatus , 'downvote');x.upvotes=x.upvotes- x.votestatus;x.downvote=x.downvote+1;x.votestatus=-1;", style='text-decoration: none;cursor: pointer; color: rgb(112, 113, 113);')
+                    | 3
+                    i.fa.fa-thumbs-o-down(style="font-size:1em;") 
+                  a(ng-if=" x.votestatus==-1",title='Downvoted - {{x.downvote}}', ng-click="activitypost(x.feedmetaid , 1, 'downvote');x.votestatus=0; x.downvote=x.downvote-1", style='text-decoration: none;cursor: pointer; color: rgb(245, 70, 49);')
+                    | 3 Use angular here
+                    i.fa.fa-thumbs-o-down(style="font-size:1em;") 
+              
+                
+                span(style="font-size:1.2em; color: rgb(112, 113, 113);float:right;")
+                span &nbsp;
+                  a(href='#commentstage', title='Comment', style='text-decoration: none;cursor: pointer; color: rgb(112, 113, 113);' ) &nbsp; {{x.comment}} &nbsp;
+                    i.fa.fa-comment-o(style="font-size:1em;")
+                span &nbsp;
+                  a(title='Login to Vote-down', data-toggle='modal', data-target='#loginModal', style='text-decoration: none;cursor: pointer; color: rgb(112, 113, 113);') &nbsp; &nbsp;
+                    i.fa.fa-retweet(style="font-size:1em;") 
+              hr        
               .row(style='margin-top: 30px; margin-bottom: 30px;')
                 .col-xs-2
                   a(href="./#{story.author.url}")
@@ -45,7 +70,7 @@ block content
                   b(style='color:rgb(205, 34, 45);') #{story.author.name}
                   br
                   p #{story.authordesc}
-              hr
+                               
           .col-md-4
             div(style=' margin-top: 20px; background-color: #CD222D; padding: 10px;color: white;')
               br
@@ -117,37 +142,63 @@ block content
       document.getElementById("deleteid").value = metaid;
       document.getElementById("commenttodelete").innerHTML = comment;
       }
+      
+      
+      
+      
     // Comment Form
     .container(style='  margin-left:100px')
-      .col-sm-8(style=' margin-top:30px; margin-left:20px')
-        .row(style=' margin-right: 0px;')
-          .col-sm-2
-            if sess.userid>0
-              a(href="./#{sess.userurl}")
-                img(src="#{sess.userimg}", style=' border-radius: 10% 10%; background-color:#949494; height:60px; width:60px;')
-            else
-              a(data-target="#loginModal",data-toggle="modal")
-                img(src="/img/team/user.png", style=' border-radius: 10% 10%; background-color:#949494; height:60px; width:60px;') 
-          form.form-horizontal(action='./forms/comment', style='padding-top:20px;', method='post', onsubmit='submitcomment.disabled = true;')
-            input(type='hidden', name='meta', value='post')
-            input(type='hidden', name='metaid', value="#{story.story.id}")
-            input(type='hidden', name='email', value="#{story.author.email}")
-            input(type='hidden', name='redirect', value="commentstage")
-            .col-sm-10(style='margin-left: -50px; margin-top: -20px;')
-              div(style='border: 1px solid #d9d9d9; background-color:rgb(226, 227, 229); border-radius:5px 5px; height:122px')
-                textarea.form-control(required='', name='comment', placeholder='Add a comment ..', style='height:120px;')
-                div
-                  label(style='margin-left: 20px;font-weight: normal; color: rgb(141, 140, 142);padding-top:7px; cursor: pointer; cursor: hand;')
-                    input(type='checkbox', name='mail', value='yes')
-                    |  Also email the concern person
-                if sess.userid>0
-                  button.btn.btn-primary.btn-sm(type='submit', name='submitcomment', style='margin-top: -30px;float:right; margin-right: 30px; text-transform: none; background-color:rgb(47, 207, 85); border-radius:4px 4px; border-color:rgb(47, 207, 85); ') Post
-                else
-                  a.btn.btn-primary.btn-sm(data-target="#loginModal",data-toggle="modal", name='submitcomment', style='margin-top: -30px;float:right; margin-right: 30px; text-transform: none; background-color:rgb(47, 207, 85); border-radius:4px 4px; border-color:rgb(47, 207, 85); ') Post  
-        br
-        br
+      if (story.story.commentstatus==1)
+        .col-sm-8(style=' margin-top:30px; margin-left:20px')  
+          .row(style=' margin-right: 0px;')
+            .col-sm-2
+              if sess.userid>0
+                a(href="./#{sess.userurl}")
+                  img(src="#{sess.userimg}", style=' border-radius: 10% 10%; background-color:#949494; height:60px; width:60px;')
+              else
+                a(data-target="#loginModal",data-toggle="modal")
+                  img(src="/img/team/user.png", style=' border-radius: 10% 10%; background-color:#949494; height:60px; width:60px;') 
+            form.form-horizontal(action='./forms/comment', style='padding-top:20px;', method='post', onsubmit='submitcomment.disabled = true;')
+              input(type='hidden', name='meta', value='post')
+              input(type='hidden', name='metaid', value="#{story.story.id}")
+              input(type='hidden', name='email', value="#{story.author.email}")
+              input(type='hidden', name='redirect', value="commentstage")
+              .col-sm-10(style='margin-left: -50px; margin-top: -20px;')
+                div(style='border: 1px solid #d9d9d9; background-color:rgb(226, 227, 229); border-radius:5px 5px; height:122px')
+                  textarea.form-control(required='', name='comment', placeholder='Add a comment ..', style='height:120px;')
+                  div
+                    label(style='margin-left: 20px;font-weight: normal; color: rgb(141, 140, 142);padding-top:7px; cursor: pointer; cursor: hand;')
+                      input(type='checkbox', name='mail', value='yes')
+                      |  Also email the concern person
+                  if sess.userid>0
+                    button.btn.btn-primary.btn-sm(type='submit', name='submitcomment', style='margin-top: -30px;float:right; margin-right: 30px; text-transform: none; background-color:rgb(47, 207, 85); border-radius:4px 4px; border-color:rgb(47, 207, 85); ') Post
+                  else
+                    a.btn.btn-primary.btn-sm(data-target="#loginModal",data-toggle="modal", name='submitcomment', style='margin-top: -30px;float:right; margin-right: 30px; text-transform: none; background-color:rgb(47, 207, 85); border-radius:4px 4px; border-color:rgb(47, 207, 85); ') Post  
+         
+      else 
+        .col-sm-8(style=' margin-top:30px; margin-left:20px')  
+          .row(style=' margin-right: 0px;')
+            .col-sm-2
+              if sess.userid>0
+                a(href="./#{sess.userurl}")
+                  img(src="#{sess.userimg}", style=' border-radius: 10% 10%; background-color:#949494; height:60px; width:60px;')
+              else
+                a(data-target="#loginModal",data-toggle="modal")
+                  img(src="/img/team/user.png", style=' border-radius: 10% 10%; background-color:#949494; height:60px; width:60px;') 
+            form.form-horizontal(action='', style='padding-top:20px;', method='post', onsubmit='submitcomment.disabled = true;')
+              .col-sm-10(style='margin-left: -50px; margin-top: -20px;')
+                div(style='border: 1px solid #d9d9d9; background-color:rgb(226, 227, 229); border-radius:5px 5px; height:122px')
+                  textarea.form-control(required='', name='comment', placeholder='Comments are closed ... ', style='height:120px;', disabled )
+                  div
+                    label(style='margin-left: 20px;font-weight: normal; color: rgb(141, 140, 142);padding-top:7px; cursor: pointer; cursor: hand;')
+                      input(type='checkbox', name='mail', value='yes', disabled)
+                      |  Also email the concern person
+                  if sess.userid>0
+                    button.btn.btn-primary.btn-sm(type='submit', name='submitcomment', style='margin-top: -30px;float:right; margin-right: 30px; text-transform: none; background-color:rgb(47, 207, 85); border-radius:4px 4px; border-color:rgb(47, 207, 85); ', disabled) Post
+                  else
+                    a.btn.btn-primary.btn-sm(data-target="#loginModal",data-toggle="modal", name='submitcomment', style='margin-top: -30px;float:right; margin-right: 30px; text-transform: none; background-color:rgb(47, 207, 85); border-radius:4px 4px; border-color:rgb(47, 207, 85); ') Post  
+          
       br
-      
       section#commentstage    
       
     br

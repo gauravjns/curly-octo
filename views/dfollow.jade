@@ -1,4 +1,4 @@
-span
+span(ng-controller = "followController", ng-init="init(#{sess.userid})")
   ul.nav.nav-tabs(role='tablist')
       li.active(role='presentation')
         a(href='#Following', aria-controls='home', role='tab', data-toggle='tab') Following
@@ -13,49 +13,23 @@ span
         a(href='#Events', aria-controls='settings', role='tab', data-toggle='tab') Events, Internship & volunteering
   .tab-content
       #Following.tab-pane.fade.in.active(role='tabpanel')
-        p Search 
-        hr
+        br
         .row
-        .col-md-6
+        .col-md-6(ng-repeat="x in names")
           .panel.panel-default(style="background-color:#FBFFFE")
             .panel-body 
-              a(href="/", title="Gaurav Jain", style="text-decoration:none;" )  
+              a(href="/{{x.url}}", target="_blank", title="{{x.name}}", style="text-decoration:none;" )  
                .row
                  .col-sm-4 
-                   img(src='https://lh5.googleusercontent.com/-TWKoypN_yps/AAAAAAAAAAI/AAAAAAAAAJs/ceo8FfZhatw/photo.jpg', width='80', height='80', style=' border: 2px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')
-                 .col-sm-5(style="font-size:16px; margin-top :5px; margin-left:-20px;") 
-                   #name Gaurav Jain
+                   img(src='{{x.img}}', width='80', height='80', style=' border: 2px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')
+                 .col-sm-8(style="font-size:16px; margin-top :5px; margin-left:-20px;") 
+                   #name {{x.name}}
                    #college
-                     a(href="/sds", style="text-decoration:none; font-size: 11px;color: black;    background-color: #E7E9EA;    border-radius: 2px;") Times of India
-                   #organization 
+                     a( style="text-decoration:none; font-size: 11px;color: black;    background-color: #E7E9EA;    border-radius: 2px;") {{x.college}}                    
+                     a( style="text-decoration:none; font-size: 11px;color: black;    background-color: #E7E9EA;    border-radius: 2px;") {{x.company}}
+                   #organization(ng-if=" x.status==1")
                      a(href="/sds", style="text-decoration:none;font-size:14px;")
                        span.label.label-primary Helpiez Sanghathan
-        .col-md-6
-          .panel.panel-default(style="background-color:#FBFFFE")
-            .panel-body 
-              a(href="/", title="Gaurav Jain", style="text-decoration:none;" )  
-               .row
-                 .col-sm-4 
-                   img(src='https://lh5.googleusercontent.com/-TWKoypN_yps/AAAAAAAAAAI/AAAAAAAAAJs/ceo8FfZhatw/photo.jpg', width='80', height='80', style=' border: 2px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')
-                 .col-sm-5(style="font-size:16px; margin-top :5px; margin-left:-20px;") 
-                   #name Gaurav Jain
-                   #college
-                     a(href="/sds", style="text-decoration:none; font-size: 11px;color: black;    background-color: #E7E9EA;    border-radius: 2px;") Times of India
-                   #organization 
-        .col-md-6
-          .panel.panel-default(style="background-color:#FBFFFE")
-            .panel-body 
-              a(href="/gaurav-jain1", title="Gaurav Jain", style="text-decoration:none;" )  
-               .row
-                 .col-sm-4 
-                   img(src='https://lh5.googleusercontent.com/-TWKoypN_yps/AAAAAAAAAAI/AAAAAAAAAJs/ceo8FfZhatw/photo.jpg', width='80', height='80', style=' border: 2px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')
-                 .col-sm-5(style="font-size:16px; margin-top :5px; margin-left:-20px;") 
-                   #name Gaurav Jain
-                   #college
-                     span( style="text-decoration:none; font-size: 11px;color: black;    background-color: #E7E9EA;    border-radius: 2px;") Times of India
-                   #organization 
-                     a(href="/sds", style="text-decoration:none;font-size:14px;")
-                       span.label.label-success Helpiez Sanghathan                        
         
           
         
@@ -64,52 +38,86 @@ span
       #Followers.tab-pane.fade(role='tabpanel') 
         br
         .row
-        .col-md-6
+        .col-md-6(ng-repeat="x in following")
           .panel.panel-default(style="background-color:#FBFFFE")
             .panel-body 
-              a(href="/", title="Gaurav Jain", style="text-decoration:none;" )  
+              a(href="/{{x.url}}", target="_blank", title="{{x.name}}", style="text-decoration:none;" )  
                .row
                  .col-sm-4 
-                   img(src='https://lh5.googleusercontent.com/-TWKoypN_yps/AAAAAAAAAAI/AAAAAAAAAJs/ceo8FfZhatw/photo.jpg', width='80', height='80', style=' border: 2px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')
-                 .col-sm-5(style="font-size:16px; margin-top :5px; margin-left:-20px;") 
-                   #name Gaurav Jain
+                   img(src='{{x.img}}', width='80', height='80', style=' border: 2px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')
+                 .col-sm-8(style="font-size:16px; margin-top :5px; margin-left:-20px;") 
+                   #name {{x.name}}
                    #college
-                     a(href="/sds", style="text-decoration:none; font-size: 11px;color: black;    background-color: #E7E9EA;    border-radius: 2px;") Times of India
-                   #organization 
+                     a( style="text-decoration:none; font-size: 11px;color: black;    background-color: #E7E9EA;    border-radius: 2px;") {{x.college}}                    
+                     a( style="text-decoration:none; font-size: 11px;color: black;    background-color: #E7E9EA;    border-radius: 2px;") {{x.company}}
+                   #organization(ng-if=" x.status==1")
                      a(href="/sds", style="text-decoration:none;font-size:14px;")
                        span.label.label-primary Helpiez Sanghathan
-        .col-md-6
+        
+          
+      
+      
+      
+      #Organ.tab-pane.fade(role='tabpanel')
+        br
+        .row
+        .col-md-12(ng-repeat="x in nss")
           .panel.panel-default(style="background-color:#FBFFFE")
             .panel-body 
-              a(href="/", title="Gaurav Jain", style="text-decoration:none;" )  
+              a(href="/{{x.url}}.{{x.type}}", target="_blank", title="{{x.name}}", style="text-decoration:none;" )  
                .row
-                 .col-sm-4 
-                   img(src='https://lh5.googleusercontent.com/-TWKoypN_yps/AAAAAAAAAAI/AAAAAAAAAJs/ceo8FfZhatw/photo.jpg', width='80', height='80', style=' border: 2px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')
-                 .col-sm-5(style="font-size:16px; margin-top :5px; margin-left:-20px;") 
-                   #name Gaurav Jain
-                   #college
-                     a(href="/sds", style="text-decoration:none; font-size: 11px;color: black;    background-color: #E7E9EA;    border-radius: 2px;") Times of India
-                   #organization 
-        .col-md-6
+                 .col-sm-3 
+                   img(src='{{x.logo}}', width='80', height='80', style=' border: 2px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')
+                 .col-sm-9(style="font-size:16px; margin-top :5px; margin-left:-20px;") 
+                   #name {{x.name}}
+        
+        
+        .col-md-12(ng-repeat="x in cause")
           .panel.panel-default(style="background-color:#FBFFFE")
             .panel-body 
-              a(href="/gaurav-jain1", title="Gaurav Jain", style="text-decoration:none;" )  
+              a(href="/{{x.url}}.{{x.type}}", target="_blank", title="{{x.name}}", style="text-decoration:none;" )  
                .row
-                 .col-sm-4 
-                   img(src='https://lh5.googleusercontent.com/-TWKoypN_yps/AAAAAAAAAAI/AAAAAAAAAJs/ceo8FfZhatw/photo.jpg', width='80', height='80', style=' border: 2px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')
-                 .col-sm-5(style="font-size:16px; margin-top :5px; margin-left:-20px;") 
-                   #name Gaurav Jain
-                   #college
-                     span( style="text-decoration:none; font-size: 11px;color: black;    background-color: #E7E9EA;    border-radius: 2px;") Times of India
-                   #organization 
-                     a(href="/sds", style="text-decoration:none;font-size:14px;")
-                       span.label.label-success Helpiez Sanghathan  
-      
-      
-      
-      
-      
-      #Organ.tab-pane.fade(role='tabpanel') ...
-      |   
-      #Events.tab-pane.fade(role='tabpanel') ...
+                 .col-sm-3 
+                   img(src='{{x.logo}}', width='80', height='80', style=' border: 2px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')
+                 .col-sm-9(style="font-size:16px; margin-top :5px; margin-left:-20px;") 
+                   #name {{x.name}}
+                            
+        
+        .col-md-12(ng-repeat="x in ngo")
+          .panel.panel-default(style="background-color:#FBFFFE")
+            .panel-body 
+              a(href="/{{x.url}}.{{x.type}}", target="_blank", title="{{x.name}}", style="text-decoration:none;" )  
+               .row
+                 .col-sm-3 
+                   img(src='{{x.logo}}', width='80', height='80', style=' border: 2px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')
+                 .col-sm-9(style="font-size:16px; margin-top :5px; margin-left:-20px;") 
+                   #name {{x.name}}
+                  
+        
+         
+      #Events.tab-pane.fade(role='tabpanel')
+        br
+        .col-md-6(ng-repeat="x in intern")
+          .panel.panel-default(style="background-color:#FBFFFE")
+            .panel-body 
+              a(href="/{{x.url}}.{{x.type}}", target="_blank", title="{{x.name}}", style="text-decoration:none;" )  
+               .row
+                 .col-sm-4(ng-if="x.logo")
+                   img(src='{{x.logo}}', width='80', height='80', style=' border: 2px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')
+                 .col-sm-4(ng-if="!x.logo")
+                   img(src='https://pbs.twimg.com/profile_images/608542809826689024/aIbuzwBj.jpg', width='80', height='80', style=' border: 2px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')
+                 .col-sm-8(style="font-size:16px; margin-top :5px; margin-left:-20px;") 
+                   #name {{x.name}}
+        
+        .col-md-6(ng-repeat="x in volunteering")
+          .panel.panel-default(style="background-color:#FBFFFE")
+            .panel-body 
+              a(href="/{{x.url}}.{{x.type}}", target="_blank", title="{{x.name}}", style="text-decoration:none;" )  
+               .row
+                 .col-sm-4(ng-if="x.logo")
+                   img(src='{{x.logo}}', width='80', height='80', style=' border: 2px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')
+                 .col-sm-4(ng-if="!x.logo")
+                   img(src='https://volunteer.fmsc.org/Register//App_Themes/FMSCTheme/images/Icon-Volunteer.png', width='80', height='80', style='  border-radius:50% 50% 50% 50%; ')
+                 .col-sm-8(style="font-size:16px; margin-top :5px; margin-left:-20px;") 
+                   #name {{x.name}}
         

@@ -8,6 +8,7 @@ var session = require('express-session');// for session management
 var passport= require('passport');// for login
 var FacebookStrategy= require('passport-facebook').Strategy;// for facebook loginn
 var routes = require('./routes/index');
+var forms = require('./routes/forms');
 var apis = require('./routes/api');
 var users = require('./routes/users');
 var post = require('./routes/post');
@@ -15,6 +16,8 @@ var group = require('./routes/group');
 var extras = require('./routes/extras');
 var app = express();
 app.locals.moment = require('moment');
+
+
 // Use the FacebookStrategy within Passport.
 passport.use(new FacebookStrategy({
     clientID: "560837214029174",
@@ -29,7 +32,6 @@ passport.use(new FacebookStrategy({
     });
   }
 ));
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -49,6 +51,7 @@ app.use(passport.session());
 var sess;
 
 app.use('/',routes);
+app.use('/',forms )
 app.use('/',apis);
 app.use('/', extras);//'Extra' routes very fixed pages like about, faq, start
 app.use('/', post);

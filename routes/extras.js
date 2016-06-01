@@ -19,38 +19,7 @@ router.get('/write', function (req, res) {
 	backURL=req.header('Referer') || '/';
 	if (req.query.meta && req.session.userid>0)
 	{
-		if (req.query.meta==-1)
-		{
-			var options = {
-					  uri: 'http://localhost:8080/storys/',
-					  method: 'post',
-					  json: {   
-						    "name": req.query.name,
-						    "type": "story",
-						    "extra": "",
-						    "status": 1,
-						    "groupid": req.query.groupid,
-						    "authorid": req.session.userid,
-						    "commentstatus":1,
-						    "blog": {
-						      "content": " ",
-						      "textextra": "" 
-						    }
-						}
-					};
-			request(options, function (error, response, body) {
-				  if (!error && response.statusCode == 200) {
-				    console.log("story post");
-				    res.redirect('./write?meta='+body)
-				  }
-				  else {
-					res.redirect(backURL);
-				  }
-				});
-		}
-		else {
 		res.render('write', {sess:req.session , title: 'Write Story', storyid:req.query.meta});
-		}
 	}
 	else {
 	res.redirect('/login');	

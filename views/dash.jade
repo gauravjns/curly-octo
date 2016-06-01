@@ -1,9 +1,9 @@
 extends layoutonly
 
 block content
-    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js')
-    script(src='./javascripts/moment.js')
-    script(src="//cdnjs.cloudflare.com/ajax/libs/angular-moment/1.0.0-beta.5/angular-moment.min.js")
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js')
+    script(src='./javascripts/moment.js')  
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.0.0-beta.5/angular-moment.min.js")
     script(src='./javascripts/userdash.js')
     body#page-top.index(ng-app='myapp')
     br
@@ -16,10 +16,10 @@ block content
           .col-md-3.text-justify(style='margin-left:1.6%; border-right: 1px solid #d9d9d9; padding-right:3%')
             .text-center
               a(href="/", title="Home")
-                img(src='http://helpiez.org/img/usersprofile/108.png', style='border-radius:10% 10% ; background-color:#949494; height:140px; width:140px;')
+                img(src='#{sess.userimg}', style='border-radius:10% 10% ; background-color:#949494; height:140px; width:140px;')
               a(title='Change Profile Picture', data-toggle='modal', data-target='#profilePicModal', style='cursor:pointer; position:absolute; margin-left: -82px;margin-top: 113px;')
                 i.fa.fa-camera(style='font-size:1.5em; color:rgba(12,21,25,0.8);')
-              h4(style='text-transform:none;') Gaurav Jain
+              h4(style='text-transform:none;') #{sess.username}
             hr
             ul.list-group(role='tablist', style='margin-top:0px;')
               li.list-group-item.hpanel.active(style='padding: 4px 15px; border-radius: 5px 5px;')
@@ -84,39 +84,40 @@ block content
               a.btn.btn-primary.btn-sm(href='#help', style='text-transform: none; background-color: rgb(255, 255, 255); color:black;  border-radius: 2px 2px;  border-color: rgb(47, 207, 85);', aria-controls='home', role='tab', data-toggle='tab') Need Help
           .col-md-8.col-sm-offset-1.text-justify(style='margin-left:2%; padding-left: 3%; ')
             .tab-content
-              #home.tab-pane(role='tabpanel')
+              #home.tab-pane.active(role='tabpanel')
                 include dfeed.jade
               #article.tab-pane(role='tabpanel')
                 h5(style="color:#777;") Stories
-                  a.btn.btn-primary.btn-sm(href='/', style=" margin-top:-5px;text-transform: none;background-color: rgb(47, 207, 85);color: white;border-radius: 2px 2px;float: right;border-color: rgb(47, 207, 85);") New Article
+                  a.btn.btn-primary.btn-sm( data-toggle='modal', data-target='#newArticle', style=" margin-top:-5px;text-transform: none;background-color: rgb(47, 207, 85);color: white;border-radius: 20px 20px;float: right;border-color: rgb(47, 207, 85);") New Article
                 br
                 include darticles.jade
               #participate.tab-pane(role='tabpanel')
-                .panel.panel-success
-                  .panel-heading Events,Voulunteering and Internships 
-                    a.btn.btn-primary.btn-sm(href='/', style=" margin-top:-5px;text-transform: none;background-color: white;color: black;border-radius: 20px 20px;float: right;border-color: rgb(47, 207, 85);") Apply Now  
-                  .panel-body 
-                    include dparticipate.jade
+                h5(style="color:#777; text-transform:none;") Events, Volunteering & Internships 
+                  a.btn.btn-primary.btn-sm(href='/', style=" margin-top:-5px;text-transform: none;background-color:rgb(47, 207, 85);color: white;border-radius: 20px 20px;float: right;border-color: rgb(47, 207, 85);") Apply Now  
+                br
+                include dparticipate.jade
               #campaign.tab-pane(role='tabpanel')
-                h5 campaign
+                h5(style="color:#777;") campaign
                 hr
-                include dcampaign.jade
+                span(ng-controller = "campController", ng-init="init(#{sess.userid})")
+                  include dcampaign.jade
               #organization.tab-pane(role='tabpanel')
-                h5 organization
+                h5(style="color:#777;") organization
                 hr
-                include dorganization.jade
-              #notification.tab-pane.active(role='tabpanel')
-                h5 notification
+                span(ng-controller = "orgController", ng-init="init(#{sess.userid})")
+                  include dorganization.jade
+              #notification.tab-pane(role='tabpanel')
+                h5(style="color:#777;") notification
                 hr
                 include dnotification.jade
               #setting.tab-pane(role='tabpanel')
-                h5 setting
+                h5(style="color:#777;") setting
                 hr
                 include dsetting.jade
               #connection.tab-pane(role='tabpanel')
                 include dfollow.jade
               #help.tab-pane(role='tabpanel')
-                h5 help
+                h5(style="color:#777;") help
                 hr
                 include dhelp.jade
                 
@@ -126,20 +127,15 @@ block content
         .modal-content(style='border-radius:0px;')
           .modal-body
             button.close(type='button', data-dismiss='modal', aria-label='Close')
-              span(aria-hidden='true') &times;
-            |               
+              span(aria-hidden='true') &times;          
             h4.modal-title(style='color:#CD222D; text-align:center;') Change Picture
-            |               
-            br
-            |               
+            br              
             .text-center
-              img(src='http://helpiez.org/img/usersprofile/108.png', width='180', height='180', style='padding: 3px; border: 1px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')
-            |               
-            form.form-horizontal(action='php/profilePic.php', style='padding-top:20px;', method='post', enctype='multipart/form-data')
+              img(src='#{sess.userimg}', width='180', height='180', style='padding: 3px; border: 1px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')              
+            form.form-horizontal(action='/forms/upload/image', style='padding-top:20px;', method='post', enctype='multipart/form-data')
               .form-group
                 .text-center
-                  input(required='', type='file', name='myfile', accept='image/*', style='padding-left:17%;')
-              |                 
+                  input(required='', type='file', name='profilepic', accept='image/*', style='padding-left:17%;')              
               .form-group
                 .text-center
                   button.btn.btn-primary(type='submit') Update

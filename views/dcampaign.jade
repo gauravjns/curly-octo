@@ -1,64 +1,46 @@
-.div#orgpanel
-  .row(style="background-color:#FBFFFE")
-    .col-lg-12(style="background-image:  url(http://helpiez.org/img/adminpage.jpg); height:200px; border-radius: 10px 10px 0px 0px; ")      
-      .text-center
-        h3(style="text-transform:none; color: white;margin-top: 160px;") Helpiez Sanghthan
-  .row(style="height:200px; ")
-    .col-sm-4(style="padding-left:0px ")
-      .list-group
-         button.list-group-item(type='button') 
-           i.fa.fa-home(style='font-size:1.2em; ')
-           |&nbsp; &nbsp;Home
-           span.badge(style='background-color:#CCCCCC;text-align:right; float : right; ') 1
-         button.list-group-item(type='button')
-           i.fa.fa-sticky-note-o(style='font-size:1.2em; ')
-           |&nbsp; &nbsp;Stories
-           span.badge(style='background-color:#CCCCCC;text-align:right; float : right; ') 2
-         button.list-group-item(type='button')
-           i.fa.fa-user-plus(style='font-size:1.2em; ')
-           |&nbsp; &nbsp;Members
-           span.badge(style='background-color:#CCCCCC;text-align:right; float : right; ') 3
-         button.list-group-item(type='button')
-           i.fa.fa-heartbeat(style='font-size:1.2em; ')
-           |&nbsp; &nbsp;Programs
-           span.badge(style='background-color:#CCCCCC;text-align:right; float : right; ') 4
-         button.list-group-item(type='button' style="border-radius: 0px 0px 0px 10px;")
-           i.fa.fa-wrench(style='font-size:1.2em; ')
-           |&nbsp; &nbsp; Administration
-           span.badge(style='background-color:#CCCCCC;text-align:right; float : right; ') 3
+span(ng-repeat="x in camppanel")
+  .div#orgpanel
+    .row(style="background-color:#FBFFFE")
+      .col-lg-12(style="background-image:  url({{x.group.banner}}); height:200px; border-radius: 10px 10px 0px 0px; ")      
+        .text-center
+          h3(style="text-transform:none; color: white;margin-top: 160px;") {{ x.group.name | limitTo: 50 }}{{x.group.name.length > 50 ? '...' : ''}}
+    .row(style="height:200px; ")
+      .col-sm-4(style="padding-left:0px ")
+        .list-group
+           a.list-group-item(type='button', href="/{{x.group.url}}.run", target="_blank") 
+             i.fa.fa-home(style='font-size:1.2em; ')
+             |&nbsp; &nbsp;Home
+             span.badge(style='background-color:#CCCCCC;text-align:right; float : right; ' ,ng-if="x.home>1") {{x.home}}
+           a.list-group-item(type='button', href="/{{x.group.url}}.run", target="_blank")
+             i.fa.fa-copy(style='font-size:1.2em; ')
+             |&nbsp; &nbsp;Stories
+             span.badge(style='background-color:#CCCCCC;text-align:right; float : right; ',ng-if="x.stories>1") {{x.stories}}
+           a.list-group-item(type='button', href="/{{x.group.url}}.run", target="_blank")
+             i.fa.fa-smile-o(style='font-size:1.2em; ')
+             |&nbsp; &nbsp;Members
+             span.badge(style='background-color:#CCCCCC;text-align:right; float : right; ',ng-if="x.member>1") {{x.member}}
+           a.list-group-item(type='button', href="/{{x.group.url}}.run", target="_blank")
+             i.fa.fa-calendar-check-o(style='font-size:1.2em; ')
+             |&nbsp; &nbsp;Programs
+             span.badge(style='background-color:#CCCCCC;text-align:right; float : right; ',ng-if="x.program>1") {{x.program}}
+           a.list-group-item(type='button' style="border-radius: 0px 0px 0px 10px;", href="/{{x.group.url}}.run", target="_blank")
+             i.fa.fa-wrench(style='font-size:1.2em; ')
+             |&nbsp; &nbsp; Administration
+             span.badge(style='background-color:#CCCCCC;text-align:right; float : right; ',ng-if="x.setting>1") {{x.setting}}
        
             
-    .col-sm-8(style="padding-left: 0px;     border-right: 1px solid #ddd;    border-radius: 0px 0px 10px; ")
-      hr(style="margin-top: 1px;    margin-bottom: 1px;")
-      .row( style='background-color:#FBFFFE; margin-top:1px')
-        a(href='/', style='font-weight: normal; letter-spacing: normal;  color: #555; white-space: normal;  padding: initial;')
-          .col-xs-1
-            img( src='https://lh5.googleusercontent.com/-TWKoypN_yps/AAAAAAAAAAI/AAAAAAAAAJs/ceo8FfZhatw/photo.jpg', width='48', height='48', style='border: 1px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')
-          .col-xs-11(style=' padding-left: 30px; font-size: 12px') Gaurav Jain w back user by Gaurav Jain w back user by clicking on the follow button on user profile.
-            div(style='float:right;font-size: 80%;  margin-top: 10px; color: rgb(150,150,150);') 9 months ago
-      hr(style="margin-top: 1px;    margin-bottom: 1px;")
-      .row( style='background-color:#FBFFFE;')
-        a(href='/', style='font-weight: normal; letter-spacing: normal;  color: #555; white-space: normal;  padding: initial;')
-          .col-xs-1
-            img( src='https://lh5.googleusercontent.com/-TWKoypN_yps/AAAAAAAAAAI/AAAAAAAAAJs/ceo8FfZhatw/photo.jpg', width='48', height='48', style='border: 1px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')
-          .col-xs-11(style=' padding-left: 30px; font-size: 12px') Gaurav Jain w back user by Gaurav Jain w back user by clicking on the follow button on user profile.
-            div(style='float:right;font-size: 80%;  margin-top: 10px; color: rgb(150,150,150);') 9 months ago
-      hr(style="margin-top: 1px;    margin-bottom: 1px;")
-      .row( style='background-color:#FBFFFE;')
-        a(href='/', style='font-weight: normal; letter-spacing: normal;  color: #555; white-space: normal;  padding: initial;')
-          .col-xs-1
-            img( src='https://lh5.googleusercontent.com/-TWKoypN_yps/AAAAAAAAAAI/AAAAAAAAAJs/ceo8FfZhatw/photo.jpg', width='48', height='48', style='border: 1px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')
-          .col-xs-11(style=' padding-left: 30px; font-size: 12px') Gaurav Jain w back user by Gaurav Jain w back user by clicking on the follow button on user profile.
-            div(style='float:right;font-size: 80%;  margin-top: 10px; color: rgb(150,150,150);') 9 months ago
-      hr(style="margin-top: 1px;    margin-bottom: 1px;")
-      .row( style='background-color:#FBFFFE;')
-        a(href='/', style='font-weight: normal; letter-spacing: normal;  color: #555; white-space: normal;  padding: initial;')
-          .col-xs-1
-            img( src='https://lh5.googleusercontent.com/-TWKoypN_yps/AAAAAAAAAAI/AAAAAAAAAJs/ceo8FfZhatw/photo.jpg', width='48', height='48', style='border: 1px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')
-          .col-xs-11(style=' padding-left: 30px; font-size: 12px') Gaurav Jain w back user by Gaurav Jain w back user by clicking on the follow button on user profile.
-            div(style='float:right;font-size: 80%;  margin-top: 10px; color: rgb(150,150,150);') 9 months ago  
-      hr(style="margin-top: 1px;    margin-bottom: 1px;")
+      .col-sm-8(style="padding-left: 0px;     border-right: 1px solid #ddd;    border-radius: 0px 0px 10px; ")
+        span(ng-repeat="y in x.actvity")
+          hr(style="margin-top: 1px;    margin-bottom: 1px;")
+          .row( style='background-color:#FBFFFE; margin-top:1px')
+            a( href="/{{x.group.url}}.run", target="_blank" style='font-weight: normal; letter-spacing: normal;  color: #555; white-space: normal;  padding: initial;')
+              .col-xs-1
+                img( src='{{y.image}}', width='48', height='48', style='border: 1px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')
+              .col-xs-11(style=' padding-left: 30px; font-size: 12px') {{ y.text | limitTo: 130 }}{{y.text.length > 130 ? '...' : ''}}
+                div(style='float:right;font-size: 80%;  margin-top: 10px; color: rgb(150,150,150);', am-time-ago="y.timestamp ") 
+      
+        hr(style="margin-top: 1px;    margin-bottom: 1px;")
   
-br
-br      
-hr(style=" width: 700px;")
+  br
+  br      
+  hr(style=" width: 700px;")

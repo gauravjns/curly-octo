@@ -24,6 +24,45 @@ span(ng-controller = "articleController", ng-init="init(#{sess.userid})")
               span.label.label-success(ng-if=" x.story.commentstatus==1") Allowed 
               span.label.label-danger(ng-if=" x.story.commentstatus==2") Disabled 
           td {{x.story.timestamp | date:'dd MMM yy'}}
+        tr(ng-if=" names.length==0") 
+          td(colspan="5")  
+            br 
+            img(src="https://maxcdn.icons8.com/iOS7/PNG/50/Very_Basic/news-50.png" title="News" width="50" style="margin-left: 70px;")
+            span &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; You have not written any article or stories. 
+              a(data-toggle='modal', data-target='#newArticle') Start writing now .
+               
+            br
+            br
+            
+              
+  #newArticle.modal.fade(style='display: none;', aria-hidden='true')
+      .modal-dialog.modal-md
+        .modal-content(style='border-radius:0px;')
+          .modal-body
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') &times;          
+            h4.modal-title(style='color:#CD222D; text-align:center; text-transform: none;') Create new article or story 
+            br              
+            form.form-horizontal(action='/forms/write', style='padding-top:20px;', method='post')
+              .form-group
+                label.col-sm-3.control-label Title :      
+                .col-sm-9
+                  input.form-control( name='name', required='', placeholder='Enter title of your Article or Story ')
+             
+      
+              .form-group
+                label.col-sm-3.control-label Posting for : 
+                .col-sm-9
+                  select.form-control(name='groupid')
+                    option( ng-repeat="y in groups", value='{{y.id}},{{y.banner}}') {{y.name}}               
+                   
+                                
+              .form-group
+                .text-center
+                  button.btn.btn-primary(type='submit') Submit
+        
+     
+
 //
   .text-center
     ul.pagination
@@ -37,6 +76,5 @@ span(ng-controller = "articleController", ng-init="init(#{sess.userid})")
         li
           a(href='#', aria-label='Next')
             span(aria-hidden='true') &raquo;
-  
-   
-          
+            
+     

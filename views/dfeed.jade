@@ -1,3 +1,56 @@
+.row#feed(style="margin-left:10px;", ng-controller = "feedController", ng-init="init(#{sess.userid})")
+  .col-md-8(infinite-scroll='feed.nextPage()', infinite-scroll-disabled='feed.busy', infinite-scroll-distance='1')
+    span(ng-repeat="x in feed.items")
+      .row#1
+        a(href="{{x.url}}" style="text-decoration: none;color: #383636;" target="_blank")
+          h4(style="text-transform:none;font-size: 19px;margin-left:-5px;") {{x.title}}
+          img(src="{{x.media}}" style="width:480px;margin-top:5px;")        
+          p {{x.body}}
+        span(style='font-size:1.2em; color: rgb(112, 113, 113);')
+          a(ng-if=" x.votestatus==1", title='Upvoted', ng-click="activitypost(x.feedmetaid , 1, 'upvote');x.votestatus=0;x.upvotes=x.upvotes-1", style='cursor: pointer; text-decoration: none; color: rgb(30, 175, 77);')
+            | {{x.upvotes}}   
+            i.fa.fa-thumbs-o-up(style="font-size:1.2em;") &nbsp;
+          a(ng-if=" x.votestatus!=1", title='Vote-up', ng-click="activitypost(x.feedmetaid , x.votestatus, 'upvote');x.downvote=x.downvote+ x.votestatus;x.votestatus=1;x.upvotes=x.upvotes+1 ", style='cursor: pointer; text-decoration: none; color: rgb(112, 113, 113);')
+            | {{x.upvotes}}   
+            i.fa.fa-thumbs-o-up(style="font-size:1.2em;") &nbsp;
+          
+          span(style=' color:rgb(112, 113, 113);')&nbsp;| 
+    
+          a(ng-if=" x.votestatus!=-1",title='Vote-down - {{x.downvote}}', ng-click="activitypost(x.feedmetaid ,-x.votestatus , 'downvote');x.upvotes=x.upvotes- x.votestatus;x.downvote=x.downvote+1;x.votestatus=-1;", style='text-decoration: none;cursor: pointer; color: rgb(112, 113, 113);')
+            i.fa.fa-thumbs-o-down(style="font-size:1em;") 
+          a(ng-if=" x.votestatus==-1",title='Downvoted - {{x.downvote}}', ng-click="activitypost(x.feedmetaid , 1, 'downvote');x.votestatus=0; x.downvote=x.downvote-1", style='text-decoration: none;cursor: pointer; color: rgb(245, 70, 49);')
+            i.fa.fa-thumbs-o-down(style="font-size:1em;") 
+              
+          a(href='{{x.userurl}}',style='font-size: x-small; color: rgb(112, 113, 113); margin-left:15px; text-decoration:none;', title ='{{x.username}}')  
+              img( src='{{x.userimg}}', width='25', height='25', style='margin-top:-10px; border: 0.5px solid #b0b0b0; border-radius:50% 50% 50% 50%; background-color:#A0A0A0;')   
+              span(am-time-ago="x.timestamp " style="margin-left:4px;")
+        span(style="font-size:1.2em; color: rgb(112, 113, 113);float:right;")
+          span &nbsp;
+          a(href='{{x.url}}#commentstage', title='Comment', style='text-decoration: none;cursor: pointer; color: rgb(112, 113, 113);', target='_blank', ) &nbsp; {{x.comment}} &nbsp;
+            i.fa.fa-comment-o(style="font-size:1em;")
+          span &nbsp;
+          a(title='Login to Vote-down', data-toggle='modal', data-target='#loginModal', style='text-decoration: none;cursor: pointer; color: rgb(112, 113, 113);') &nbsp; &nbsp;
+            i.fa.fa-retweet(style="font-size:1em;")
+      hr  
+
+
+  .col-md-3 
+    .dropdown(style="margin-left: 50px;position: fixed;margin-top: 25px;")
+      button.btn.btn-primary.dropdown-toggle(type='button', data-toggle='dropdown',style='text-transform: none;background-color:white;color: black;border-radius: 2px 2px;border-color: rgb(47, 207, 85);')
+          span 
+            i.fa.fa-plus &nbsp;Add New&nbsp;
+          span.caret
+        ul.dropdown-menu
+          li
+            a(href='#') Image
+          li
+            a(href='#') Message
+          li
+            a(href='#') Article
+            
+
+
+
 .row#feed(style="margin-left:10px;")
   .col-md-8
     .row#1
@@ -126,19 +179,5 @@
     hr
     
     
-  .col-md-3 
-    .dropdown(style="margin-left: 50px;position: fixed;margin-top: 25px;")
-      button.btn.btn-primary.dropdown-toggle(type='button', data-toggle='dropdown',style='text-transform: none;background-color:white;color: black;border-radius: 2px 2px;border-color: rgb(47, 207, 85);')
-          span 
-            i.fa.fa-plus &nbsp;Add New&nbsp;
-          span.caret
-        ul.dropdown-menu
-          li
-            a(href='#') Image
-          li
-            a(href='#') Message
-          li
-            a(href='#') Article
-            
    
     

@@ -2,6 +2,8 @@ extends layout
 
 block content
   script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js')
+  script(src='./javascripts/moment.js') 
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.0.0-beta.5/angular-moment.min.js")
   script(src='./javascripts/write.js')
   script(src='./javascripts/ckeditor/ckeditor.js')
   script(src='./javascripts/moment.js')
@@ -34,48 +36,66 @@ block content
                     
         
         .col-xs-2(style='background-color:#EAF2F4; margin-top:2em; margin-left:-100px')
-          h5.text-center Status
-          |                     
+          h6.text-center(style="text-transform:none;") Status - {{statustext}}        
           .form-group
-            .col-sm-12(style='  margin-top: -10px;  margin-left: -13px;')
+            .col-sm-12(style='  margin-top: -7px;  margin-left: -13px;')
               span(style='font-size:10px;')
-                | Status: 
-                span#status(style='font-size: 12px; color: #4F497B;' ng-bind="time")  
+                | Saved: 
+                span(style='font-size: 12px; color: #4F497B;' am-time-ago="story.timestamp" )  
               br
               span(style='font-size:10px;')
-                | URL: 
-                span#status(style='font-size: 12px; color: #4F497B;' ng-bind="url")
+                | Link:  
+                a(href='.{{url}}',target="_blank", style='font-size: 12px; color: #4F497B;' ) {{ url | limitTo: 16 }}{{url.length > 16 ? '..' : ''}}
               br
               span(style='font-size:10px;')
                 | For : 
-                span#status(style='font-size: 12px; color: #4F497B;' ng-bind="parent")  
+                a(href='./{{group.url}}.{{group.type}}',target="_blank", style='font-size: 12px; color: #4F497B;' ) {{ group.name | limitTo: 30 }}{{group.name.length > 30 ? '..' : ''}}
             br                            
             br                             
-            .form-group
-              .col-sm-12
-                a.btn.btn-primary.btn-sm( target="_blank" href=".{{url}}"  style='  text-transform: none;background-color: rgb(117, 148, 244);border-radius: 4px 4px;border-color: rgb(117, 148, 244);margin-top: 15px;margin-bottom: 10px;margin-left: 35px;') Preview             
+            
         .col-xs-2(style='background-color:#EAF2F4; margin-top:2em; margin-left:-100px')
-          h5.text-center Featured Image
-          |                      
-          form.form-group(action='php/userBackImage.php', style='padding-top:20px;', method='post', enctype='multipart/form-data')
-            .form-group
-              div(style='margin-left: -13px;')
-                input(size="60", required='', type='file', name='myfile', accept='image/*', style='margin-left:0px;')
-            |                         
-            .form-group
-              .col-sm-12.text-center
-                button.btn.btn-primary.btn-sm(type='submit', name='submitimg', style='  text-transform: none;background-color:  rgb(47, 207, 85);   border-radius: 4px 4px;border-color: rgb(47, 207, 85);') Upload
+          h6.text-center(style="text-transform:none;") Featured Image
+          a(title='Change Featured Picture', data-toggle='modal', data-target='#picChangeModal', style='cursor:pointer;')
+            img(src='{{story.featuredimage}}', style='border-radius:2% 2% ; background-color:#949494; height:120px; width:170px;')
+          .text-center
+            a(title='Change Featured Picture', data-toggle='modal', data-target='#picChangeModal', style='cursor:pointer;')
+              i.fa.fa-image(style='font-size:1.5em; color:rgba(12,21,25,0.8);')                      
+          
         .col-xs-2(style='background-color:#EAF2F4; margin-top:2em; margin-left:-100px')
-          h5.text-center Publish
+          h6.text-center(style="text-transform:none;") Publish
           |                      
           input( type="checkbox", ng-model="commentstatus" ng-checked="commentstatus" )
           span       Allow comments
           br
+          input( type="checkbox", ng-model="status" ng-checked="status" )
+          span       Publish or Push Live 
+          br
           br 
           
           .col-sm-6
-              button.btn.btn-primary.btn-sm(type='submit', style='text-transform: none; background-color: rgb(47, 207, 85);  border-radius: 4px 4px;  border-color: rgb(47, 207, 85);', name='submitreport' ng-click="savestory()") Save
-            |                             
+            a.btn.btn-primary.btn-sm( target="_blank" href=".{{url}}"  style='  text-transform: none;background-color: rgb(117, 148, 244);border-radius: 4px 4px;border-color: rgb(117, 148, 244);') Preview                                          
           .col-sm-6
-              button.btn.btn-primary.btn-sm(type='submit', name='submitreport', style='  text-transform: none; background-color: rgb(47, 207, 85);  border-radius: 4px 4px;  border-color: rgb(47, 207, 85);') Publish
-            | 
+            button.btn.btn-primary.btn-sm(type='submit', style='text-transform: none; background-color: rgb(47, 207, 85);  border-radius: 4px 4px;  border-color: rgb(47, 207, 85);', name='submitreport' ng-click="savestory()") Save
+    
+    
+    
+      #picChangeModal.modal.fade(style='display: none;', aria-hidden='true')
+        .modal-dialog.modal-md
+          .modal-content(style='border-radius:0px;')
+            .modal-body
+              button.close(type='button', data-dismiss='modal', aria-label='Close')
+                span(aria-hidden='true') &times;          
+              h4.modal-title(style='color:#CD222D; text-align:center;') Change Picture
+              br              
+              .text-center
+                img(src='{{story.featuredimage}}', width='480', height='280', style=' border: 1px solid #b0b0b0; ')              
+              form.form-horizontal(action='/forms/image/story', style='padding-top:20px;', method='post', enctype='multipart/form-data')
+                .form-group
+                  .text-center
+                    input(required='', type='file', name='profilepic', accept='image/*', style='padding-left:34%;')
+                    input(type='hidden', name='storyid', value='{{story.id}}')
+                    input(type='hidden', name='blogid', value='{{story.blogid}}')                    
+                .form-group
+                  .text-center
+                    button.btn.btn-primary(type='submit') Update
+        
