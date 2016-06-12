@@ -20,7 +20,7 @@ router.get('/api/story/:id', function(req, res, next) {
 // Groups plus cause for user
 router.get('/api/groups/pluscause/', function(req, res, next) {
 	var options = {
-			  uri: 'http://localhost:8080/groups/pluscause/'+req.session.userid,
+			  uri: 'http://localhost:8080/groups/allpluscause/'+req.session.userid,
 			  method: 'GET',
 			  json:true
 			};

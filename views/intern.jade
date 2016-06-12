@@ -1,32 +1,33 @@
 extends layout
 
 block content
-    header#ngocause-1(style=' height: 378px; background-image: url(./images/meta/internbanner.jpg);')
+    header#ngocause-1(style='background-image: linear-gradient(to bottom, transparent 0%, transparent 30%, rgba(0,0,0,0.7) 100%),url(#{intern.events.image});  height: 378px;')
       .container
         .intro-text
           .text-center
-            //a(title='Change Background Image', data-toggle='modal', data-target='#opportunityPicModal', style='cursor:pointer; position:absolute; margin-top:-40px; margin-left:-15px;')
-              //i.fa.fa-camera(style='font-size:2em; color:rgba(171, 171, 171, 1);')
-          .intro-lead-in(style='margin-bottom:25px; text-shadow: 3px 3px 10px black; ') Team Leader
+            if (sess.userid==intern.events.authorid)
+              a(title='Change Background Image', data-toggle='modal', data-target='#opportunityPicModal', style='cursor:pointer; position:absolute; margin-top:-40px; margin-left:-15px;')
+                i.fa.fa-camera(style='font-size:2em; color:rgba(171, 171, 171, 1);')
+          .intro-lead-in(style='margin-bottom:25px; text-shadow: 3px 3px 10px black; ') #{intern.events.name}
           
           if sess.userid>0 && follow == 1
             .intro-lead-in(style='margin-bottom:0px; margin-top:-20px;')
               span.fa-stack(style='font-size:0.65em;')
-                a(href='./forms/unfollow/post/#{intern.id}', title='You like #{intern.name}', onclick='this.disabled=true;')
+                a(href='./forms/unfollow/post/#{intern.events.id}', title='You like #{intern.events.name}', onclick='this.disabled=true;')
                   i.fa.fa-circle.fa-stack-2x.text-primary                         
                   i.fa.fa-heart-o.fa-stack-1x.fa-inverse
             div(style='color:rgba(207, 73, 73, 0.8);font-size: 0.9em;font-family: Montserrat,Helvetica,Arial,sans-serif;') LIKED
           if sess.userid>0 && follow < 1
             .intro-lead-in(style='margin-bottom:0px; margin-top:-20px;')
               span.fa-stack(style='font-size:0.65em;')
-                a(href='./forms/follow/post/#{intern.id}', title='Like #{intern.name}', onclick='this.disabled=true;')
+                a(href='./forms/follow/post/#{intern.events.id}', title='Like #{intern.events.name}', onclick='this.disabled=true;')
                   i.fa.fa-circle.fa-stack-2x.text-primary(style='color:rgba(207, 73, 73, 0.6);')
                   i.fa.fa-heart-o.fa-stack-1x.fa-inverse                                 
             div(style='color:rgba(207, 73, 73, 0.8);font-size: 0.9em;font-family: Montserrat,Helvetica,Arial,sans-serif;') LIKE
           if !sess.userid   
             .intro-lead-in(style='margin-bottom:0px; margin-top:-20px;')
               span.fa-stack(style='font-size:0.65em;')
-                a(data-toggle='modal', data-target='#loginModal', title='Login to Like #{intern.name}', style='cursor:pointer;')
+                a(data-toggle='modal', data-target='#loginModal', title='Login to Like #{intern.events.name}', style='cursor:pointer;')
                   i.fa.fa-circle.fa-stack-2x.text-primary(style='color:rgba(207, 73, 73, 0.6);')
                   i.fa.fa-heart-o.fa-stack-1x.fa-inverse
             div(style='color:rgba(207, 73, 73, 0.8);font-size: 0.9em;font-family: Montserrat,Helvetica,Arial,sans-serif;') LIKE
@@ -34,69 +35,291 @@ block content
     // Section
     section(style='padding: 50px 0;')
       .container(style='margin-top:12px;')
-        .row
-          h2.text-center(style='margin-top:0px;')
-            //a.btn.btn-danger(href='./manage.php?id=95', style='margin-top:15px;')
-              //| Manage  
-              //i.fa.fa-cog(style='color:#fff;')
         .row.col-sm-offset-1
           .col-sm-8.text-justify(style='border: 1px solid #d9d9d9; padding:30px 40px; background-color:#fefefd;')
-            p #{intern.description}
+            p #{intern.events.description}
             br
             .row
               .col-sm-6(style='padding:0px;')
                 h4(style='color:#bb3333; text-transform:none;') When
                 i.fa.fa-calendar.fa-3x.col-sm-2(style='color:#10AB3B;')
                 p.col-sm-10
-                  |  #{ moment(intern.starttime).format("D MMM YYYY")}
+                  |  Starting from : #{ moment(intern.events.starttime).format("D MMM YYYY")}
                   br
-                  | #{intern.duration}
+                  | Time period : #{intern.events.duration}
               .col-sm-6(style='padding:0px;')
                 h4(style='color:#bb3333; text-transform:none;') Where
                 i.fa.fa-map-marker.fa-3x.col-sm-2(style='color:#0C94A1;')
                 p.col-sm-10
-                  | #{intern.location}
+                  | #{intern.events.location}
             .row
-              .col-sm-6(style='padding:0px;')
-                h4(style='color:#bb3333; text-transform:none;') Cause Areas
-                p.col-sm-10
-                  | Community Development
               .col-sm-6(style='padding:0px;')
                 h4(style='color:#bb3333; text-transform:none;') Reimbursement
                 p.col-sm-10
-                  | #{intern.salary}
+                  | #{intern.events.salary}
+              .col-sm-6(style='padding:0px;')
+                h4(style='color:#bb3333; text-transform:none;') Certificate 
+                p.col-sm-10
+                  | #{intern.events.certificate}
             .row
               .col-sm-6(style='padding:0px;')
                 h4(style='color:#bb3333; text-transform:none;') Qualification
                 p.col-sm-10
-                  | #{intern.qualification}
+                  | #{intern.events.qualification}
               .col-sm-6(style='padding:0px;')
                 h4(style='color:#bb3333; text-transform:none;') Requirements
                 p.col-sm-10
-                  | #{intern.required}
+                  | #{intern.events.required}
             .row
               .col-sm-6(style='padding:0px;')
-                h4(style='color:#bb3333; text-transform:none;') Deadline
+                h4(style='color:#bb3333; text-transform:none;') Type
                 p.col-sm-10
-                  | #{ moment(intern.deadline).format("D MMM YYYY")}
-              .col-sm-6.mainSearchFullSize(style='padding:0px;')
-                h3
-                  h4 Deadline Passed
+                  | #{intern.events.virtual}
+              .col-sm-6(style='padding:0px;')
+                //h4(style='color:#bb3333; text-transform:none;') Deadline
+                if (apply==0)
+                  a.btn.btn-primary.btn-sm( data-toggle='modal', data-target='#opportunityApplyModal',style=' text-transform: none; background-color: rgb(47, 207, 85);  border-radius: 4px 4px;  border-color: rgb(47, 207, 85);margin-left:10px;margin-top: 20px;') Apply now &nbsp;
+                    i.fa.fa-hand-paper-o(style='color:#fff;') 
+                  br
+                  p
+                  | Apply before : #{ moment(intern.events.deadline).format("D MMM YY")}
+                if (apply>0)
+                  a.btn.btn-primary.btn-sm( disabled,style=' text-transform: none; background-color: rgb(9, 91, 179);  border-radius: 4px 4px;  border-color: rgb(9, 91, 179);margin-left:10px;margin-top: 20px;') Applied &nbsp;
+                    i.fa.fa-hand-paper-o(style='color:#fff;') 
+                if (apply==-1)
+                  a.btn.btn-primary.btn-sm( data-toggle='modal', data-target='#loginModal',style=' text-transform: none; background-color: rgb(47, 207, 85);  border-radius: 4px 4px;  border-color: rgb(47, 207, 85);margin-left:10px;margin-top: 20px;' title="Login to apply") Apply now &nbsp;
+                    i.fa.fa-hand-paper-o(style='color:#fff;') 
+                  br
+                  p
+                  | Apply before : #{ moment(intern.events.deadline).format("D MMM YY")}
+                  
           .container.col-sm-2.text-center(style='margin-left:30px;')
-            h2
-              h4 Deadline Passed
+            if (sess.userid==intern.events.authorid)
+              if(intern.events.status==1)
+                span.label.label-danger(title="Only visible to you | Make Live by clicking manage button ") Draft   
+              if(intern.events.status==2)
+                span.label.label-primary(title="Anybody can view and apply") Live   
+              
+              a.btn.btn-primary.btn-sm(href="./manage?meta=#{intern.events.id}",style=' text-transform: none; background-color: rgb(47, 207, 85);  border-radius: 4px 4px;  border-color: rgb(47, 207, 85); margin-top:10px;') Manage Post  
+                i.fa.fa-cog(style='color:#fff;')  
+            br
+            br
+            p Internship by : 
+            if intern.group.logo && !intern.group.url==""
+              a(href='/#{intern.group.url}.#{intern.group.type}', title='#{intern.group.name}| #{intern.group.type}')
+                img(src='#{intern.group.logo}', width='120', height='90', style='padding: 1px; border: 1px solid #b0b0b0;')
             p.text-muted
-              a(href='/helpiez-sangthan_367', style='color:#30a5b6;', title='Helpiez Sangathan') Helpiez Sangathan
+              a(href='/#{intern.group.url}.#{intern.group.type}', style='color:#30a5b6;', title='#{intern.group.name}') #{intern.group.name}
             p
-              | Posted By 
-              a(href='./Helpiez-Sangthan_108u', title='Helpiez Sangathan')
-                img(src='http://helpiez.org/img/usersprofile/108.png', width='90', height='90', style='padding: 3px; border: 1px solid #b0b0b0; border-radius:50% 50% 50% 50%;')
+              a(href='/#{intern.author.url}', title='#{intern.author.name}')
+                img(src='#{intern.author.img}', width='90', height='90', style='padding: 3px; border: 1px solid #b0b0b0; border-radius:50% 50% 50% 50%;')
             p
-              | Posted on  #{ moment(intern.timestamp).format("D MMM YY")}
+              | Posted on  #{ moment(intern.events.timestamp).format("D MMM YY")}
             .fb-share-button(data-href='http://www.helpiez.org/Team-Leader_95o', data-layout='button_count')
       .container.text-center(style='margin-top:30px;')
         h4
-          a(href='/helpiez-sangthan_367', style='margin-top:15px; text-decoration:none; color:#AB8610;')
+          a(href='/#{intern.group.url}.#{intern.group.type}', style='margin-top:15px; text-decoration:none; color:#AB8610;')
             i.fa.fa-plus-circle
-            |   See more opportunities with "Helpiez Sangathan"
+            |   See more opportunities with "#{intern.group.name}"
+    
+    
+    
+          
 
+      
+    // Comments (Made by Gaurav Jain)
+    script(src='javascripts/moment.js')
+    script.
+      $(document).ready(function() {
+      var userid= #{sess.userid}
+      $.getJSON('/getcomments/post/#{intern.events.id}/latest', function(jd) {
+      //console.log(jd);
+      $.each(jd, function( key, value ) {
+      var upvote= value.upvote.split(" ").filter(function(el) {return el.length != 0});
+      var downvote= value.downvote.split(" ").filter(function(el) {return el.length != 0});
+      var votes= upvote.length- downvote.length;
+      var print =0;
+      var html= '<div style=" margin-top:30px; margin-left:20px" class="col-sm-8"><div style=" margin-right: 0px;" class="row"><div class="col-sm-2"><a title="'+value.username+'" href="'+value.userurl+'"><img src="'+value.userimage+'" style=" border-radius: 10% 10%; background-color:#949494; height:60px; width:60px;"></a></div><div style="margin-left: -50px; " class="col-sm-10"><span class="edit_hover_class"><b style="color:rgb(205, 34, 45);">'+value.username+'</b><span style="font-size: x-small; color: rgb(130, 132, 137);"> &nbsp;•&nbsp;&nbsp;'+  moment(value.timestamp).fromNow()  +' </span><span style="float:right;  margin-top: 20px; color: rgb(205, 34, 45);">';
+      if(userid==value.userid) {
+        html = html + '<a data-toggle="modal" data-target="#DeleteModal" onclick="deleteidfill('+value.id+',&quot;'+value.content+'&quot;)" title="Delete reveiew" style="cursor: pointer;"><i style="visibility: visible;" class="fa fa-trash"></i></a>';
+      }
+      else {
+      if (userid>0){html = html +'<a data-toggle="modal" data-target="#ReportModal" onclick="metaidfill('+value.id+')" title="Report reveiew" style="cursor: pointer;"><i class="fa fa-flag"></i></a>';}      
+      }
+      html = html + '</span><br><p style="margin-bottom:0px; color: rgb(107, 105, 103);">'+value.content+'</p></span>'
+      
+      if (userid>0){
+      if ( upvote.includes(""+userid)){ print=1; html = html + '<span style="font-size: smaller; color: rgb(164, 175, 176);"><a title="Upvoted " href="./forms/activity/?meta=comment&metaid='+value.id+'&type=upvote&status=2&extra=0&remove=1&redirect=commentstage" style="text-decoration: none;cursor: pointer; color: rgb(30, 175, 77);">'+votes+'&nbsp;&nbsp;&nbsp;<i class="fa fa-chevron-up"></i></a>&nbsp; | &nbsp;<a title="Downvote this comment" href="./forms/activity/?meta=comment&metaid='+value.id+'&type=downvote&status=2&extra=0&remove=-1&redirect=commentstage" style="cursor: pointer;text-decoration: none; color: rgb(164, 175, 176);"><i class="fa fa-chevron-down"></i></a></span></div></div></div>'}
+      if ( downvote.includes(""+userid)){ print=1;html = html + '<span style="font-size: smaller; color: rgb(164, 175, 176);"><a title="Upvote this comment " href="./forms/activity/?meta=comment&metaid='+value.id+'&type=upvote&status=2&extra=0&remove=-1&redirect=commentstage" style="text-decoration: none; cursor: pointer; color: rgb(164, 175, 176);">'+votes+'&nbsp;&nbsp;&nbsp;<i class="fa fa-chevron-up"></i></a>&nbsp; | &nbsp;<a title="downvoted" href="./forms/activity/?meta=comment&metaid='+value.id+'&type=downvote&status=2&extra=0&remove=1&redirect=commentstage" style="cursor: pointer;text-decoration: none; color: rgb(245, 70, 49);;"><i class="fa fa-chevron-down"></i></a></span></div></div></div>'}
+      if (print==0){html = html + '<span style="font-size: smaller; color: rgb(164, 175, 176);"><a title="Upvote this comment" href="./forms/activity/?meta=comment&metaid='+value.id+'&type=upvote&status=2&extra=0&redirect=commentstage" style="text-decoration: none; color: rgb(164, 175, 176);cursor: pointer;">'+votes+'&nbsp;&nbsp;&nbsp;<i class="fa fa-chevron-up"></i></a>&nbsp; | &nbsp;<a title="Downvote this comment" href="./forms/activity/?meta=comment&metaid='+value.id+'&type=downvote&status=2&extra=0&redirect=commentstage" style="cursor: pointer;text-decoration: none; color: rgb(164, 175, 176);"><i class="fa fa-chevron-down"></i></a></span></div></div></div>'}
+      }
+      else{html = html + '<span style="font-size: smaller; color: rgb(164, 175, 176);"><a title="Login to Vote-up" data-toggle="modal" data-target="#loginModal" style="cursor: pointer; text-decoration: none; color: rgb(164, 175, 176);">'+votes+'&nbsp;&nbsp;&nbsp;<i class="fa fa-chevron-up"></i></a>&nbsp; | &nbsp;<a title="Login to Vote-down" data-toggle="modal" data-target="#loginModal" style="text-decoration: none;cursor: pointer; color: rgb(164, 175, 176);"><i class="fa fa-chevron-down"></i></a></span></div></div></div>'}
+      
+      $('#commentstage').append(html);
+      
+      });
+      
+      });
+      }); 
+    style.
+      .edit_hover_class a {
+      visibility: hidden;
+      }
+      .edit_hover_class:hover a {
+      visibility: visible;
+      }
+    script.
+      function metaidfill(metaid) {
+      document.getElementById("reportid").value = metaid;
+      }
+    script.  
+      function deleteidfill(metaid, comment) {
+      document.getElementById("deleteid").value = metaid;
+      document.getElementById("commenttodelete").innerHTML = comment;
+      }
+      
+      
+      
+      
+    // Comment Form
+    .container(style='  margin-left:125px')
+      if (intern.events.commentstatus==1)
+        .col-sm-8(style=' margin-top:30px; margin-left:20px')  
+          .row(style=' margin-right: 0px;')
+            .col-sm-2
+              if sess.userid>0
+                a(href="./#{sess.userurl}")
+                  img(src="#{sess.userimg}", style=' border-radius: 10% 10%; background-color:#949494; height:60px; width:60px;')
+              else
+                a(data-target="#loginModal",data-toggle="modal")
+                  img(src="/img/team/user.png", style=' border-radius: 10% 10%; background-color:#949494; height:60px; width:60px;') 
+            form.form-horizontal(action='./forms/comment', style='padding-top:20px;', method='post', onsubmit='submitcomment.disabled = true;')
+              input(type='hidden', name='meta', value='post')
+              input(type='hidden', name='metaid', value="#{intern.events.id}")
+              input(type='hidden', name='email', value="#{intern.events.email}")
+              input(type='hidden', name='redirect', value="commentstage")
+              .col-sm-10(style='margin-left: -50px; margin-top: -20px;')
+                div(style='border: 1px solid #d9d9d9; background-color:rgb(226, 227, 229); border-radius:5px 5px; height:122px')
+                  textarea.form-control(required='', name='comment', placeholder='Add a comment ..', style='height:120px;')
+                  div
+                    label(style='margin-left: 20px;font-weight: normal; color: rgb(141, 140, 142);padding-top:7px; cursor: pointer; cursor: hand;')
+                      input(type='checkbox', name='mail', value='yes')
+                      |  Also email the concern person
+                  if sess.userid>0
+                    button.btn.btn-primary.btn-sm(type='submit', name='submitcomment', style='margin-top: -30px;float:right; margin-right: 30px; text-transform: none; background-color:rgb(47, 207, 85); border-radius:4px 4px; border-color:rgb(47, 207, 85); ') Post
+                  else
+                    a.btn.btn-primary.btn-sm(data-target="#loginModal",data-toggle="modal", name='submitcomment', style='margin-top: -30px;float:right; margin-right: 30px; text-transform: none; background-color:rgb(47, 207, 85); border-radius:4px 4px; border-color:rgb(47, 207, 85); ') Post  
+         
+      else 
+        .col-sm-8(style=' margin-top:30px; margin-left:20px')  
+          .row(style=' margin-right: 0px;')
+            .col-sm-2
+              if sess.userid>0
+                a(href="./#{sess.userurl}")
+                  img(src="#{sess.userimg}", style=' border-radius: 10% 10%; background-color:#949494; height:60px; width:60px;')
+              else
+                a(data-target="#loginModal",data-toggle="modal")
+                  img(src="/img/team/user.png", style=' border-radius: 10% 10%; background-color:#949494; height:60px; width:60px;') 
+            form.form-horizontal(action='', style='padding-top:20px;', method='post', onsubmit='submitcomment.disabled = true;')
+              .col-sm-10(style='margin-left: -50px; margin-top: -20px;')
+                div(style='border: 1px solid #d9d9d9; background-color:rgb(226, 227, 229); border-radius:5px 5px; height:122px')
+                  textarea.form-control(required='', name='comment', placeholder='Comments are closed ... ', style='height:120px;', disabled )
+                  div
+                    label(style='margin-left: 20px;font-weight: normal; color: rgb(141, 140, 142);padding-top:7px; cursor: pointer; cursor: hand;')
+                      input(type='checkbox', name='mail', value='yes', disabled)
+                      |  Also email the concern person
+                  if sess.userid>0
+                    button.btn.btn-primary.btn-sm(type='submit', name='submitcomment', style='margin-top: -30px;float:right; margin-right: 30px; text-transform: none; background-color:rgb(47, 207, 85); border-radius:4px 4px; border-color:rgb(47, 207, 85); ', disabled) Post
+                  else
+                    a.btn.btn-primary.btn-sm(data-target="#loginModal",data-toggle="modal", name='submitcomment', style='margin-top: -30px;float:right; margin-right: 30px; text-transform: none; background-color:rgb(47, 207, 85); border-radius:4px 4px; border-color:rgb(47, 207, 85); ') Post  
+          
+      br
+      section#commentstage    
+      
+    br
+    br
+    // Report Modal
+    #ReportModal.modal.fade
+      .modal-dialog.modal-md
+        .modal-content(style='border-radius:0px;')
+          .modal-body
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+            h4.modal-title(style='color:#CD222D; text-align:center;') Report Comment
+            br
+            div
+              form.form-horizontal(action='/forms/activitys/post', style='padding-top:20px;', method='post', onsubmit='submitreport.disabled = true;')
+                .form-group
+                  .col-sm-10
+                    label
+                      input(required type='radio', name='extra', value='harassment')
+                      |   Report Comment to have a Disrespectful or Harassing Content
+                    label
+                      input(required type='radio', name='extra', value='spam')
+                      |   Report Comment as spam (Link or advertisement for a product.)
+                    label
+                      input(required type='radio', name='extra', value='other')
+                      |   Other reasons
+                input(type='hidden', name='metatype', value='comment')
+                input(type='hidden', name='type', value='flag')
+                input(type='hidden', name='redirect', value='commentstage')
+                input#reportid(type='hidden', name='metaid', value='')
+                b Other Details
+                .form-group
+                  .col-sm-12
+                    input.form-control(name='message', placeholder='Optional')
+                .form-group
+                  .col-sm-offset-2.col-sm-10(style="margin-left: 40%;" )
+                    button.btn.btn-primary(type='submit', name='submitreport') Send
+    #DeleteModal.modal.fade
+      .modal-dialog.modal-sm
+        .modal-content(style='border-radius:0px;')
+          .modal-body
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+            h4.modal-title(style='color:#CD222D; text-align:center;') Delete Comment
+            form.form-horizontal(action='/forms/comment/delete', style='padding-top:20px;', method='post', onsubmit='submitdelete.disabled = true;')
+              .form-group
+                #commenttodelete.text-center
+                input#deleteid(type='hidden', name='deleteid', value='')
+                input(type='hidden', name='redirect', value='commentstage')
+              .form-group
+                .text-center
+                  button.btn.btn-primary(type='submit', name='submitdelete') Delete
+    // End of Comment
+               
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // Pic change Modal
+    #opportunityPicModal.modal.fade(style='display: none;', aria-hidden='true')
+        .modal-dialog.modal-md
+          .modal-content(style='border-radius:0px;')
+            .modal-body
+              button.close(type='button', data-dismiss='modal', aria-label='Close')
+                span(aria-hidden='true') &times;          
+              h4.modal-title(style='color:#CD222D; text-align:center;') Change Picture
+              br              
+              .text-center
+                img(src='#{intern.events.image}', width='480', height='280', style=' border: 1px solid #b0b0b0; ')              
+              form.form-horizontal(action='/forms/image/', style='padding-top:20px;', method='post', enctype='multipart/form-data')
+                .form-group
+                  .text-center
+                    input(required='', type='file', name='profilepic', accept='image/*', style='padding-left:34%;')
+                    input(type='hidden', name='postid', value='#{intern.events.id}')
+                    input(type='hidden', name='type', value='event')                  
+                .form-group
+                  .text-center
+                    button.btn.btn-primary(type='submit') Update
+        

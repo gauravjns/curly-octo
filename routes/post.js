@@ -28,23 +28,46 @@ router.get('/:name.story', function (req, res) {
 //Intern page
 router.get('/:name.intern', function (req, res) {
 	var options = {
-			  uri: 'http://localhost:8080/events/name/'+req.params.name,
+			  uri: 'http://localhost:8080/events/custom/'+req.params.name,
 			  method: 'GET',
 			  json:true
 			};
 	request(options, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
-			var apiurl="http://localhost:8080/follows/"+req.session.userid+"/post/"+body.id+"/1";
-			if (req.session.userid>0){
-				request.get(apiurl, function (error, response, follow) {
+			var followurl="http://localhost:8080/follows/"+req.session.userid+"/post/"+body.events.id+"/1";
+			var applyurl="http://localhost:8080/activitys/post/"+body.events.id+"/apply";
+			if ((req.session.userid>0 && body.events.status==2) || ( req.session.userid>0 && body.events.status==1 && body.events.authorid==req.session.userid )){
+				request.get(followurl, function (error, response, follow) {
 		  			if (!error && response.statusCode == 200) {
-		  				res.render('intern', { sess: req.session, title: body.name + " | Internship "  , follow:follow,intern:body });
+		  				request.get(applyurl, function (error, response, apply) {
+				  			if (!error && response.statusCode == 200) {
+				  				
+				  				var applylist= JSON.parse(apply);
+				  				var finalapp={
+				  						status:0
+				  				};
+				  				for (x in applylist) {
+				  				   console.log(applylist[x]);
+				  				   var application= applylist[x];
+				  				   if (application.userid==req.session.userid)
+				  					   {
+				  					   	finalapp=  application;
+				  					   	break;
+				  					   }
+				  				}
+				  				res.render('intern', { sess: req.session, title: body.events.name + " | Internship "  , follow:follow,intern:body, apply:finalapp.status });
+				  			}
+				  		})
 		  			}
 		  		})
 			}
-			else
+			else if (body.events.status==2)
 			{
-				res.render('intern', { sess: req.session, title: body.name + " | Internship " ,intern:body });	
+				res.render('intern', { sess: req.session, title: body.events.name + " | Internship " ,intern:body, apply:-1 });	
+			}
+			else 
+			{
+				res.render('404', { title: req.params.name });
 			}
 		}
 	});
@@ -73,17 +96,31 @@ router.get('/create.:name', function (req, res) {
     res.render('login', { title: "Create Internship ", sess: req.session, message: "Please Login to Post " +req.params.name });  
   }
   else 
-  {
-	  if (req.params.name=="internship")
-	  {
-	    res.render('hire-intern', { title: "Create Internship ", sess: req.session});
-	  }
-	  else
-	  {
-	    res.render('404', { title: "Not Found", template:"event" });
-	  } 
+  {	  
+	var options = {
+			  uri: 'http://localhost:8080/groups/all/'+req.session.userid,
+			  method: 'GET',
+			  json:true
+			};
+	request(options, function (error, response, body) {
+		if (!error && response.statusCode == 200 ) {
+			
+			if (req.params.name=="internship")
+			  {
+			    res.render('hire-intern', { title: "Create Internship ", sess: req.session, group:body});
+			  }
+			  else
+			  {
+			    res.render('404', { title: "Not Found", template:"event" });
+			  }
+			
+			// If volunteering or events
+			
+		}
+	});  
   }
 	
 });
+
 
 module.exports = router;

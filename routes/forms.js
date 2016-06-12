@@ -5,6 +5,53 @@ var multer  =   require('multer');
 var upload = multer({ dest: 'public/upload/' })
 
 
+router.post('/forms/post/event', function (req, res) {	
+
+    backURL=req.header('Referer') || '/';
+	var resar = req.body.groupid.split(",");	
+	var startdate = new Date(req.body.date);
+	var enddate = new Date(req.body.enddate);
+	var lastdate = new Date(req.body.lastdate);
+	var options = {
+				  uri: 'http://localhost:8080/events/',
+				  method: 'post',
+				  json: {   
+					    "name": req.body.name,
+					    "type": req.body.type,
+					    "extra": "",
+					    "status": 1,
+					    "groupid": resar[0],
+					    "image":resar[1],
+					    "commentstatus":1,
+					    "virtual":req.body.types,
+					    "description":req.body.description,
+					    "location":req.body.location,
+					    "duration":req.body.duration,
+					    "salary":req.body.stipend,
+					    "starttime":startdate,
+					    "endtime":enddate,
+					    "deadline":lastdate,
+					    "required":req.body.number,
+					    "qualification":req.body.qualification,
+					    "certificate":req.body.certificate, 
+					    "authorid":req.session.userid
+					    
+					}
+				};
+	console.log(options);
+	request(options, function (error, response, body) {
+		  if (!error && response.statusCode == 200) {
+			    console.log(body);
+		    res.redirect('/'+body+'.'+req.body.type)
+		  }
+		  else {
+			res.redirect(backURL);
+		  }
+	});
+		
+})
+
+
 router.post('/forms/write', function (req, res) {	
 
     backURL=req.header('Referer') || '/';
@@ -64,22 +111,37 @@ router.post('/forms/upload/image', upload.single('profilepic'), function (req, r
 		});
 })
 
-router.post('/forms/image/story', upload.single('profilepic'), function (req, res, next) {
+router.post('/forms/image/', upload.single('profilepic'), function (req, res, next) {
 	console.log(req.file) 
     backURL=req.header('Referer') || '/';
-    var options = {
+	
+	if (req.body.type=="story")
+	{
+		var options = {
 				  uri: 'http://localhost:8080/storys/',
 				  method: 'put',
 				  json: { "featuredimage": 'upload/'+req.file.filename, 
 					  	  "id":req.body.storyid, 
 					  	  "blogid":req.body.blogid
 					  }
+				};	
+	}
+	
+	if  (req.body.type=="event")
+	{
+		var options = {
+				  uri: 'http://localhost:8080/events/',
+				  method: 'put',
+				  json: { "image": 'upload/'+req.file.filename, 
+					  	  "id":req.body.postid
+					  }
 				};
-		
+	}
+	
+    
 	console.log(options); 
 	request(options, function (error, response, body) {
 		  if (!error && response.statusCode == 200 && body==true) {
-			req.session.userimg= options.json.img;
 		    res.status(204).end()
 		    res.redirect(backURL);
 		  }

@@ -10,12 +10,10 @@ block content
               | Hello !!
             h5
               br
-              | Post your Internship in a minute.
+              | Post an Internship in a minute.
         .row.text-center
-          form.form-horizontal(enctype='application/x-www-form-urlencoded', action='/form/post', style='padding-top:20px;', method='post')
-            input(type='hidden', name='type', required='', value='internship')
-            input(type='hidden', name='ngoid', required='', value='<?php echo $user_ngo;?>')
-            // input type="hidden" name="description" required id="desc" value=""
+          form.form-horizontal(enctype='application/x-www-form-urlencoded', action='/forms/post/event', style='padding-top:20px;', method='post')
+            input(type='hidden', name='type', required='', value='intern')
             .form-group
               label.col-sm-4.control-label Title of Internship*
               .col-sm-6
@@ -24,8 +22,8 @@ block content
               label.col-sm-4.control-label Type of Internship
               .col-sm-6
                 select.selectpicker.show-menu-arrow.form-control(required='required', name='types')
-                  option(value=' Regular') Regular
-                  option(value=' Virtual') Virtual ( Work on computer, work anywhere )
+                  option(value=' regular') Regular
+                  option(value=' virtual') Work from Home 
             .form-group
               label.col-sm-4.control-label Internship Description *
               .col-sm-6(style='text-align: left;')
@@ -44,22 +42,11 @@ block content
               .col-sm-6
                 input.form-control(type='text', name='stipend', placeholder='For ex. 5,000/month, Expenses reimbursed or none', required='')
             .form-group
-              label.col-sm-4.control-label Select Cause *
+              label.col-sm-4.control-label Posting for  *
               .col-sm-6
-                select.selectpicker.show-menu-arrow.form-control(required='required', name='causes[]', multiple='')
-                  option(value=' Animals') Animals
-                  option(value=' Art & Culture') Art & Culture
-                  option(value=' Civil rights & Transparency') Civil rights & Transparency
-                  option(value=' Children & Youth') Children & Youth
-                  option(value=' Community Development') Community Development
-                  option(value=' Disaster Management') Disaster Management
-                  option(value=' Education & Employment') Education & Employment
-                  option(value=' Empower Disabled') Empower Disabled
-                  option(value=' Environment') Environment
-                  option(value=' Health & Medicine') Health & Medicine
-                  option(value=' Human Rights') Human Rights
-                  option(value=' Violence & Injustice') Violence & Injustice
-                  option(value=' Women ') Women 
+                select.selectpicker.show-menu-arrow.form-control(required='required', name='groupid')
+                  each x in group
+                    option(value='#{x.id},#{x.banner}') #{x.name} 
             .form-group
               label.col-sm-4.control-label Start date of Internship *
               .col-sm-3.input-group.date(style='padding-left:15px;')
@@ -69,7 +56,7 @@ block content
               script.
                 $('.input-group.date').datepicker({
                 startDate: "today",
-                format: "dd-M-yyyy"
+                format: "dd M yyyy"
                 });
             .form-group
               label.col-sm-4.control-label End date of Internship *
@@ -80,7 +67,7 @@ block content
               script.
                 $('.input-group.date').datepicker({
                 startDate: "today",
-                format: "dd-M-yyyy"
+                format: "dd M yyyy"
                 });
             .form-group
               label.col-sm-4.control-label Last Date of Application *
@@ -91,7 +78,7 @@ block content
               script.
                 $('.input-group.date').datepicker({
                 startDate: "today",
-                format: "dd-M-yyyy"
+                format: "dd M yyyy"
                 });
             .form-group
               label.col-sm-4.control-label Number of Interns required *
@@ -101,29 +88,16 @@ block content
               label.col-sm-4.control-label Who Should Apply? 
               .col-sm-6
                 input.form-control(type='text', name='qualification', placeholder='Qualification of applicants if any')
-            .form-group
-              label.col-sm-4.control-label Skills required in cadidate
-              .col-sm-6
-                select.selectpicker.show-menu-arrow.form-control(name='skills[]', multiple='')
-                  option(value=' Teaching & Training') Teaching & Training
-                  option(value=' Creative content writing') Creative content writing
-                  option(value=' Multimedia & Designing') Multimedia & Designing
-                  option(value=' Strategy & Analytics') Strategy & Analytics
-                  option(value=' Community Engagement') Community Engagement
-                  option(value=' Data Entry') Data Entry
-                  option(value=' Accounting & Finance') Accounting & Finance
-                  option(value=' Fundraising') Fundraising
-                  option(value=' Marketing & Publicity') Marketing & Publicity
-                  option(value=' Internet & Web Development') Internet & Web Development
-                  option(value=' Operation & Logistics') Operation & Logistics
+            
             .text-left.form-group
               label.col-sm-4.control-label
               .col-sm-6.checkbox
-                input(type='checkbox', name='certificate', value='yes', style='margin-left:0px;')
-                |       Check if certificate will be provided
+                label.control-label(style="padding-left:0px")
+                  input(type='checkbox', name='certificate', value='yes', style='margin-left:0px;')
+                  |       Check if certificate will be provided
             .col-sm-9
               button.btn.btn-primary(type='submit') Submit
         .row.text-center
           br
           h5(style='text-transform:none; color:#a3a118;')
-            | Having any problem ? Write to us helpiezteam@gmail.com or Call us on +91
+            | Having any problem ?  Write to us helpiezteam@gmail.com or Call us on +91

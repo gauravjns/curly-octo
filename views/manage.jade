@@ -4,10 +4,9 @@ block content
   script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js')
   script(src='./javascripts/moment.js') 
   script(src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.0.0-beta.5/angular-moment.min.js")
-  script(src='./javascripts/write.js')
-  script(src='./javascripts/ckeditor/ckeditor.js')
-  body#page-top.index(ng-app='myapp')
-    .container(ng-controller = "storyController", ng-init="init(#{storyid}, #{sess.userid})", style='margin-top:90px;')
+  script(src='./javascripts/manage.js')
+  body#page-top.index(ng-app='manage')
+    .container(ng-controller = "Controller", ng-init="init(#{storyid}, #{sess.userid})", style='margin-top:90px;')
       .row
         .col-lg-10(style='margin-left:100px;')
           div(ng-bind-html='alerts')

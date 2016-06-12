@@ -25,6 +25,19 @@ router.get('/write', function (req, res) {
 	res.redirect('/login');	
 	}
 });
+
+router.get('/manage', function (req, res) {
+	backURL=req.header('Referer') || '/';
+	if (req.query.meta && req.session.userid>0)
+	{
+		res.render('manage', {sess:req.session , title: 'Manage Interns/Events', eventid:req.query.meta});
+	}
+	else {
+	res.redirect('/login');	
+	}
+});
+
+
 router.post('/savestory', function (req, res) {
 	if ( req.session.userid>0 && req.body.authorid==req.session.userid)
 	{
