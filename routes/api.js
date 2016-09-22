@@ -17,6 +17,20 @@ router.get('/api/story/:id', function(req, res, next) {
 	});
 });
 
+router.get('/api/events/full/:id', function(req, res, next) {
+	var options = {
+			  uri: 'http://localhost:8080/events/full/'+req.params.id,
+			  method: 'GET',
+			  json:true
+			};
+	request(options, function (error, response, body) {
+		if (!error && response.statusCode == 200 ) {
+				res.json(body);
+				return;
+		}
+	});
+});
+
 // Groups plus cause for user
 router.get('/api/groups/pluscause/', function(req, res, next) {
 	var options = {

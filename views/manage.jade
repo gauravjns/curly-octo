@@ -1,100 +1,147 @@
 extends layout
 
 block content
+  link(rel='stylesheet', href='https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css')
+  script(src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js")
+  script(src='javascripts/bootstrap-datepicker.js')
   script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js')
   script(src='./javascripts/moment.js') 
   script(src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.0.0-beta.5/angular-moment.min.js")
   script(src='./javascripts/manage.js')
   body#page-top.index(ng-app='manage')
-    .container(ng-controller = "Controller", ng-init="init(#{storyid}, #{sess.userid})", style='margin-top:90px;')
+    .container(ng-controller = "eventController", ng-init="init(#{eventid}, #{sess.userid})", style='margin-top:90px;')
       .row
-        .col-lg-10(style='margin-left:100px;')
-          div(ng-bind-html='alerts')
-          .col-sm-10(style='    margin-bottom: -20px;   margin-left: -15px; color: rgb(114, 131, 115);')
-            h4(style='text-transform:none;') Title of new Article
-            br                 
-          form.form-horizontal( onsubmit='submitstory.disabled = true;')
-            .form-group
-              .col-sm-10
-                input.form-control(required='', name='title', placeholder='Enter title here',  ng-model='story.name')
-                input(ng-model= 'storyid' type= 'hidden' value="#{{storyid}}")                
-            br                  
-            .form-group
-              .col-sm-10
-                span(style='font-weight: 600;color: rgb(114, 131, 115);') Content
-                |                                 
-                textarea#editor1.form-control(ck-editor='', name="editor1"  ng-model='story.blog.content' , placeholder='Add a comment ..', style='height:350px;')
-                
-            |                     
-            .form-group
-              .col-sm-10
-                span(style='font-weight: 600;color: rgb(114, 131, 115);') Excerpt
-                |                                 
-                textarea.form-control(name='excerpt',  ng-model='story.excerpt'  placeholder='Two line summary', style='height:80px;')
-                    
-        
-        .col-xs-2(style='background-color:#EAF2F4; margin-top:2em; margin-left:-100px')
-          h6.text-center(style="text-transform:none;") Status - {{statustext}}        
-          .form-group
-            .col-sm-12(style='  margin-top: -7px;  margin-left: -13px;')
-              span(style='font-size:10px;')
-                | Saved: 
-                span(style='font-size: 12px; color: #4F497B;' am-time-ago="story.timestamp" )  
-              br
-              span(style='font-size:10px;')
-                | Link:  
-                a(href='.{{url}}',target="_blank", style='font-size: 12px; color: #4F497B;' ) {{ url | limitTo: 16 }}{{url.length > 16 ? '..' : ''}}
-              br
-              span(style='font-size:10px;')
-                | For : 
-                a(href='./{{group.url}}.{{group.type}}',target="_blank", style='font-size: 12px; color: #4F497B;' ) {{ group.name | limitTo: 30 }}{{group.name.length > 30 ? '..' : ''}}
-            br                            
-            br                             
+        .col-lg-12.text-center
+          h3.section-heading 
+            a(href='./{{event.events.url}}.{{event.events.type}}', style='color: black;text-decoration: none;') {{event.events.name}}
+          h5.section-subheading(style='margin-bottom: 15px;text-transform: none;text-decoration: none;')
+            a(href='./{{event.group.url}}.{{event.group.type}}') {{event.group.name}}
+          h6.section-subheading.text-muted(style='margin-bottom: 20px;', am-time-ago="event.events.timestamp" )
+      .row
+        .col-lg-8.col-lg-offset-2.text-center(ng-if="event.events.status==2")
+          .alert.alert-success.alert-dismissible(role='alert')
+            button.close(type='button', data-dismiss='alert', aria-label='Close')
+              span(aria-hidden='true') ×
+            | Your post is currently live. You can view it 
+            a(href='./{{event.events.url}}.{{event.events.type}}', target='blank') here
+        .col-lg-8.col-lg-offset-2.text-center(ng-if="event.events.status==1")
+          .alert.alert-danger.alert-dismissible(role='alert')
+            button.close(type='button', data-dismiss='alert', aria-label='Close')
+              span(aria-hidden='true') ×
+            | Your post is currently a Draft.  You can make it live by clicking 
+            a(data-toggle="modal" data-target="#editEvent") here            
+      .row
+        .col-lg-10.col-lg-offset-1.text-justify
+          .panel-body
+            p.text-center
+              a.btn.btn-primary.btn-sm(data-toggle="modal" data-target="#editEvent" style=' text-transform: none; background-color: rgb(9, 91, 179);  border-radius: 4px 4px;  border-color: rgb(9, 91, 179);margin-left:10px;margin-top: 20px;') Edit Post &nbsp;
+                    i.fa.fa-pencil(style='color:#fff;')
+            p.large.text-muted
+            p
+              | Helpiez.org is a IIT-Delhi student based startup with an aim to revolutionize the social service in India. Helpiez allows people to connect with Causes they care about and engage in volunteering opportunities, events and Internships. We are looking for summer interns to design and coordinate India wide campaigns . Every student who wants to gain crucial experience of working in startup should apply.
+            p
+            .col-md-1
+              i.fa.fa-map-marker.fa-3x(style='color:#0C94A1;')
+            .col-md-4
+              p.large.text-muted
+                | Work from Home 
+                br
+            .col-md-1.col-md-offset-1
+              i.fa.fa-calendar.fa-3x(style='color:#10AB3B;')
+            .col-md-4
+              p.large.text-muted
+                strong Duration-
+                |  Three Month
+                br
+                strong Start Date-
+                |  20-01-2016
+            br
             
-        .col-xs-2(style='background-color:#EAF2F4; margin-top:2em; margin-left:-100px')
-          h6.text-center(style="text-transform:none;") Featured Image
-          a(title='Change Featured Picture', data-toggle='modal', data-target='#picChangeModal', style='cursor:pointer;')
-            img(src='{{story.featuredimage}}', style='border-radius:2% 2% ; background-color:#949494; height:120px; width:170px;')
-          .text-center
-            a(title='Change Featured Picture', data-toggle='modal', data-target='#picChangeModal', style='cursor:pointer;')
-              i.fa.fa-image(style='font-size:1.5em; color:rgba(12,21,25,0.8);')                      
-          
-        .col-xs-2(style='background-color:#EAF2F4; margin-top:2em; margin-left:-100px')
-          h6.text-center(style="text-transform:none;") Publish
-          |                      
-          input( type="checkbox", ng-model="commentstatus" ng-checked="commentstatus" )
-          span       Allow comments
-          br
-          input( type="checkbox", ng-model="status" ng-checked="status" )
-          span       Publish or Push Live 
-          br
-          br 
-          
-          .col-sm-6
-            a.btn.btn-primary.btn-sm( target="_blank" href=".{{url}}"  style='  text-transform: none;background-color: rgb(117, 148, 244);border-radius: 4px 4px;border-color: rgb(117, 148, 244);') Preview                                          
-          .col-sm-6
-            button.btn.btn-primary.btn-sm(type='submit', style='text-transform: none; background-color: rgb(47, 207, 85);  border-radius: 4px 4px;  border-color: rgb(47, 207, 85);', name='submitreport' ng-click="savestory()") Save
-    
-    
-    
-      #picChangeModal.modal.fade(style='display: none;', aria-hidden='true')
+       #editEvent.modal.fade(style='display: none;', aria-hidden='true')
         .modal-dialog.modal-md
           .modal-content(style='border-radius:0px;')
             .modal-body
               button.close(type='button', data-dismiss='modal', aria-label='Close')
                 span(aria-hidden='true') &times;          
-              h4.modal-title(style='color:#CD222D; text-align:center;') Change Picture
+              h4.modal-title(style='color:#CD222D; text-align:center; text-transform: none;') Edit Internship post
               br              
-              .text-center
-                img(src='{{story.featuredimage}}', width='480', height='280', style=' border: 1px solid #b0b0b0; ')              
-              form.form-horizontal(action='/forms/image/', style='padding-top:20px;', method='post', enctype='multipart/form-data')
+            
+              form.form-horizontal(action='/forms/write', style='padding-top:20px;', method='post')
+                .form-group
+                  label.col-sm-3.control-label Title :
+                  .col-sm-9
+                    input.form-control(type='text', name='name',ng-model='event.events.name', placeholder='For ex. Research, Operations, Public Outreach etc.  ', required='required')
+                .form-group
+                  label.col-sm-3.control-label Type :
+                  .col-sm-9
+                    select.selectpicker.show-menu-arrow.form-control(required='required', name='types')
+                      option(value=' regular') Regular
+                      option(value=' virtual') Work from Home 
+                .form-group
+                  label.col-sm-3.control-label Description :
+                  .col-sm-9(style='text-align: left;')
+                    textarea.form-control(name='description', rows='10', cols='40',ng-model='event.events.description', placeholder='Describe internship details here')
+                .form-group
+                  label.col-sm-3.control-label Location :
+                  .col-sm-9
+                    #locationField
+                      input#autocomplete.form-control(placeholder='Enter address of work' ,ng-model='event.events.location', onfocus='geolocate()', required='', name='location', type='text')
+                .form-group
+                  label.col-sm-3.control-label Duration :
+                  .col-sm-9
+                    input.form-control(type='text', name='duration' ,ng-model='event.events.duration', placeholder='Enter duration like two months or three months etc.', required='')
+                .form-group
+                  label.col-sm-3.control-label Stipend :
+                  .col-sm-9
+                    input.form-control(type='text', name='stipend' ,ng-model='event.events.salary', placeholder='For ex. 5,000/month, Expenses reimbursed or none', required='')
+                .form-group
+                  label.col-sm-3.control-label Start date : 
+                  .col-sm-9(style='padding-left:15px;')
+                    input.form-control(type='date' ,min="2016-06-02" , required='required', name='date',  ng-model='event.startdate' )
+                    
+                .form-group
+                  label.col-sm-3.control-label End date :
+                  .col-sm-9.input-group.date(style='padding-left:15px;')
+                    input.form-control(type='date',min="2016-06-02" required='required', name='enddate', ng-model='event.enddate')             
+                .form-group
+                  label.col-sm-3.control-label Apply before:
+                  .col-sm-9.input-group.date(style='padding-left:15px;')
+                    input.form-control(type='date',min="2016-06-02" required='required', name='lastdate' ng-model='event.lastdate')                   
+                .form-group
+                  label.col-sm-3.control-label Required :
+                  .col-sm-9
+                    input.form-control(min='1' type='number', name='number', placeholder='Number of Interns Required', ng-model='event.required', required='')
+                .form-group
+                  label.col-sm-3.control-label Qualification 
+                  .col-sm-9
+                    input.form-control(type='text', name='qualification', placeholder='Qualification of applicants if any', ng-model='event.events.qualification')
+             
+                .text-left
+                  label.col-sm-3.control-label
+                  .col-sm-9.checkbox
+                    label.control-label(style="padding-left:0px")
+                      input(type='checkbox', name='certificate', value='yes', style='margin-left:0px;'  ng-model="event.certificate" ng-checked="event.certificate"  )
+                      |       Check if Certificate will be provided  
+                
+                .text-left
+                  label.col-sm-3.control-label
+                  .col-sm-9.checkbox
+                    label.control-label(style="padding-left:0px")
+                      input(type='checkbox', style='margin-left:0px;'  ng-model="event.commentstatus" ng-checked="event.commentstatus"  )
+                      |       Allow comments 
+                
+                .text-left
+                  label.col-sm-3.control-label
+                  .col-sm-9.checkbox
+                    label.control-label(style="padding-left:0px")
+                      input(type='checkbox', style='margin-left:0px;'  ng-model="event.status" ng-checked="event.status"  )
+                      |       Make Live / Allow Application   
+                
+                
+               
                 .form-group
                   .text-center
-                    input(required='', type='file', name='profilepic', accept='image/*', style='padding-left:34%;')
-                    input(type='hidden', name='type', value='story') 
-                    input(type='hidden', name='storyid', value='{{story.id}}')
-                    input(type='hidden', name='blogid', value='{{story.blogid}}')                    
-                .form-group
-                  .text-center
-                    button.btn.btn-primary(type='submit') Update
+                    button.btn.btn-primary(type='submit') Done
         
+             
+     
